@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broski Talk · The AI Podcast</title>
+<meta name="description" content="Broski Talk is the AI podcast from Mark Santos and Simon Dziak. Subscribe on YouTube for episode 1.">
+<link rel="icon" href="../assets/logo/favicon.png">
+<!--
+THESIS: The page behaves like the show's own YouTube thumbnail. Two faces stay pinned to the screen edges
+  and the headline between them rewrites itself as you scroll, one red box per frame, the way the channel
+  will look in the feed. Refuses the podcast landing of cover art plus platform badges.
+OWN-WORLD: thumbnail grey #141414, a soft top light down the centre column, a halftone dot field low down,
+  Inter Tight 800 mixed case, exactly one red #DC3426 box per frame, the small Anton logo in the corner,
+  YouTube-native grammar (chapter progress bar, video grid, Shorts shelf, channel header).
+STORY: we're back -> what the show does -> the channel you'll subscribe to -> subscribe.
+FIRST VIEWPORT: Mark's face bleeding off the left edge, Simon's off the right, same eye line; "We're / [Back.]"
+  between them; red Subscribe + email link under it; a red chapter progress bar along the bottom.
+FORM: living thumbnail with a scroll-pinned stage, direction B of three.
+-->
+<style>
+@font-face { font-family: "Anton"; src: url("../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --bg: #141414;
+  --bg-2: #0f0f0f;
+  --raise: #1d1d1d;
+  --ink: #fff;
+  --ink-2: rgba(255,255,255,.74);
+  --ink-3: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.12);
+  --red: #DC3426;
+  --red-hi: #e94a3c;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --gutter: clamp(16px, 4vw, 56px);
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--ink); }
+body { margin: 0; font-family: "Inter Tight", system-ui, sans-serif; font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 6px; }
+
+/* the thumbnail surface: top light down the middle + halftone low down */
+.surface { position: relative; background: var(--bg); }
+.surface::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(38% 62% at 50% -6%, rgba(255,255,255,.16), rgba(255,255,255,.05) 55%, transparent 80%); }
+.surface::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .9;
+  background: radial-gradient(circle, rgba(255,255,255,.17) 1.15px, transparent 1.7px) 0 0 / 9px 9px;
+  -webkit-mask-image: linear-gradient(transparent 52%, #000 78%, transparent 100%); mask-image: linear-gradient(transparent 52%, #000 78%, transparent 100%); }
+
+/* top bar */
+.top { position: fixed; z-index: 30; inset: 0 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 20px var(--gutter); pointer-events: none; }
+.top > * { pointer-events: auto; }
+.logo-s { font-family: Anton, Impact, sans-serif; font-size: 22px; line-height: 1; text-decoration: none; letter-spacing: .01em; }
+.top nav { display: flex; gap: 6px; }
+.top nav a { text-decoration: none; font-size: 14px; font-weight: 700; padding: 9px 14px; border-radius: 999px; background: rgba(20,20,20,.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background .2s; }
+.top nav a:hover { background: rgba(60,60,60,.7); }
+
+/* buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 52px; padding: 0 26px; border-radius: 999px; border: 0; font: 800 16px/1 "Inter Tight", sans-serif; letter-spacing: -.005em; text-decoration: none; cursor: pointer; transition: background .2s, transform .25s var(--ease); }
+.btn:active { transform: scale(.97); }
+.btn.red { background: var(--red); color: #fff; }
+.btn.red:hover { background: var(--red-hi); }
+.btn.ghost { background: rgba(255,255,255,.1); color: #fff; }
+.btn.ghost:hover { background: rgba(255,255,255,.18); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+
+/* ---------- the pinned stage ---------- */
+.stage { position: relative; background: var(--bg); }
+.pin { position: relative; min-height: 100svh; overflow: hidden; }
+.js .stage { height: 420svh; }
+.js .pin { position: sticky; top: 0; height: 100svh; }
+.face { position: absolute; z-index: 1; height: 112svh; aspect-ratio: 1200 / 1400; top: calc(46svh - 112svh * .4); pointer-events: none; }
+.face img { width: 100%; height: 100%; object-fit: contain; }
+.face { -webkit-mask-image: linear-gradient(#000 58%, transparent 92%); mask-image: linear-gradient(#000 58%, transparent 92%); }
+.face.mark { left: calc(15vw - 112svh * 1200 / 1400 / 2); }
+.face.simon { right: calc(15vw - 112svh * 1200 / 1400 / 2); }
+.frames { position: absolute; z-index: 2; inset: 0; display: grid; place-items: center; padding: 90px 0 140px; }
+.frame { grid-area: 1 / 1; width: min(46vw, 640px); text-align: center; display: grid; justify-items: center; }
+h1, .frame h2 { margin: 0; font-weight: 800; font-size: var(--fs, clamp(54px, 7.6vw, 124px)); line-height: .98; letter-spacing: -.035em; }
+.frame .l1 { display: block; }
+.frame .box { position: relative; display: inline-block; padding: .03em .16em .07em; margin-top: .06em; isolation: isolate; }
+.frame .box::before { content: ""; position: absolute; inset: 0; background: var(--red); z-index: -1; transform-origin: left; }
+.frame .sub { margin: 26px auto 0; max-width: 30ch; font-size: clamp(17px, 1.35vw, 21px); line-height: 1.4; font-weight: 600; color: var(--ink-2); text-wrap: balance; }
+.frame .gfx { margin-top: 30px; width: min(100%, 420px); }
+.frame .gfx svg { width: 100%; height: auto; overflow: visible; }
+.cta { display: flex; gap: 12px; margin-top: 34px; flex-wrap: wrap; justify-content: center; }
+
+.js .frame { opacity: 0; visibility: hidden; transition: opacity .5s var(--ease), visibility 0s .5s; }
+.js .frame .l1 { transform: translateY(.3em); opacity: 0; transition: transform .7s var(--ease), opacity .5s; }
+.js .frame .box::before { transform: scaleX(0); transition: transform .55s var(--ease) .12s; }
+.js .frame .box span { opacity: 0; transition: opacity .3s .3s; }
+.js .frame .sub, .js .frame .gfx, .js .frame .cta { opacity: 0; transform: translateY(14px); transition: opacity .6s .25s, transform .8s var(--ease) .25s; }
+.js .frame.on { opacity: 1; visibility: visible; transition: opacity .3s; }
+.js .frame.on .l1, .js .frame.on .box span, .js .frame.on .sub, .js .frame.on .gfx, .js .frame.on .cta { opacity: 1; transform: none; }
+.js .frame.on .box::before { transform: none; }
+.no-js-only { display: none; }
+
+/* svg graphics */
+.tile { fill: #f2f2f2; }
+.dash { stroke: #fff; stroke-width: 4; stroke-dasharray: 12 10; fill: none; opacity: .9; }
+.glyph { fill: #141414; }
+.chart-line { fill: none; stroke: #fff; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.frame.on .chart-line { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s var(--ease) .35s; }
+.chart-ring { fill: none; stroke: var(--red); stroke-width: 6; opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(1.6); }
+.frame.on .chart-ring { opacity: 1; transform: none; transition: opacity .3s 1.2s, transform .6s var(--ease) 1.2s; }
+.chart-label { font: 700 15px "Inter Tight", sans-serif; fill: rgba(255,255,255,.62); letter-spacing: .06em; }
+.frame.on .bob { animation: bob 3.2s ease-in-out infinite; }
+.frame.on .bob:nth-of-type(2) { animation-delay: -1.1s; } .frame.on .bob:nth-of-type(3) { animation-delay: -2.2s; }
+@keyframes bob { 50% { transform: translateY(-6px); } }
+
+/* chapter progress bar, YouTube style */
+.chapters { position: absolute; z-index: 3; left: var(--gutter); right: var(--gutter); bottom: 34px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.chap { position: relative; display: block; text-decoration: none; padding-top: 12px; }
+.chap .track { display: block; position: relative; height: 4px; background: rgba(255,255,255,.22); border-radius: 2px; overflow: hidden; transform-origin: 50% 100%; transition: transform .2s; }
+.chap .fill { position: absolute; inset: 0; background: var(--red); transform-origin: left; transform: scaleX(var(--f, 0)); }
+.chap .name { display: block; margin-top: 10px; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--ink-3); transition: color .2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chap.on .name, .chap:hover .name { color: #fff; }
+.chap:hover .track { transform: scaleY(1.5); }
+.knob { position: absolute; z-index: 4; bottom: 59px; left: calc(var(--gutter) + var(--k, 0) * (100% - 2 * var(--gutter))); width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--red); pointer-events: none; }
+
+/* ---------- below the stage ---------- */
+.wrap { width: min(1280px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+.shelf { padding: clamp(80px, 9vw, 130px) 0 0; background: var(--bg-2); }
+.shelf-h { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 26px; }
+.shelf-h h2 { margin: 0; font-size: clamp(28px, 2.6vw, 38px); font-weight: 800; letter-spacing: -.025em; }
+.shelf-h p { margin: 0; color: var(--ink-3); font-size: 15px; }
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 18px; }
+.vid { text-decoration: none; display: grid; gap: 14px; }
+.vid .th { position: relative; border-radius: 12px; overflow: hidden; background: #000; }
+.vid .th img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .6s var(--ease); }
+.vid:hover .th img { transform: scale(1.04); }
+.vid .badge { position: absolute; right: 8px; bottom: 8px; padding: 3px 6px; border-radius: 4px; background: rgba(0,0,0,.8); font-size: 12px; font-weight: 700; }
+.vid .meta { display: grid; grid-template-columns: 36px 1fr; gap: 12px; }
+.av { width: 36px; height: 36px; border-radius: 50%; background: #000 url(../assets/logo/favicon.png) center / cover; }
+.vid b { display: block; font-size: 16px; font-weight: 700; line-height: 1.3; }
+.vid small { display: block; margin-top: 4px; font-size: 14px; color: var(--ink-3); }
+
+.shorts { padding: clamp(70px, 8vw, 110px) 0 clamp(80px, 9vw, 130px); background: var(--bg-2); }
+.shorts-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.short { position: relative; margin: 0; border-radius: 14px; overflow: hidden; background: #000; aspect-ratio: 9 / 16; }
+.short img, .short video { width: 100%; height: 100%; object-fit: cover; }
+.short figcaption { position: absolute; left: 12px; right: 12px; bottom: 12px; font-size: 14px; font-weight: 700; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+.short .live { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 4px; background: var(--red); font-size: 11px; font-weight: 800; letter-spacing: .08em; }
+
+/* channel header */
+.channel { padding: clamp(70px, 8vw, 110px) 0; border-top: 1px solid var(--line); }
+.banner { border-radius: 16px; overflow: hidden; background: #000; }
+.banner img { width: 100%; aspect-ratio: 2560 / 423; object-fit: cover; object-position: 50% 50%; }
+.ch-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(18px, 3vw, 34px); align-items: center; margin-top: 28px; }
+.ch-av { width: clamp(96px, 12vw, 160px); aspect-ratio: 1; border-radius: 50%; background: #000 url(../assets/logo/favicon.png) center / cover; }
+.ch-row h2 { margin: 0; font-size: clamp(32px, 3.6vw, 52px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.ch-meta { margin: 10px 0 0; color: var(--ink-3); font-size: 15px; }
+.ch-desc { margin: 12px 0 0; max-width: 64ch; color: var(--ink-2); }
+.ch-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; align-items: center; }
+.pill-soon { display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-3); font-size: 14px; font-weight: 700; text-decoration: none; }
+.hosted { display: flex; gap: 22px; margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.hosted div { display: flex; align-items: center; gap: 12px; }
+.hosted img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: #222; }
+.hosted b { display: block; font-size: 16px; }
+.hosted small { color: var(--ink-3); font-size: 14px; }
+
+/* closing frame */
+.close { position: relative; overflow: hidden; min-height: 92svh; display: grid; place-items: center; padding: 120px 0 90px; }
+.close .face { position: absolute; height: 104svh; top: calc(44svh - 104svh * .4); }
+.close .face.mark { left: calc(13vw - 104svh * 1200 / 1400 / 2); }
+.close .face.simon { right: calc(13vw - 104svh * 1200 / 1400 / 2); }
+.close-in { position: relative; z-index: 2; width: min(46vw, 620px); text-align: center; }
+.close h2 { margin: 0; font-weight: 800; font-size: clamp(54px, 7vw, 116px); line-height: .98; letter-spacing: -.035em; }
+.close h2 .box { display: inline-block; background: var(--red); padding: .03em .16em .07em; margin-top: .06em; }
+.close p.lead { margin: 22px auto 0; max-width: 32ch; color: var(--ink-2); font-weight: 600; font-size: 19px; }
+form.notify { margin: 30px auto 0; max-width: 460px; }
+form.notify label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.field { display: flex; gap: 8px; padding: 6px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); transition: border-color .2s; }
+.field:focus-within { border-color: rgba(255,255,255,.6); }
+.field input { flex: 1; min-width: 0; height: 46px; padding: 0 16px; border: 0; background: transparent; color: #fff; font: 600 16px "Inter Tight", sans-serif; }
+.field input::placeholder { color: rgba(255,255,255,.55); }
+.field input:focus { outline: none; }
+.field .btn { height: 46px; }
+.field.bad { border-color: var(--red-hi); }
+.msg { min-height: 24px; margin: 12px 0 0; font-size: 14px; color: var(--ink-2); }
+.msg.err { color: #ff6b5e; }
+
+footer { border-top: 1px solid var(--line); background: var(--bg-2); }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 30px 0 38px; font-size: 14px; color: var(--ink-3); }
+footer a { text-decoration: none; color: var(--ink-2); }
+footer a:hover { color: #fff; }
+
+@media (max-width: 900px) {
+  .top nav a:not(.keep) { display: none; }
+  .face { height: 60svh; top: calc(25svh - 60svh * .4); }
+  .face.mark { left: calc(13vw - 60svh * 1200 / 1400 / 2); }
+  .face.simon { right: calc(13vw - 60svh * 1200 / 1400 / 2); }
+  .frames { place-items: end center; padding: 0 0 128px; }
+  .frame { width: calc(100vw - 2 * var(--gutter)); }
+  h1, .frame h2 { font-size: var(--fsm, clamp(46px, 13vw, 64px)); }
+  .frame .sub { margin-top: 16px; font-size: 16px; }
+  .frame .gfx { display: none; }
+  .cta { margin-top: 22px; }
+  .cta .btn { height: 48px; padding: 0 20px; font-size: 15px; }
+  .chap .name { display: none; }
+  .chapters { bottom: 26px; }
+  .knob { bottom: 21px; }
+  .grid { grid-template-columns: repeat(4, 80%); overflow-x: auto; scroll-snap-type: x mandatory; gap: 14px; scrollbar-width: none; }
+  .grid > * { scroll-snap-align: start; }
+  .shorts-row { grid-template-columns: repeat(4, 46%); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .short { scroll-snap-align: start; }
+  .ch-row { grid-template-columns: 1fr; }
+  .banner img { aspect-ratio: 1546 / 423; }
+  .close { min-height: 0; padding: 0 0 70px; display: block; }
+  .close .face { position: relative; display: inline-block; height: auto; width: 50%; top: 0; left: auto !important; right: auto !important; vertical-align: top; }
+  .close .faces { display: flex; justify-content: space-between; margin: 0 -8vw; }
+  .close-in { width: auto; padding: 0 var(--gutter); margin-top: -12vw; }
+  .close h2 { font-size: clamp(44px, 12vw, 60px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .frame, .js .frame * { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<header class="top">
+  <a class="logo-s" href="#top" aria-label="Broski Talk, back to top">BROSKI TALK.</a>
+  <nav aria-label="Sections"><a href="#episodes">Episodes</a><a href="#shorts">Shorts</a><a href="#about">About</a><a class="keep" href="#subscribe">Subscribe</a></nav>
+</header>
+
+<main id="top">
+  <section class="stage" id="stage" aria-label="Broski Talk is back">
+    <div class="pin surface">
+      <div class="face mark"><img src="../assets/hosts/mark-color.webp" alt="Mark Santos" fetchpriority="high"></div>
+      <div class="face simon"><img src="../assets/hosts/simon-color.webp" alt="Simon Dziak" fetchpriority="high"></div>
+
+      <div class="frames">
+        <div class="frame on" data-i="0">
+          <h1><span class="l1">We're</span><span class="box"><span>Back.</span></span></h1>
+          <p class="sub">Broski Talk returns as the AI podcast, with Mark Santos and Simon Dziak.</p>
+          <div class="cta">
+            <a class="btn red" href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 3.5l9.5 5.5L5 14.5z" fill="currentColor"/></svg>Subscribe on YouTube</a>
+            <a class="btn ghost" href="#subscribe">Get episode 1 by email</a>
+          </div>
+        </div>
+        <div class="frame" data-i="1">
+          <h2><span class="l1">AI Does</span><span class="box"><span>The Work</span></span></h2>
+          <p class="sub">The models, tools and agents we actually use, and what they're really good for.</p>
+          <div class="gfx" aria-hidden="true">
+            <svg viewBox="0 0 420 250">
+              <path class="dash" d="M210 70 L95 190 M210 70 L325 190 M95 190 L325 190"/>
+              <g class="bob"><rect class="tile" x="160" y="20" width="100" height="92" rx="16"/><circle cx="210" cy="10" r="7" fill="#DC3426"/><rect x="207" y="10" width="6" height="12" fill="#f2f2f2"/><rect class="glyph" x="183" y="50" width="14" height="16" rx="3"/><rect class="glyph" x="223" y="50" width="14" height="16" rx="3"/><rect class="glyph" x="190" y="84" width="40" height="5" rx="2.5"/></g>
+              <g class="bob"><rect class="tile" x="45" y="140" width="100" height="92" rx="16"/><circle cx="95" cy="130" r="7" fill="#DC3426"/><rect x="92" y="130" width="6" height="12" fill="#f2f2f2"/><rect class="glyph" x="68" y="170" width="14" height="16" rx="3"/><rect class="glyph" x="108" y="170" width="14" height="16" rx="3"/><rect class="glyph" x="75" y="204" width="40" height="5" rx="2.5"/></g>
+              <g class="bob"><rect class="tile" x="275" y="140" width="100" height="92" rx="16"/><circle cx="325" cy="130" r="7" fill="#DC3426"/><rect x="322" y="130" width="6" height="12" fill="#f2f2f2"/><rect class="glyph" x="298" y="170" width="14" height="16" rx="3"/><rect class="glyph" x="338" y="170" width="14" height="16" rx="3"/><rect class="glyph" x="305" y="204" width="40" height="5" rx="2.5"/></g>
+            </svg>
+          </div>
+        </div>
+        <div class="frame" data-i="2" style="--fs: clamp(48px, 6.4vw, 104px)">
+          <h2><span class="l1">Automate</span><span class="box"><span>Everything</span></span></h2>
+          <p class="sub">The workflows that take busywork off your plate, and how to set them up yourself.</p>
+          <div class="gfx" aria-hidden="true">
+            <svg viewBox="0 0 420 250">
+              <path class="dash" d="M210 66 L92 186 M210 66 L328 186 M92 186 L328 186"/>
+              <g class="bob"><rect class="tile" x="166" y="22" width="88" height="88" rx="16"/><path class="glyph" d="M188 46h44a6 6 0 0 1 6 6v24a6 6 0 0 1-6 6h-26l-12 10v-10h-6a6 6 0 0 1-6-6V52a6 6 0 0 1 6-6z"/><circle cx="198" cy="64" r="3.5" fill="#f2f2f2"/><circle cx="210" cy="64" r="3.5" fill="#f2f2f2"/><circle cx="222" cy="64" r="3.5" fill="#f2f2f2"/></g>
+              <g class="bob"><rect class="tile" x="48" y="142" width="88" height="88" rx="16"/><g transform="translate(92 186)"><circle class="glyph" r="17"/><circle r="7" fill="#f2f2f2"/><g class="glyph"><rect x="-5" y="-26" width="10" height="11" rx="2"/><rect x="-5" y="15" width="10" height="11" rx="2"/><rect x="-26" y="-5" width="11" height="10" rx="2"/><rect x="15" y="-5" width="11" height="10" rx="2"/><rect x="-5" y="-26" width="10" height="11" rx="2" transform="rotate(45)"/><rect x="-5" y="15" width="10" height="11" rx="2" transform="rotate(45)"/><rect x="-26" y="-5" width="11" height="10" rx="2" transform="rotate(45)"/><rect x="15" y="-5" width="11" height="10" rx="2" transform="rotate(45)"/></g></g></g>
+              <g class="bob"><rect class="tile" x="284" y="142" width="88" height="88" rx="16"/><path class="glyph" d="M334 158 L306 192 h20 l-6 24 l30 -36 h-20 z"/></g>
+            </svg>
+          </div>
+        </div>
+        <div class="frame" data-i="3">
+          <h2><span class="l1">The</span><span class="box"><span>Comeback</span></span></h2>
+          <p class="sub">17 episodes in 2020–21. A few years off. Now we're back, and this time it's all AI.</p>
+          <div class="gfx" aria-hidden="true">
+            <svg viewBox="0 0 420 210">
+              <path class="chart-line" pathLength="1" d="M10 170 C 40 160, 60 120, 95 100 S 130 92, 150 96 L 250 98 C 270 98, 280 100, 292 96 C 330 80, 360 40, 410 8"/>
+              <circle class="chart-ring" cx="282" cy="98" r="22"/>
+              <text class="chart-label" x="10" y="204">2020</text>
+              <text class="chart-label" x="168" y="128">OFF AIR</text>
+              <text class="chart-label" x="360" y="204">2026</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <nav class="chapters" aria-label="Chapters">
+        <a class="chap on" href="#stage" data-go="0"><span class="track"><span class="fill"></span></span><span class="name">We're back</span></a>
+        <a class="chap" href="#stage" data-go="1"><span class="track"><span class="fill"></span></span><span class="name">AI does the work</span></a>
+        <a class="chap" href="#stage" data-go="2"><span class="track"><span class="fill"></span></span><span class="name">Automate everything</span></a>
+        <a class="chap" href="#stage" data-go="3"><span class="track"><span class="fill"></span></span><span class="name">The comeback</span></a>
+      </nav>
+      <span class="knob" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <section class="shelf" id="episodes">
+    <div class="wrap">
+      <div class="shelf-h"><h2>Coming to the channel</h2><p>Working titles for the first four</p></div>
+      <div class="grid">
+        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>We're Back: Broski Talk Is Now the AI Podcast</b><small>Broski Talk · Episode 1</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-15-ai-agents.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>AI Does the Work: The Agents We Actually Use</b><small>Broski Talk · Working title</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-16-automate.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>Automate Everything: Our Workflows, Step by Step</b><small>Broski Talk · Working title</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-14-comeback-chart-red.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>The Comeback: Why We Restarted the Show</b><small>Broski Talk · Working title</small></div></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="shorts" id="shorts">
+    <div class="wrap">
+      <div class="shelf-h"><h2>Shorts</h2><p>Clips between episodes</p></div>
+      <div class="shorts-row">
+        <figure class="short"><video src="../assets/video/sting-vertical.mp4" muted playsinline loop autoplay preload="metadata" aria-label="Broski Talk vertical logo sting"></video><span class="live">NEW</span></figure>
+        <figure class="short"><img src="../assets/thumbs/shorts-01-mark-solo-red-text.webp" alt="Short: Mark, We're Back." loading="lazy"></figure>
+        <figure class="short"><img src="../assets/thumbs/shorts-02-simon-solo-red-box.webp" alt="Short: Simon, Automate Everything" loading="lazy"></figure>
+        <figure class="short"><img src="../assets/thumbs/shorts-03-both-red-text.webp" alt="Short: both hosts, The AI Podcast Is Back!" loading="lazy"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="channel surface" id="about">
+    <div class="wrap">
+      <div class="banner"><img src="../assets/thumbs/banner-waveform.webp" alt="Broski Talk channel banner: both hosts either side of the logo over a waveform" loading="lazy"></div>
+      <div class="ch-row">
+        <span class="ch-av" role="img" aria-label="Broski Talk logo"></span>
+        <div>
+          <h2>Broski Talk</h2>
+          <p class="ch-meta">@broskitalk · The AI podcast · New episodes weekly</p>
+          <p class="ch-desc">Broski Talk is the AI podcast from Mark Santos and Simon Dziak. Every week we break down the AI tools, automations and business moves we're actually using: what's working, what isn't, and what's coming next.</p>
+          <div class="ch-actions">
+            <a class="btn red" href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet">Subscribe</a>
+            <a class="pill-soon" href="#" data-todo="no RSS feed yet">Spotify · soon</a>
+            <a class="pill-soon" href="#" data-todo="no RSS feed yet">Apple Podcasts · soon</a>
+          </div>
+        </div>
+      </div>
+      <div class="hosted">
+        <div><img src="../assets/hosts/mark-avatar.webp" alt=""><span><b>Mark Santos</b><small>Host · runs Mark Studios</small></span></div>
+        <div><img src="../assets/hosts/simon-avatar.webp" alt=""><span><b>Simon Dziak</b><small>Co-host · since 2020</small></span></div>
+        <div><span><b>First run</b><small>17 episodes, 2020–21, live Wednesdays 6 PM EST</small></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close surface" id="subscribe">
+    <div class="faces">
+      <div class="face mark"><img src="../assets/hosts/mark-color.webp" alt="" loading="lazy"></div>
+      <div class="face simon"><img src="../assets/hosts/simon-color.webp" alt="" loading="lazy"></div>
+    </div>
+    <div class="close-in">
+      <h2>Don't Miss<br><span class="box">Episode 1</span></h2>
+      <p class="lead">Drop your email and we'll send it the day it's out. One email per episode, nothing else.</p>
+      <form class="notify" novalidate data-todo="not connected to an email provider yet">
+        <label for="email-b">Email address</label>
+        <div class="field"><input id="email-b" type="email" placeholder="you@company.com" autocomplete="email" aria-describedby="msg-b"><button class="btn red" type="submit">Notify me</button></div>
+        <p class="msg" id="msg-b" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="logo-s">BROSKI TALK.</span>
+    <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+    <span><a href="https://www.instagram.com/markksantos/">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/">@szymondziak</a></span>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const frames = [...stage.querySelectorAll('.frame')];
+  const chaps = [...stage.querySelectorAll('.chap')];
+  const pin = stage.querySelector('.pin');
+  const N = frames.length;
+  let cur = 0;
+
+  function progress() {
+    const r = stage.getBoundingClientRect();
+    const span = stage.offsetHeight - innerHeight;
+    return Math.min(1, Math.max(0, -r.top / span));
+  }
+  function update() {
+    const p = progress();
+    const idx = Math.min(N - 1, Math.floor(p * N * 0.999));
+    if (idx !== cur) {
+      frames[cur].classList.remove('on'); chaps[cur].classList.remove('on');
+      frames[idx].classList.add('on'); chaps[idx].classList.add('on');
+      cur = idx;
+    }
+    chaps.forEach((c, i) => c.style.setProperty('--f', Math.min(1, Math.max(0, p * N - i)).toFixed(3)));
+    pin.style.setProperty('--k', p.toFixed(4));
+  }
+  addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', update);
+  update();
+
+  chaps.forEach(c => c.addEventListener('click', e => {
+    e.preventDefault();
+    const i = +c.dataset.go;
+    const span = stage.offsetHeight - innerHeight;
+    const y = stage.offsetTop + span * ((i + .5) / N);
+    scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }));
+
+  const form = document.querySelector('form.notify'), input = form.querySelector('input'), msg = form.querySelector('.msg'), field = form.querySelector('.field');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+    field.classList.toggle('bad', !ok); input.setAttribute('aria-invalid', !ok);
+    msg.classList.toggle('err', !ok);
+    msg.textContent = ok ? "You're in. Episode 1 comes straight to your inbox." : 'That email looks off. Check it and try again.';
+  });
+})();
+</script>
+</body>
+</html>

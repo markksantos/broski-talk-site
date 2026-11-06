@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broski Talk Is Back · The AI Podcast</title>
+<meta name="description" content="Broski Talk is back as the AI podcast with Mark Santos and Simon Dziak. 17 episodes in 2020–21, a few years off, one comeback.">
+<link rel="icon" href="../assets/logo/favicon.png">
+<!--
+THESIS: A printed comeback poster. The show's story is the hero: 17 episodes, years off air, and the return,
+  told the way a fight-night poster sells a comeback: giant condensed type, halftone portraits, a tale of
+  the tape and a card of what's coming. Refuses the dark podcast template the other two directions use.
+OWN-WORLD: white paper, black ink #0B0B0B, Anton at page scale, newsprint halftone hosts, 6px black rules
+  and black bands, one red #DC3426 box or mark per view. No cards, no gradients, no shadows.
+STORY: Broski Talk is back -> the comeback in one chart -> then vs now -> what's on the card -> get episode 1.
+FIRST VIEWPORT: black ticker band; BROSKI / TALK. filling the left column exactly, red IS BACK. box under it,
+  one-line pitch and the email action; the two halftone hosts on the right in their own columns split by a rule.
+FORM: fight-night comeback poster, direction C of three.
+-->
+<style>
+@font-face { font-family: "Anton"; src: url("../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --paper: #ffffff;
+  --ink: #0b0b0b;
+  --ink-2: #3d3d3d;
+  --ink-3: #5c5c5c;
+  --red: #DC3426;
+  --rule: 6px;
+  --gutter: clamp(16px, 3.6vw, 52px);
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); color: var(--ink); }
+body { margin: 0; font-family: "Inter Tight", system-ui, sans-serif; font-size: 18px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+.anton { font-family: Anton, Impact, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .005em; }
+.wrap { padding-inline: var(--gutter); }
+
+/* ticker */
+.ticker { background: var(--ink); color: #fff; overflow: hidden; height: 42px; display: flex; align-items: center; }
+.ticker-run { display: flex; flex: none; gap: 0; white-space: nowrap; animation: run 38s linear infinite; }
+.ticker-run span { font-family: Anton, sans-serif; font-size: 17px; letter-spacing: .08em; padding-inline: 18px; display: inline-flex; align-items: center; gap: 36px; }
+.ticker-run span::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+@keyframes run { to { transform: translateX(-50%); } }
+
+/* masthead row */
+.mast { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 16px; border-bottom: 2px solid var(--ink); }
+.mast .anton { font-size: 18px; letter-spacing: .06em; }
+.mast nav { display: flex; gap: 26px; }
+.mast nav a { text-decoration: none; font-weight: 700; font-size: 15px; }
+.mast nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* hero poster */
+.hero { border-bottom: var(--rule) solid var(--ink); }
+.masthead { container-type: inline-size; padding-top: clamp(14px, 1.8vw, 26px); }
+.masthead h1 { margin: 0; font-size: calc(100cqi / 4.86); line-height: .9; white-space: nowrap; }
+.hero-row { display: grid; grid-template-columns: 44fr 56fr; gap: clamp(20px, 3vw, 48px); margin-top: clamp(10px, 1.4vw, 20px); border-top: 3px solid var(--ink); }
+.bill { padding: clamp(22px, 2.6vw, 38px) 0 clamp(24px, 3vw, 40px); }
+.isback { display: inline-block; margin: 0; background: var(--red); color: #fff; font-size: clamp(56px, 6.6vw, 112px); line-height: 1; padding: .08em .18em .04em; }
+.pitch { margin: clamp(18px, 2vw, 28px) 0 0; max-width: 34ch; font-size: clamp(18px, 1.45vw, 22px); line-height: 1.38; font-weight: 600; color: var(--ink-2); }
+.pitch b { color: var(--ink); font-weight: 800; }
+.join { margin-top: 22px; max-width: 520px; }
+.join label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.field { display: flex; border: 3px solid var(--ink); }
+.field input { flex: 1; min-width: 0; height: 54px; padding: 0 16px; border: 0; background: #fff; color: var(--ink); font: 600 17px "Inter Tight", sans-serif; }
+.field input::placeholder { color: #6b6b6b; }
+.field input:focus { outline: none; background: #f3f3f3; }
+.field button { flex: none; height: 54px; padding: 0 22px; border: 0; background: var(--ink); color: #fff; font: 400 19px/1 Anton, sans-serif; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; transition: background .2s; }
+.field button:hover { background: var(--red); }
+.field.bad { border-color: var(--red); }
+.msg { min-height: 22px; margin: 10px 0 0; font-size: 15px; font-weight: 600; color: var(--ink-2); }
+.msg.err { color: #b3261a; }
+.alt { display: inline-block; margin-top: 4px; font-weight: 700; font-size: 16px; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.alt:hover { color: var(--red); }
+
+.fighters { display: grid; grid-template-columns: 1fr var(--rule) 1fr; align-items: end; }
+.fighters .split { align-self: stretch; background: var(--ink); }
+.fighter { display: grid; }
+.fighter .ph { aspect-ratio: 900 / 1080; overflow: hidden; }
+.fighter .ph img { width: 133.333%; max-width: none; height: auto; margin-left: -16.667%; margin-top: -1.5%; }
+.fighter .nm { padding: 12px 0 14px; text-align: center; border-top: 3px solid var(--ink); }
+.fighter .nm strong { display: block; font-family: Anton, sans-serif; font-weight: 400; font-size: clamp(24px, 2.5vw, 40px); line-height: 1; letter-spacing: .01em; }
+.fighter .nm small { display: block; margin-top: 6px; font-size: 13px; font-weight: 800; letter-spacing: .14em; color: var(--ink-3); }
+
+/* the comeback chart */
+.story { padding: clamp(70px, 8vw, 120px) 0 clamp(60px, 7vw, 100px); border-bottom: var(--rule) solid var(--ink); }
+.story-h { container-type: inline-size; }
+.story-h h2 { margin: 0; font-size: calc(100cqi / 5.64); line-height: .86; }
+.story-cols { display: grid; grid-template-columns: 1fr 2.2fr; gap: clamp(24px, 4vw, 64px); margin-top: clamp(30px, 4vw, 56px); align-items: end; }
+.story-cols p { margin: 0; font-size: clamp(18px, 1.4vw, 21px); font-weight: 600; color: var(--ink-2); max-width: 32ch; }
+.story-cols p b { color: var(--ink); }
+.chart svg { width: 100%; height: auto; overflow: visible; display: block; }
+.chart .axis { stroke: var(--ink); stroke-width: 3; }
+.chart .grid { stroke: #d9d9d9; stroke-width: 1.5; }
+.chart .line { fill: none; stroke: var(--ink); stroke-width: 7; stroke-linejoin: round; stroke-linecap: round; }
+.chart .kick { fill: none; stroke: var(--red); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+.chart .ring { fill: none; stroke: var(--red); stroke-width: 5; }
+.chart text { font-family: "Inter Tight", sans-serif; font-size: 17px; font-weight: 800; letter-spacing: .06em; fill: var(--ink); }
+.chart text.dim { fill: var(--ink-3); font-weight: 700; }
+.chart text.big { font-family: Anton, sans-serif; font-weight: 400; font-size: 34px; letter-spacing: .02em; }
+.chart text.red { fill: var(--red); }
+
+/* tale of the tape */
+.tape { padding: clamp(70px, 8vw, 120px) 0; border-bottom: var(--rule) solid var(--ink); }
+.tape-title { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 20px; }
+.tape-title .side { font-family: Anton, sans-serif; font-size: clamp(44px, 6.4vw, 104px); line-height: .9; }
+.tape-title .side:last-child { text-align: right; }
+.tape-title .mid { font-family: Anton, sans-serif; font-size: clamp(16px, 1.5vw, 22px); letter-spacing: .14em; background: var(--ink); color: #fff; padding: 10px 18px 8px; align-self: center; white-space: nowrap; }
+.rows { margin: 30px 0 0; border-top: 3px solid var(--ink); }
+.row { display: grid; grid-template-columns: 1fr minmax(120px, 200px) 1fr; align-items: center; gap: clamp(14px, 2vw, 32px); padding: 20px 0; border-bottom: 2px solid var(--ink); }
+.row dt { grid-column: 2; grid-row: 1; text-align: center; font-family: Anton, sans-serif; font-size: clamp(16px, 1.4vw, 20px); letter-spacing: .12em; }
+.row .then { grid-column: 1; grid-row: 1; text-align: left; }
+.row .now { grid-column: 3; grid-row: 1; text-align: right; }
+.row dd { margin: 0; font-size: clamp(18px, 1.7vw, 26px); font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+.row dd.now { color: var(--ink); }
+.row .num { font-family: Anton, sans-serif; font-weight: 400; font-size: clamp(40px, 4.4vw, 68px); line-height: 1; letter-spacing: 0; }
+.row .soon { color: var(--red); }
+
+/* on the card */
+.card { padding: clamp(70px, 8vw, 120px) 0; border-bottom: var(--rule) solid var(--ink); }
+.card-h { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+.card-h h2 { margin: 0; font-size: clamp(56px, 8vw, 132px); line-height: .86; }
+.card-h p { margin: 0; max-width: 30ch; font-weight: 600; color: var(--ink-2); }
+.bouts { list-style: none; margin: 34px 0 0; padding: 0; border-top: 3px solid var(--ink); }
+.bout { position: relative; display: grid; grid-template-columns: clamp(56px, 7vw, 110px) 1fr auto; align-items: center; gap: clamp(12px, 2vw, 28px); padding: clamp(14px, 1.6vw, 22px) 0; border-bottom: 2px solid var(--ink); cursor: default; }
+.bout .no { font-family: Anton, sans-serif; font-size: clamp(22px, 2.4vw, 36px); color: var(--ink-3); }
+.bout .t { font-family: Anton, sans-serif; text-transform: uppercase; font-size: clamp(40px, 6.6vw, 112px); line-height: .92; letter-spacing: .005em; transition: transform .45s var(--ease), color .2s; }
+.bout .tag { font-size: 13px; font-weight: 800; letter-spacing: .14em; color: var(--ink-3); white-space: nowrap; }
+.bout:first-child .tag { color: var(--red); }
+.bout:hover .t { transform: translateX(14px); }
+.bout .inline { display: none; }
+.peek { position: fixed; z-index: 50; left: 0; top: 0; width: clamp(260px, 26vw, 420px); aspect-ratio: 16 / 9; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(.92) rotate(-2deg); transition: opacity .25s, transform .4s var(--ease); border: 4px solid var(--ink); background: #000; }
+.peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-2deg); }
+.peek img { width: 100%; height: 100%; object-fit: cover; }
+
+/* final band */
+.final { background: var(--ink); color: #fff; padding: clamp(80px, 9vw, 140px) 0 clamp(70px, 8vw, 120px); }
+.final-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 5vw, 80px); align-items: end; }
+.final h2 { margin: 0; container-type: inline-size; }
+.final h2 span { display: block; font-size: clamp(64px, 9.4vw, 168px); line-height: .86; }
+.final h2 .box { display: inline-block; background: var(--red); padding: .04em .14em .02em; margin-top: .08em; }
+.final .field { border-color: #fff; }
+.final .field input { background: #fff; }
+.final .field button { background: var(--red); }
+.final .field button:hover { background: #fff; color: var(--ink); }
+.final .msg { color: rgba(255,255,255,.78); }
+.final .msg.err { color: #ff7a6e; }
+.final p.lead { margin: 0 0 22px; font-size: 20px; font-weight: 600; color: rgba(255,255,255,.8); max-width: 34ch; }
+.plat { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 28px; }
+.plat a { font-family: Anton, sans-serif; font-size: 22px; letter-spacing: .04em; text-decoration: none; text-transform: uppercase; }
+.plat a:hover { color: var(--red); }
+.plat a small { font-family: "Inter Tight", sans-serif; font-size: 12px; font-weight: 800; letter-spacing: .12em; color: rgba(255,255,255,.6); margin-left: 6px; vertical-align: middle; }
+
+footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px var(--gutter) 30px; font-size: 14px; font-weight: 600; color: var(--ink-3); }
+footer .anton { font-size: 26px; color: var(--ink); }
+footer a { text-decoration: none; color: var(--ink-2); }
+footer a:hover { color: var(--red); }
+
+@media (max-width: 900px) {
+  .mast nav { display: none; }
+  .hero-row { grid-template-columns: 1fr; gap: 0; }
+  .bill { padding-bottom: 28px; }
+  .fighters { border-top: 2px solid var(--ink); }
+  .fighters .split { margin-top: 18px; }
+  .fighter .nm strong { font-size: clamp(20px, 6vw, 30px); }
+  .story-cols { grid-template-columns: 1fr; }
+  .chart text { font-size: 22px; } .chart text.big { font-size: 40px; }
+  .tape-title { grid-template-columns: 1fr 1fr; }
+  .tape-title .mid { grid-column: 1 / -1; grid-row: 1; justify-self: center; margin-bottom: 10px; }
+  .row { grid-template-columns: 1fr 1fr; row-gap: 10px; }
+  .row dt { grid-column: 1 / -1; }
+  .row .then, .row .now { grid-row: 2; }
+  .bout { grid-template-columns: 1fr; gap: 10px; }
+  .bout .no { display: none; }
+  .bout .inline { display: block; border: 3px solid var(--ink); }
+  .bout .inline img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  .bout:hover .t { transform: none; }
+  .peek { display: none; }
+  .final-grid { grid-template-columns: 1fr; }
+  .field button { padding: 0 16px; font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker-run { animation: none; }
+  .bout .t, .peek { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-run">
+    <span>Broski Talk is back</span><span>The AI podcast</span><span>Mark Santos &amp; Simon Dziak</span><span>AI · Automation · Business</span><span>Episode 1 coming soon</span>
+    <span>Broski Talk is back</span><span>The AI podcast</span><span>Mark Santos &amp; Simon Dziak</span><span>AI · Automation · Business</span><span>Episode 1 coming soon</span>
+  </div>
+</div>
+
+<header class="mast wrap">
+  <span class="anton">The AI Podcast</span>
+  <nav aria-label="Sections"><a href="#story">The story</a><a href="#tape">Then vs now</a><a href="#card">Episodes</a><a href="#join">Get episode 1</a></nav>
+</header>
+
+<main>
+  <section class="hero wrap" aria-label="Broski Talk is back">
+    <div class="masthead"><h1 class="anton">Broski Talk.</h1></div>
+    <div class="hero-row">
+    <div class="bill">
+      <p class="isback anton">Is back.</p>
+      <p class="pitch">The AI podcast with <b>Mark Santos</b> and <b>Simon Dziak</b>. AI, automation and business: what we're building, what's working, and what's next.</p>
+      <form class="join" id="join-top" novalidate data-todo="not connected to an email provider yet">
+        <label for="email-c1">Email address</label>
+        <div class="field"><input id="email-c1" type="email" placeholder="you@company.com" autocomplete="email" aria-describedby="msg-c1"><button type="submit">Get episode 1</button></div>
+        <p class="msg" id="msg-c1" aria-live="polite"></p>
+      </form>
+      <a class="alt" href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet">Or subscribe on YouTube →</a>
+    </div>
+    <div class="fighters">
+      <figure class="fighter" style="margin:0">
+        <div class="ph"><img src="../assets/hosts/mark-halftone.webp" alt="Mark Santos, halftone portrait" fetchpriority="high"></div>
+        <figcaption class="nm"><strong>Mark Santos</strong><small>HOST</small></figcaption>
+      </figure>
+      <span class="split" aria-hidden="true"></span>
+      <figure class="fighter" style="margin:0">
+        <div class="ph"><img src="../assets/hosts/simon-halftone.webp" alt="Simon Dziak, halftone portrait" fetchpriority="high"></div>
+        <figcaption class="nm"><strong>Simon Dziak</strong><small>CO-HOST</small></figcaption>
+      </figure>
+    </div>
+    </div>
+  </section>
+
+  <section class="story wrap" id="story">
+    <div class="story-h"><h2 class="anton">The comeback</h2></div>
+    <div class="story-cols">
+      <p><b>2020 to 2021:</b> 17 episodes, live every Wednesday at 6 PM EST. Then the mics went quiet. Now the same two hosts are back, and the show is about AI.</p>
+      <div class="chart" id="chart">
+        <svg viewBox="0 0 900 380" role="img" aria-label="Chart: episodes climb one step at a time to 17 across 2020 and 2021, stay flat while the show is off air, then turn upward in red at the comeback.">
+          <line class="grid" x1="60" y1="96" x2="880" y2="96"/>
+          <line class="axis" x1="60" y1="20" x2="60" y2="330"/>
+          <line class="axis" x1="60" y1="330" x2="880" y2="330"/>
+          <text class="dim" x="44" y="101" text-anchor="end">17</text>
+          <text class="dim" x="44" y="335" text-anchor="end">0</text>
+          <text x="60" y="364">2020</text>
+          <text x="232" y="364">2021</text>
+          <text class="dim" x="520" y="364" text-anchor="middle">OFF AIR</text>
+          <text x="812" y="364" text-anchor="middle">NOW</text>
+          <path class="line" id="steps" pathLength="1"/>
+          <path class="kick" id="kick" pathLength="1" d="M 800 96 C 830 96, 845 70, 870 8"/>
+          <path class="kick" id="kick-head" d="M 852 18 L 872 4 L 876 28"/>
+          <circle class="ring" id="ring" cx="800" cy="96" r="26"/>
+          <text class="big" x="120" y="74">17 EPISODES</text>
+          <text class="big red" x="770" y="160" text-anchor="end" id="back-label">BACK.</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="tape wrap" id="tape" aria-labelledby="tape-h">
+    <div class="tape-title">
+      <span class="side">2020–21</span>
+      <span class="mid" id="tape-h">Tale of the tape</span>
+      <span class="side">Now</span>
+    </div>
+    <dl class="rows">
+      <div class="row"><dt>Episodes</dt><dd class="then"><span class="num">17</span></dd><dd class="now"><span class="num soon">EP 1 SOON</span></dd></div>
+      <div class="row"><dt>Topics</dt><dd class="then">YouTube, money, mindset and current events</dd><dd class="now">AI, automation and business</dd></div>
+      <div class="row"><dt>Format</dt><dd class="then">Live, every Wednesday at 6 PM EST</dd><dd class="now">Weekly episodes, Shorts in between</dd></div>
+      <div class="row"><dt>Guests</dt><dd class="then">Jared West, Dre Knight, Rafael Haber</dd><dd class="now">To be announced</dd></div>
+      <div class="row"><dt>In the corner</dt><dd class="then">Mark Santos &amp; Simon Dziak</dd><dd class="now">Same two</dd></div>
+    </dl>
+  </section>
+
+  <section class="card wrap" id="card">
+    <div class="card-h">
+      <h2 class="anton">On the card</h2>
+      <p>The first episodes on the board. Working titles, dates to come.</p>
+    </div>
+    <ol class="bouts">
+      <li class="bout" data-img="../assets/thumbs/thumbnail-03-spotlight-cone.webp"><span class="no">01</span><span class="inline"><img src="../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="" loading="lazy"></span><span class="t">We're back</span><span class="tag">MAIN EVENT</span></li>
+      <li class="bout" data-img="../assets/thumbs/thumbnail-13-comeback-chart.webp"><span class="no">02</span><span class="inline"><img src="../assets/thumbs/thumbnail-13-comeback-chart.webp" alt="" loading="lazy"></span><span class="t">The comeback</span><span class="tag">WORKING TITLE</span></li>
+      <li class="bout" data-img="../assets/thumbs/thumbnail-15-ai-agents.webp"><span class="no">03</span><span class="inline"><img src="../assets/thumbs/thumbnail-15-ai-agents.webp" alt="" loading="lazy"></span><span class="t">AI does the work</span><span class="tag">WORKING TITLE</span></li>
+      <li class="bout" data-img="../assets/thumbs/thumbnail-16-automate.webp"><span class="no">04</span><span class="inline"><img src="../assets/thumbs/thumbnail-16-automate.webp" alt="" loading="lazy"></span><span class="t">Automate everything</span><span class="tag">WORKING TITLE</span></li>
+    </ol>
+  </section>
+
+  <section class="final" id="join" aria-labelledby="final-h">
+    <div class="wrap final-grid">
+      <h2 class="anton" id="final-h"><span>Don't miss</span><span><span class="box">Episode 1.</span></span></h2>
+      <div>
+        <p class="lead">Drop your email and it lands in your inbox the day it's out. One email per episode.</p>
+        <form class="join" novalidate data-todo="not connected to an email provider yet">
+          <label for="email-c2">Email address</label>
+          <div class="field"><input id="email-c2" type="email" placeholder="you@company.com" autocomplete="email" aria-describedby="msg-c2"><button type="submit">Notify me</button></div>
+          <p class="msg" id="msg-c2" aria-live="polite"></p>
+        </form>
+        <div class="plat">
+          <a href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet">YouTube</a>
+          <a href="#" data-todo="no RSS feed yet">Spotify<small>SOON</small></a>
+          <a href="#" data-todo="no RSS feed yet">Apple Podcasts<small>SOON</small></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="anton">Broski Talk.</span>
+  <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+  <span><a href="https://www.instagram.com/markksantos/">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/">@szymondziak</a></span>
+</footer>
+
+<div class="peek" aria-hidden="true"><img src="../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="" loading="lazy"></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* chart: 17 steps up, flat while off air, then the red kick */
+  const x0 = 60, x1 = 330, y0 = 330, y17 = 96, flatEnd = 800;
+  let d = `M ${x0} ${y0}`;
+  const dx = (x1 - x0) / 17, dy = (y0 - y17) / 17;
+  for (let i = 1; i <= 17; i++) {
+    const x = x0 + dx * i, y = y0 - dy * i;
+    d += ` H ${x.toFixed(1)} V ${y.toFixed(1)}`;
+  }
+  d += ` H ${flatEnd}`;
+  const steps = document.getElementById('steps');
+  steps.setAttribute('d', d);
+  const kick = document.getElementById('kick'), head = document.getElementById('kick-head'), ring = document.getElementById('ring'), back = document.getElementById('back-label');
+  const chart = document.getElementById('chart');
+  steps.style.strokeDasharray = 1; kick.style.strokeDasharray = 1;
+  function drawChart() {
+    const r = chart.getBoundingClientRect();
+    const p = reduce ? 1 : Math.min(1, Math.max(0, (innerHeight * .92 - r.top) / (r.height + innerHeight * .35)));
+    const a = Math.min(1, p / .78), b = Math.min(1, Math.max(0, (p - .78) / .18));
+    steps.style.strokeDashoffset = 1 - a;
+    kick.style.strokeDashoffset = 1 - b;
+    head.style.opacity = b > .95 ? 1 : 0;
+    ring.style.opacity = b > 0 ? 1 : 0;
+    back.style.opacity = b;
+  }
+  addEventListener('scroll', drawChart, { passive: true });
+  addEventListener('resize', drawChart);
+  drawChart();
+
+  /* the card: the episode thumbnail follows the cursor */
+  const peek = document.querySelector('.peek'), pimg = peek.querySelector('img');
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+  const tick = () => { cx += (tx - cx) * .18; cy += (ty - cy) * .18; peek.style.left = cx + 'px'; peek.style.top = cy + 'px'; raf = Math.abs(tx - cx) + Math.abs(ty - cy) > .5 ? requestAnimationFrame(tick) : 0; };
+  document.querySelectorAll('.bout').forEach(b => {
+    b.addEventListener('pointerenter', e => { pimg.src = b.dataset.img; cx = tx = e.clientX + 170; cy = ty = e.clientY; peek.classList.add('on'); tick(); });
+    b.addEventListener('pointermove', e => { tx = e.clientX + 170; ty = e.clientY; if (!raf) raf = requestAnimationFrame(tick); });
+    b.addEventListener('pointerleave', () => peek.classList.remove('on'));
+  });
+
+  /* email forms (not wired to a provider yet) */
+  document.querySelectorAll('form.join').forEach(form => {
+    const input = form.querySelector('input'), msg = form.querySelector('.msg'), field = form.querySelector('.field');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+      field.classList.toggle('bad', !ok); input.setAttribute('aria-invalid', !ok);
+      msg.classList.toggle('err', !ok);
+      msg.textContent = ok ? "You're on the list. Episode 1 comes to your inbox the day it drops." : 'That email looks off. Check it and try again.';
+    });
+  });
+})();
+</script>
+</body>
+</html>
