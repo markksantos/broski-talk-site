@@ -341,7 +341,7 @@ footer a:hover { color: var(--ink); }
   const cvs = document.getElementById('wave');
   const ctx = cvs.getContext('2d');
   let W = 0, H = 0, dpr = 1, bars = [], pitch = 10, bw = 4, eyeY = 0;
-  let pointerX = -1e4, visible = true, playing = false, analyser = null, freq = null, lift = 0;
+  let pointerX = -1e4, visible = true, playing = false, analyser = null, freq = null, lift = 0, cL = 0, cR = 0;
 
   function layout() {
     dpr = Math.min(devicePixelRatio || 1, 2);
@@ -358,6 +358,8 @@ footer a:hover { color: var(--ink); }
     const host = document.querySelector('.host.mark');
     const r = host.getBoundingClientRect(), hr = cvs.getBoundingClientRect();
     eyeY = r.top - hr.top + r.height * (560 / 1400);
+    const c = document.querySelector('.center').getBoundingClientRect();
+    cL = c.left - hr.left - 24; cR = c.right - hr.left + 24;
   }
 
   function draw(t) {
@@ -366,7 +368,7 @@ footer a:hover { color: var(--ink); }
     if (analyser) analyser.getByteFrequencyData(freq);
     lift += ((playing ? 1 : 0) - lift) * .06;
     const n = bars.length, mid = n / 2;
-    ctx.fillStyle = `rgba(255,255,255,${.24 + .2 * lift})`;
+    const base = .24 + .2 * lift;
     for (let i = 0; i < n; i++) {
       const b = bars[i];
       let a = b.base * (.78 + .22 * Math.sin(t * .0011 * b.sp + b.ph));
@@ -379,6 +381,8 @@ footer a:hover { color: var(--ink); }
       const x = i * pitch;
       a += .22 * Math.exp(-((x - pointerX) ** 2) / (2 * 70 * 70));
       const h = Math.max(3, a * maxH * 2);
+      const inC = x > cL && x < cR ? Math.min(x - cL, cR - x) : -1;
+      ctx.fillStyle = `rgba(255,255,255,${inC < 0 ? base : base * (1 - .72 * Math.min(1, inC / 60))})`;
       ctx.beginPath();
       ctx.roundRect(x, eyeY - h / 2, bw, h, bw / 2);
       ctx.fill();
