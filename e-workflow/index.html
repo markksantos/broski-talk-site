@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broski Talk · The Workflow</title>
+<meta name="description" content="Broski Talk is the AI podcast with Mark Santos and Simon Dziak, laid out as the workflow it is. Run it, then get episode 1 by email.">
+<link rel="icon" href="../assets/logo/favicon.png">
+<!--
+THESIS: The show drawn as the thing its audience builds all day: an automation workflow. Two host nodes feed
+  the podcast node, topics fan out, episodes come out the other end, and the last node is you. Press Run and
+  data actually flows through the wires. Refuses the hero-plus-sections landing page.
+OWN-WORLD: light workflow-editor canvas with a dot grid, white nodes with 1.5px black outlines and a hard
+  offset shadow, typed node headers, bezier wires with ports, a toolbar with Run. Anton for the show and big
+  node titles, Inter Tight for UI. Red #DC3426 only for the live run (packets, running node) and the primary CTA.
+STORY: who (hosts) -> what (Broski Talk, the AI podcast) -> history in memory -> topics -> episodes + shorts
+  -> where it publishes -> you (email for episode 1).
+FIRST VIEWPORT: toolbar (logo, run status, Run, Subscribe); Mark's node left, the Broski Talk node centre with
+  the pitch and actions, Simon's node right, same eye line; the topic row starting below.
+FORM: node-based automation canvas (interface language), direction E.
+-->
+<style>
+@font-face { font-family: "Anton"; src: url("../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --canvas: #e9e9e9;
+  --dot: rgba(0,0,0,.17);
+  --node: #fff;
+  --ink: #0b0b0b;
+  --ink-2: #3b3b3b;
+  --ink-3: #5e5e5e;
+  --wire: #9b9b9b;
+  --red: #DC3426;
+  --red-hi: #c42c1f;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --gutter: clamp(14px, 3vw, 44px);
+}
+* { box-sizing: border-box; }
+html { background: var(--canvas); color: var(--ink); }
+body { margin: 0; font-family: "Inter Tight", system-ui, sans-serif; font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; border-radius: 8px; }
+.anton { font-family: Anton, Impact, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .01em; }
+
+/* toolbar */
+.tool { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 16px; padding: 12px var(--gutter); background: #fff; border-bottom: 1.5px solid var(--ink); }
+.crumb { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.crumb .anton { font-size: 24px; line-height: 1; }
+.crumb span { font-size: 15px; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+.state { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; border-radius: 999px; border: 1.5px solid #cfcfcf; font-size: 13px; font-weight: 800; letter-spacing: .04em; white-space: nowrap; }
+.state i { width: 8px; height: 8px; border-radius: 50%; background: #b5b5b5; }
+.state.running { border-color: var(--red); }
+.state.running i { background: var(--red); animation: blip .8s steps(1) infinite; }
+.state.ok { border-color: var(--ink); }
+.state.ok i { background: var(--ink); }
+@keyframes blip { 50% { opacity: .2; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; height: 42px; padding: 0 18px; border-radius: 10px; border: 1.5px solid var(--ink); background: #fff; font-weight: 800; font-size: 15px; text-decoration: none; cursor: pointer; box-shadow: 0 3px 0 var(--ink); transition: transform .12s, box-shadow .12s, background .2s; white-space: nowrap; }
+.btn:hover { background: #f2f2f2; }
+.btn:active { transform: translateY(3px); box-shadow: 0 0 0 var(--ink); }
+.btn.dark { background: var(--ink); color: #fff; }
+.btn.dark:hover { background: #262626; }
+.btn.red { background: var(--red); color: #fff; }
+.btn.red:hover { background: var(--red-hi); }
+.btn svg { width: 14px; height: 14px; flex: none; }
+.btn[disabled] { opacity: .6; cursor: progress; }
+
+/* canvas */
+.canvas { position: relative; padding: clamp(28px, 4vw, 56px) var(--gutter) 90px; background-color: var(--canvas); background-image: radial-gradient(circle, var(--dot) 1.2px, transparent 1.6px); background-size: 22px 22px; overflow: hidden; }
+.graph { position: relative; width: min(1320px, 100%); margin: 0 auto; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(14px, 2vw, 26px); row-gap: clamp(64px, 7vw, 104px); align-items: start; }
+svg.wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0; }
+svg.wires path { fill: none; stroke: var(--wire); stroke-width: 2.2; }
+svg.wires path.hot { stroke: var(--ink); stroke-width: 2.6; stroke-dasharray: 7 7; animation: flow .9s linear infinite; }
+svg.wires circle.port { fill: #fff; stroke: var(--ink); stroke-width: 2; }
+svg.wires circle.pkt { fill: var(--red); }
+@keyframes flow { to { stroke-dashoffset: -14; } }
+
+.node { position: relative; z-index: 1; background: var(--node); border: 1.5px solid var(--ink); border-radius: 14px; box-shadow: 0 4px 0 var(--ink); transition: border-color .25s, box-shadow .25s; }
+.node.drag { z-index: 5; box-shadow: 0 10px 0 var(--ink); }
+.hd { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-bottom: 1.5px solid var(--ink); border-radius: 12.5px 12.5px 0 0; background: #fafafa; touch-action: none; user-select: none; }
+.can-drag .hd { cursor: grab; }
+.node.drag .hd { cursor: grabbing; }
+.hd svg { width: 16px; height: 16px; flex: none; }
+.hd .ty { font-size: 11.5px; font-weight: 800; letter-spacing: .12em; }
+.hd .badge { margin-left: auto; font-size: 11.5px; font-weight: 800; letter-spacing: .04em; padding: 3px 8px; border-radius: 999px; background: var(--ink); color: #fff; opacity: 0; transform: scale(.8); transition: opacity .25s, transform .35s var(--ease); white-space: nowrap; }
+.node.done .badge { opacity: 1; transform: none; }
+.node.running { border-color: var(--red); box-shadow: 0 4px 0 var(--red); }
+.node.running .hd { background: #fdecea; }
+.bd { padding: 16px; }
+.bd p { margin: 0; color: var(--ink-2); }
+
+/* placements (desktop) */
+#n-mark { grid-column: 1 / 4; grid-row: 1; margin-top: 46px; }
+#n-show { grid-column: 4 / 10; grid-row: 1; margin-inline: 70px; }
+#n-simon { grid-column: 10 / 13; grid-row: 1; margin-top: 46px; }
+#n-history { grid-column: 1 / 4; grid-row: 2; }
+#n-ai { grid-column: 5 / 7; grid-row: 2; }
+#n-auto { grid-column: 7 / 10; grid-row: 2; }
+#n-biz { grid-column: 10 / 13; grid-row: 2; }
+#n-episodes { grid-column: 3 / 10; grid-row: 3; }
+#n-shorts { grid-column: 10 / 13; grid-row: 3; }
+#n-publish { grid-column: 1 / 5; grid-row: 4; }
+#n-you { grid-column: 5 / 12; grid-row: 4; }
+
+/* host nodes */
+.host .bd { display: grid; justify-items: center; text-align: center; gap: 12px; padding: 22px 16px 20px; }
+.host img { width: 128px; height: 128px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--ink); background: #ddd; }
+.host strong { font-family: Anton, sans-serif; font-weight: 400; font-size: 28px; line-height: 1; text-transform: uppercase; letter-spacing: .01em; }
+.host p { font-size: 15px; max-width: 24ch; min-height: 3em; }
+
+/* show node */
+#n-show .bd { padding: 22px 24px 24px; }
+#n-show h1 { margin: 0; font-size: clamp(50px, 5.5vw, 82px); line-height: .9; white-space: nowrap; }
+#n-show .lead { margin-top: 14px; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.45; color: var(--ink-2); max-width: 44ch; }
+.params { margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; }
+.params div { padding: 9px 12px; }
+.params div + div { border-left: 1.5px solid var(--ink); }
+.params dt { font-size: 11px; font-weight: 800; letter-spacing: .12em; color: var(--ink-3); }
+.params dd { margin: 2px 0 0; font-weight: 800; font-size: 15px; }
+.row-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+
+/* history */
+#n-history .yr { font-family: Anton, sans-serif; font-size: 52px; line-height: .95; }
+.kv { list-style: none; margin: 12px 0 0; padding: 0; font-size: 14.5px; }
+.kv li { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #dedede; }
+.kv li span:first-child { color: var(--ink-3); font-weight: 600; }
+.kv li span:last-child { font-weight: 700; text-align: right; }
+
+/* topics */
+.topic strong { display: block; font-family: Anton, sans-serif; font-weight: 400; font-size: clamp(34px, 3.2vw, 46px); line-height: .95; text-transform: uppercase; }
+.topic p { margin-top: 8px; font-size: 14.5px; }
+
+/* episodes */
+.eps { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.ep { margin: 0; border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; background: #000; }
+.ep img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .5s var(--ease); }
+.ep:hover img { transform: scale(1.04); }
+.ep figcaption { background: #fff; padding: 8px 10px; font-size: 14px; font-weight: 800; display: flex; justify-content: space-between; gap: 8px; }
+.ep figcaption small { font-weight: 700; color: var(--ink-3); }
+.note { margin-top: 12px !important; font-size: 13.5px; color: var(--ink-3) !important; }
+
+/* shorts */
+#n-shorts .bd { display: grid; grid-template-columns: 120px 1fr; gap: 14px; align-items: center; }
+#n-shorts video { width: 120px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; border: 1.5px solid var(--ink); background: #000; }
+#n-shorts strong { display: block; font-family: Anton, sans-serif; font-weight: 400; font-size: 32px; line-height: 1; text-transform: uppercase; }
+
+/* publish */
+.dest { list-style: none; margin: 0; padding: 0; }
+.dest li { border-top: 1px solid #dedede; }
+.dest li:first-child { border-top: 0; }
+.dest a, .dest span.row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 2px; text-decoration: none; }
+.dest b { font-size: 18px; }
+.dest small { font-size: 12px; font-weight: 800; letter-spacing: .1em; color: var(--ink-3); }
+.dest a small { color: var(--red); }
+.dest a:hover b { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* you */
+#n-you { border-width: 2px; }
+#n-you .bd { display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center; padding: 22px 24px 24px; }
+#n-you .big { font-family: Anton, sans-serif; font-size: clamp(76px, 8vw, 120px); line-height: .85; }
+#n-you p.lead { font-size: 18px; font-weight: 600; color: var(--ink); }
+#n-you.ready { animation: ready 1.2s var(--ease) 2; }
+@keyframes ready { 40% { box-shadow: 0 4px 0 var(--ink), 0 0 0 8px rgba(220,52,38,.25); } }
+form.notify { margin-top: 14px; }
+form.notify label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.field { display: flex; gap: 8px; }
+.field input { flex: 1; min-width: 0; height: 48px; padding: 0 14px; border-radius: 10px; border: 1.5px solid var(--ink); background: #fff; color: var(--ink); font: 600 16px "Inter Tight", sans-serif; }
+.field input::placeholder { color: #6b6b6b; }
+.field input:focus { outline: none; box-shadow: 0 0 0 3px rgba(220,52,38,.3); }
+.field input[aria-invalid="true"] { border-color: var(--red); }
+.field .btn { height: 48px; }
+.msg { min-height: 22px; margin: 10px 0 0 !important; font-size: 14.5px; font-weight: 600; }
+.msg.err { color: #b3261a !important; }
+
+.hint { position: absolute; left: var(--gutter); bottom: 26px; margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px; background: #fff; border: 1.5px solid var(--ink); font-size: 13px; font-weight: 700; }
+.hint svg { width: 14px; height: 14px; }
+
+footer { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; padding: 20px var(--gutter) 28px; background: #fff; border-top: 1.5px solid var(--ink); font-size: 14px; color: var(--ink-3); font-weight: 600; }
+footer .anton { font-size: 24px; color: var(--ink); }
+footer a { text-decoration: none; color: var(--ink-2); }
+footer a:hover { color: var(--red); }
+
+@media (max-width: 999px) {
+  .crumb span, .tool .btn.red { display: none; }
+  .graph { grid-template-columns: 1fr 1fr; row-gap: 46px; column-gap: 14px; }
+  .graph > .node { grid-column: 1 / -1 !important; grid-row: auto !important; margin-top: 0 !important; }
+  #n-mark { grid-column: 1 / 2 !important; grid-row: 1 !important; }
+  #n-simon { grid-column: 2 / 3 !important; grid-row: 1 !important; }
+  #n-show { margin-inline: 0; }
+  #n-show h1 { white-space: normal; }
+  .host img { width: 96px; height: 96px; }
+  .host strong { font-size: 22px; }
+  .host p { font-size: 13.5px; min-height: 4.4em; }
+  .params { grid-template-columns: 1fr; }
+  .params div + div { border-left: 0; border-top: 1.5px solid var(--ink); }
+  .eps { grid-template-columns: 1fr; }
+  #n-you .bd { grid-template-columns: 1fr; gap: 6px; }
+  .hint { display: none; }
+}
+@media (max-width: 520px) {
+  .tool { gap: 10px; }
+  .state { font-size: 12px; padding: 0 10px; }
+  .field { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) {
+  svg.wires path.hot { animation: none; }
+  .state.running i, #n-you.ready { animation: none; }
+}
+</style>
+</head>
+<body>
+<header class="tool">
+  <div class="crumb"><span class="anton">Broski Talk.</span><span>/ the-ai-podcast</span></div>
+  <span class="state" id="state" role="status" aria-live="polite"><i></i><b>READY</b></span>
+  <button class="btn dark" type="button" id="run"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9.5 5.5L3 12.5z" fill="currentColor"/></svg>Run workflow</button>
+  <a class="btn red" href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet">Subscribe</a>
+</header>
+
+<main class="canvas" id="canvas">
+  <div class="graph" id="graph">
+    <svg class="wires" id="wires" aria-hidden="true"></svg>
+
+    <article class="node host" id="n-mark" data-badge="1 host">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 14.5c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">HOST</span><span class="badge"></span></header>
+      <div class="bd"><img src="../assets/hosts/mark-avatar.webp" alt="Mark Santos"><strong>Mark Santos</strong><p>Runs Mark Studios and puts AI to work in it every day.</p></div>
+    </article>
+
+    <article class="node" id="n-show" data-badge="1 show">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="1.5" width="5" height="8" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 8a5 5 0 0 0 10 0M8 13v2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">PODCAST</span><span class="badge"></span></header>
+      <div class="bd">
+        <h1 class="anton">Broski Talk.</h1>
+        <p class="lead">The AI podcast with Mark Santos and Simon Dziak. AI, automation and business: what we're building, what's working, and what's next.</p>
+        <dl class="params">
+          <div><dt>SCHEDULE</dt><dd>Weekly</dd></div>
+          <div><dt>EPISODE 1</dt><dd>Coming soon</dd></div>
+          <div><dt>FORMAT</dt><dd>Video + Shorts</dd></div>
+        </dl>
+        <div class="row-btns">
+          <a class="btn red" href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5l9.5 5.5L3 12.5z" fill="currentColor"/></svg>Subscribe on YouTube</a>
+          <a class="btn" href="#n-you">Get episode 1 by email</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="node host" id="n-simon" data-badge="1 host">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 14.5c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">CO-HOST</span><span class="badge"></span></header>
+      <div class="bd"><img src="../assets/hosts/simon-avatar.webp" alt="Simon Dziak"><strong>Simon Dziak</strong><p>On the other mic since the very first episode in 2020.</p></div>
+    </article>
+
+    <article class="node" id="n-history" data-badge="17 items">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="3.5" rx="5.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 3.5v9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2v-9M2.5 8c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">MEMORY</span><span class="badge"></span></header>
+      <div class="bd">
+        <div class="yr">2020–21</div>
+        <ul class="kv">
+          <li><span>Episodes</span><span>17</span></li>
+          <li><span>Slot</span><span>Live, Wed 6 PM EST</span></li>
+          <li><span>Guests</span><span>Jared West, Dre Knight, Rafael Haber</span></li>
+          <li><span>Topics</span><span>YouTube, money, mindset</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="node topic" id="n-ai" data-badge="weekly">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.9 4.9 1.6-4.9 1.6L8 14.5l-1.6-4.9L1.5 8l4.9-1.6z" fill="currentColor"/></svg><span class="ty">TOPIC</span><span class="badge"></span></header>
+      <div class="bd"><strong>AI</strong><p>The models and tools we use every day, and where they still fall over.</p></div>
+    </article>
+    <article class="node topic" id="n-auto" data-badge="weekly">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.5 1.5L3.5 9h4l-1 5.5 6-7.5h-4z" fill="currentColor"/></svg><span class="ty">TOPIC</span><span class="badge"></span></header>
+      <div class="bd"><strong>Automation</strong><p>The workflows and agents that take work off our plates, and how to set them up yourself.</p></div>
+    </article>
+    <article class="node topic" id="n-biz" data-badge="weekly">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 13.5h12M3.5 11l3-3.5 2.5 2 4-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ty">TOPIC</span><span class="badge"></span></header>
+      <div class="bd"><strong>Business</strong><p>The money, the clients, and where the work is going.</p></div>
+    </article>
+
+    <article class="node" id="n-episodes" data-badge="4 items">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 6v4l3.5-2z" fill="currentColor"/></svg><span class="ty">OUTPUT · EPISODES</span><span class="badge"></span></header>
+      <div class="bd">
+        <div class="eps">
+          <figure class="ep"><img src="../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="Thumbnail: We're Back" loading="lazy"><figcaption>We're Back<small>EP 1</small></figcaption></figure>
+          <figure class="ep"><img src="../assets/thumbs/thumbnail-14-comeback-chart-red.webp" alt="Thumbnail: The Comeback" loading="lazy"><figcaption>The Comeback<small>SOON</small></figcaption></figure>
+          <figure class="ep"><img src="../assets/thumbs/thumbnail-15-ai-agents.webp" alt="Thumbnail: AI Does the Work" loading="lazy"><figcaption>AI Does the Work<small>SOON</small></figcaption></figure>
+          <figure class="ep"><img src="../assets/thumbs/thumbnail-16-automate.webp" alt="Thumbnail: Automate Everything" loading="lazy"><figcaption>Automate Everything<small>SOON</small></figcaption></figure>
+        </div>
+        <p class="note">Working titles. Release dates land here first.</p>
+      </div>
+    </article>
+
+    <article class="node" id="n-shorts" data-badge="between eps">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="4.5" y="1.5" width="7" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">CLIPS</span><span class="badge"></span></header>
+      <div class="bd"><video src="../assets/video/sting-vertical.mp4" muted playsinline loop autoplay preload="metadata" aria-label="Broski Talk vertical logo sting"></video><div><strong>Shorts</strong><p>Clips on the days between episodes.</p></div></div>
+    </article>
+
+    <article class="node" id="n-publish" data-badge="3 platforms">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 10.5V2M4.5 5.5L8 2l3.5 3.5M2.5 10v3.5h11V10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ty">PUBLISH</span><span class="badge"></span></header>
+      <div class="bd">
+        <ul class="dest">
+          <li><a href="https://www.youtube.com/@broskitalk" data-todo="handle not claimed yet"><b>YouTube</b><small>SUBSCRIBE →</small></a></li>
+          <li><span class="row" data-todo="no RSS feed yet"><b>Spotify</b><small>SOON</small></span></li>
+          <li><span class="row" data-todo="no RSS feed yet"><b>Apple Podcasts</b><small>SOON</small></span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="node" id="n-you" data-badge="waiting on you">
+      <header class="hd"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2 4.5l6 4.5 6-4.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="ty">SEND TO</span><span class="badge"></span></header>
+      <div class="bd">
+        <div class="big">You.</div>
+        <div>
+          <p class="lead">Get episode 1 in your inbox the day it drops. One email per episode.</p>
+          <form class="notify" novalidate data-todo="not connected to an email provider yet">
+            <label for="email-e">Email address</label>
+            <div class="field"><input id="email-e" type="email" placeholder="you@company.com" autocomplete="email" aria-describedby="msg-e"><button class="btn red" type="submit">Notify me</button></div>
+            <p class="msg" id="msg-e" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+  <p class="hint"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1v12M1 7h12M7 1L5 3M7 1l2 2M7 13l-2-2M7 13l2-2M1 7l2-2M1 7l2 2M13 7l-2-2M13 7l-2 2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Drag any node by its header</p>
+</main>
+
+<footer>
+  <span class="anton">Broski Talk.</span>
+  <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+  <span><a href="https://www.instagram.com/markksantos/">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/">@szymondziak</a></span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const graph = document.getElementById('graph'), svg = document.getElementById('wires');
+  const $ = id => document.getElementById('n-' + id);
+  const desk = matchMedia('(min-width: 1000px)');
+
+  // desktop edges: [from, to, fromSide, toSide, fromFrac, toFrac]
+  const EDGES_DESK = [
+    ['mark', 'show', 'right', 'left', .5, .3], ['simon', 'show', 'left', 'right', .5, .3], ['history', 'show', 'right', 'left', .3, .82],
+    ['show', 'ai', 'bottom', 'top', .25, .5], ['show', 'auto', 'bottom', 'top', .55, .5], ['show', 'biz', 'bottom', 'top', .85, .4],
+    ['ai', 'episodes', 'bottom', 'top', .5, .3], ['auto', 'episodes', 'bottom', 'top', .5, .55], ['biz', 'episodes', 'bottom', 'top', .5, .8],
+    ['episodes', 'shorts', 'right', 'left', .5, .5], ['episodes', 'publish', 'bottom', 'top', .2, .5], ['episodes', 'you', 'bottom', 'top', .6, .4],
+  ];
+  const LEVELS_DESK = [['mark', 'simon', 'history'], ['show'], ['ai', 'auto', 'biz'], ['episodes'], ['shorts', 'publish', 'you']];
+  const CHAIN = ['show', 'history', 'ai', 'auto', 'biz', 'episodes', 'shorts', 'publish', 'you'];
+  const EDGES_MOB = [['mark', 'show', 'bottom', 'top', .5, .3], ['simon', 'show', 'bottom', 'top', .5, .7],
+    ...CHAIN.slice(1).map((id, i) => [CHAIN[i], id, 'bottom', 'top', .5, .5])];
+  const LEVELS_MOB = [['mark', 'simon'], ...CHAIN.map(id => [id])];
+  const edges = () => desk.matches ? EDGES_DESK : EDGES_MOB;
+  const levels = () => desk.matches ? LEVELS_DESK : LEVELS_MOB;
+
+  const DIR = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] };
+  function box(id) {
+    const g = graph.getBoundingClientRect(), r = $(id).getBoundingClientRect();
+    return { x: r.left - g.left, y: r.top - g.top, w: r.width, h: r.height };
+  }
+  function pt(b, side, f) {
+    if (side === 'top') return [b.x + b.w * f, b.y];
+    if (side === 'bottom') return [b.x + b.w * f, b.y + b.h + 4];
+    if (side === 'left') return [b.x, b.y + b.h * f];
+    return [b.x + b.w, b.y + b.h * f];
+  }
+  let paths = [];
+  function draw() {
+    let html = '', ports = '';
+    paths = [];
+    edges().forEach(([a, b, sa, sb, fa, fb], i) => {
+      const [x0, y0] = pt(box(a), sa, fa), [x1, y1] = pt(box(b), sb, fb);
+      const k = Math.max(40, Math.hypot(x1 - x0, y1 - y0) * .42);
+      const [dx0, dy0] = DIR[sa], [dx1, dy1] = DIR[sb];
+      const d = `M${x0.toFixed(1)} ${y0.toFixed(1)} C${(x0 + dx0 * k).toFixed(1)} ${(y0 + dy0 * k).toFixed(1)} ${(x1 + dx1 * k).toFixed(1)} ${(y1 + dy1 * k).toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+      html += `<path data-from="${a}" data-to="${b}" d="${d}"/>`;
+      ports += `<circle class="port" cx="${x0.toFixed(1)}" cy="${y0.toFixed(1)}" r="5"/><circle class="port" cx="${x1.toFixed(1)}" cy="${y1.toFixed(1)}" r="5"/>`;
+    });
+    svg.innerHTML = html + ports;
+    paths = [...svg.querySelectorAll('path')];
+    hot.forEach(k => { const p = paths.find(p => p.dataset.from + '>' + p.dataset.to === k); if (p) p.classList.add('hot'); });
+  }
+  const hot = new Set();
+  let pending = 0;
+  const redraw = () => { if (!pending) pending = requestAnimationFrame(() => { pending = 0; draw(); }); };
+  new ResizeObserver(redraw).observe(graph);
+  addEventListener('load', redraw);
+  document.fonts && document.fonts.ready.then(redraw);
+  desk.addEventListener('change', () => { document.querySelectorAll('.node').forEach(n => { n.style.translate = ''; n.dataset.dx = n.dataset.dy = 0; }); redraw(); });
+  draw();
+
+  /* drag nodes by their header (desktop) */
+  function enableDrag() {
+    graph.classList.toggle('can-drag', desk.matches);
+  }
+  enableDrag(); desk.addEventListener('change', enableDrag);
+  document.querySelectorAll('.node .hd').forEach(hd => {
+    const node = hd.parentElement;
+    hd.addEventListener('pointerdown', e => {
+      if (!desk.matches || e.button !== 0) return;
+      e.preventDefault();
+      hd.setPointerCapture(e.pointerId);
+      node.classList.add('drag');
+      const sx = e.clientX, sy = e.clientY, ox = +(node.dataset.dx || 0), oy = +(node.dataset.dy || 0);
+      const move = ev => {
+        const dx = ox + ev.clientX - sx, dy = oy + ev.clientY - sy;
+        node.dataset.dx = dx; node.dataset.dy = dy;
+        node.style.translate = `${dx}px ${dy}px`;
+        redraw();
+      };
+      const up = () => { node.classList.remove('drag'); hd.removeEventListener('pointermove', move); hd.removeEventListener('pointerup', up); hd.removeEventListener('pointercancel', up); };
+      hd.addEventListener('pointermove', move); hd.addEventListener('pointerup', up); hd.addEventListener('pointercancel', up);
+    });
+  });
+
+  /* run: nodes execute level by level, packets travel the wires */
+  const runBtn = document.getElementById('run'), state = document.getElementById('state'), stateText = state.querySelector('b');
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  function packet(path, ms) {
+    return new Promise(res => {
+      const len = path.getTotalLength(), dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('r', 7); dot.setAttribute('class', 'pkt'); svg.append(dot);
+      const t0 = performance.now();
+      const step = now => {
+        const t = Math.min(1, (now - t0) / ms), e = t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+        const p = path.getPointAtLength(len * e);
+        dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y);
+        if (t < 1) requestAnimationFrame(step); else { dot.remove(); res(); }
+      };
+      requestAnimationFrame(step);
+    });
+  }
+  async function run() {
+    runBtn.disabled = true;
+    hot.clear(); draw();
+    document.querySelectorAll('.node').forEach(n => n.classList.remove('done', 'running', 'ready'));
+    state.className = 'state running'; stateText.textContent = 'RUNNING';
+    const t0 = performance.now(), L = levels(), E = edges();
+    let count = 0;
+    for (const lvl of L) {
+      lvl.forEach(id => $(id).classList.add('running'));
+      await sleep(reduce ? 0 : 420);
+      lvl.forEach(id => { const n = $(id); n.classList.remove('running'); n.classList.add('done'); n.querySelector('.badge').textContent = '✓ ' + n.dataset.badge; count++; });
+      const out = E.filter(e => lvl.includes(e[0]));
+      if (out.length && !reduce) {
+        await Promise.all(out.map(e => { const p = paths.find(p => p.dataset.from === e[0] && p.dataset.to === e[1]); return p ? packet(p, 650) : 0; }));
+      }
+      out.forEach(e => hot.add(e[0] + '>' + e[1]));
+      draw();
+    }
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    state.className = 'state ok'; stateText.textContent = `SUCCESS · ${count} NODES · ${secs}s`;
+    runBtn.disabled = false;
+    const you = $('you'); you.classList.add('ready');
+    you.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+  }
+  runBtn.addEventListener('click', run);
+
+  /* email (not wired to a provider yet) */
+  const form = document.querySelector('form.notify'), input = form.querySelector('input'), msg = form.querySelector('.msg');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+    input.setAttribute('aria-invalid', !ok);
+    msg.classList.toggle('err', !ok);
+    msg.textContent = ok ? "You're in. Episode 1 lands in your inbox the day it drops." : 'That email looks off. Check it and try again.';
+    if (ok) { const n = $('you'); n.classList.add('done'); n.querySelector('.badge').textContent = '✓ sent to you'; }
+  });
+})();
+</script>
+</body>
+</html>
