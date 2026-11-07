@@ -10,6 +10,8 @@ Brand kit is the authority: `~/Pictures/Branding/Broski Talk/BRAND-GUIDE.md`. Th
 - **Waveform:** vertical rounded bars, grey on black (banner 12), the show's signature texture.
 
 ## Directions
+**Picked 2026-11-07: B · Thumbnail** (live page = `index.html`). A and C are kept in `_archive/`.
+
 - **A · On Air** — pure black, full-width live waveform canvas, B&W hosts that colour up when the intro plays, red ON AIR tally.
 - **B · Thumbnail** — thumbnail grey + top light + halftone dots, faces pinned to the screen edges, Inter Tight 800 headline with one red box that rewrites per scroll step; YouTube-native grammar below.
 - **C · Comeback** — white poster, black Anton at page scale, newsprint halftone hosts, 6 px black rules, the 2020→2026 comeback chart as the story.

@@ -1,13 +1,14 @@
 # Broski Talk landing pages
 
-Three landing-page directions for the Broski Talk relaunch, built from the brand kit in
-`~/Pictures/Branding/Broski Talk/`. Static HTML, no build step.
+The Broski Talk relaunch landing page, built from the brand kit in `~/Pictures/Branding/Broski Talk/`.
+Static HTML, no build step.
 
-- `index.html` picker · `a-on-air/` · `b-thumbnail/` · `c-comeback/`
+- `index.html` = the site (direction B · Thumbnail, picked 2026-11-07).
+- `_archive/` = the two unpicked directions (`a-on-air/`, `c-comeback/`) and the old picker page, still viewable.
 - Served locally through the review server: http://127.0.0.1:4949/broski-talk-site/
   (symlink `~/Developer/automation/reviews/broski-talk-site` -> this folder)
 - `_build/prep_assets.py` regenerates `assets/` from the kit (eye-aligned hosts, web-sized thumbs, video, audio);
-  `_build/halftone.py` makes the newsprint hosts for C; `_build/shoot.py <slug> --full` screenshots a page.
+  `_build/halftone.py` makes the newsprint hosts for C; `_build/shoot.py` / `shoot_frames.py` screenshot pages.
 
 ## Placeholders to replace before going live (search `data-todo`)
 - YouTube links point at `@broskitalk`, which isn't claimed yet.
