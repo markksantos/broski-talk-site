@@ -4,6 +4,8 @@ The Broski Talk relaunch landing page, built from the brand kit in `~/Pictures/B
 Static HTML, no build step.
 
 - `index.html` = the site (direction B · Thumbnail, picked 2026-11-07).
+- `d-group-chat/`, `e-workflow/` = two more directions made 2026-11-07 after the pick (D · Group Chat, E · Workflow); `options.html` lists all five.
+- `a-on-air/`, `b-thumbnail/`, `c-comeback/` at the root = the original versions, kept so old links work.
 - `_archive/` = the two unpicked directions (`a-on-air/`, `c-comeback/`) and the old picker page, still viewable.
 - Served locally through the review server: http://127.0.0.1:4949/broski-talk-site/
   (symlink `~/Developer/automation/reviews/broski-talk-site` -> this folder)
@@ -15,3 +17,4 @@ Static HTML, no build step.
 - Spotify / Apple Podcasts links are `#` (no RSS feed yet).
 - Email forms validate and show a success message but aren't connected to an email provider.
 - Episode titles are working titles taken from the kit thumbnails; no release dates are shown.
+- D's chat lines are scripted copy written for the page (Simon's lines included); have Mark and Simon approve the wording.
