@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Broski Talk · The AI Podcast</title>
+<meta name="theme-color" content="#141414">
 <meta name="description" content="Broski Talk is the AI podcast from Mark Santos and Simon Dziak. Subscribe on YouTube for episode 1.">
-<link rel="icon" href="../assets/logo/favicon.png">
+<link rel="icon" href="../../assets/logo/favicon.png">
 <!--
 THESIS: The page behaves like the show's own YouTube thumbnail. Two faces stay pinned to the screen edges
   and the headline between them rewrites itself as you scroll, one red box per frame, the way the channel
@@ -16,11 +17,11 @@ OWN-WORLD: thumbnail grey #141414, a soft top light down the centre column, a ha
 STORY: we're back -> what the show does -> the channel you'll subscribe to -> subscribe.
 FIRST VIEWPORT: Mark's face bleeding off the left edge, Simon's off the right, same eye line; "We're / [Back.]"
   between them; red Subscribe + email link under it; a red chapter progress bar along the bottom.
-FORM: living thumbnail with a scroll-pinned stage, direction B of three.
+FORM: living thumbnail with a scroll-pinned stage. Picked by Mark 2026-11-07 (A and C are in _archive/).
 -->
 <style>
-@font-face { font-family: "Anton"; src: url("../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Inter Tight"; src: url("../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Anton"; src: url("../../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
 
 :root {
   --bg: #141414;
@@ -96,7 +97,7 @@ h1, .frame h2 { margin: 0; font-weight: 800; font-size: var(--fs, clamp(54px, 7.
 .js .frame.on { opacity: 1; visibility: visible; transition: opacity .3s; }
 .js .frame.on .l1, .js .frame.on .box span, .js .frame.on .sub, .js .frame.on .gfx, .js .frame.on .cta { opacity: 1; transform: none; }
 .js .frame.on .box::before { transform: none; }
-.no-js-only { display: none; }
+html:not(.js) .frame:not(:first-child), html:not(.js) .chapters, html:not(.js) .knob { display: none; }
 
 /* svg graphics */
 .tile { fill: #f2f2f2; }
@@ -134,7 +135,7 @@ h1, .frame h2 { margin: 0; font-weight: 800; font-size: var(--fs, clamp(54px, 7.
 .vid:hover .th img { transform: scale(1.04); }
 .vid .badge { position: absolute; right: 8px; bottom: 8px; padding: 3px 6px; border-radius: 4px; background: rgba(0,0,0,.8); font-size: 12px; font-weight: 700; }
 .vid .meta { display: grid; grid-template-columns: 36px 1fr; gap: 12px; }
-.av { width: 36px; height: 36px; border-radius: 50%; background: #000 url(../assets/logo/favicon.png) center / cover; }
+.av { width: 36px; height: 36px; border-radius: 50%; background: #000 url(../../assets/logo/favicon.png) center / cover; }
 .vid b { display: block; font-size: 16px; font-weight: 700; line-height: 1.3; }
 .vid small { display: block; margin-top: 4px; font-size: 14px; color: var(--ink-3); }
 
@@ -150,7 +151,7 @@ h1, .frame h2 { margin: 0; font-weight: 800; font-size: var(--fs, clamp(54px, 7.
 .banner { border-radius: 16px; overflow: hidden; background: #000; }
 .banner img { width: 100%; aspect-ratio: 2560 / 423; object-fit: cover; object-position: 50% 50%; }
 .ch-row { display: grid; grid-template-columns: auto 1fr; gap: clamp(18px, 3vw, 34px); align-items: center; margin-top: 28px; }
-.ch-av { width: clamp(96px, 12vw, 160px); aspect-ratio: 1; border-radius: 50%; background: #000 url(../assets/logo/favicon.png) center / cover; }
+.ch-av { width: clamp(96px, 12vw, 160px); aspect-ratio: 1; border-radius: 50%; background: #000 url(../../assets/logo/favicon.png) center / cover; }
 .ch-row h2 { margin: 0; font-size: clamp(32px, 3.6vw, 52px); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
 .ch-meta { margin: 10px 0 0; color: var(--ink-3); font-size: 15px; }
 .ch-desc { margin: 12px 0 0; max-width: 64ch; color: var(--ink-2); }
@@ -231,8 +232,8 @@ footer a:hover { color: #fff; }
 <main id="top">
   <section class="stage" id="stage" aria-label="Broski Talk is back">
     <div class="pin surface">
-      <div class="face mark"><img src="../assets/hosts/mark-color.webp" alt="Mark Santos" fetchpriority="high"></div>
-      <div class="face simon"><img src="../assets/hosts/simon-color.webp" alt="Simon Dziak" fetchpriority="high"></div>
+      <div class="face mark"><img src="../../assets/hosts/mark-color.webp" alt="Mark Santos" fetchpriority="high"></div>
+      <div class="face simon"><img src="../../assets/hosts/simon-color.webp" alt="Simon Dziak" fetchpriority="high"></div>
 
       <div class="frames">
         <div class="frame on" data-i="0">
@@ -296,10 +297,10 @@ footer a:hover { color: #fff; }
     <div class="wrap">
       <div class="shelf-h"><h2>Coming to the channel</h2><p>Working titles for the first four</p></div>
       <div class="grid">
-        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>We're Back: Broski Talk Is Now the AI Podcast</b><small>Broski Talk · Episode 1</small></div></div></a>
-        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-15-ai-agents.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>AI Does the Work: The Agents We Actually Use</b><small>Broski Talk · Working title</small></div></div></a>
-        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-16-automate.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>Automate Everything: Our Workflows, Step by Step</b><small>Broski Talk · Working title</small></div></div></a>
-        <a class="vid" href="#subscribe"><div class="th"><img src="../assets/thumbs/thumbnail-14-comeback-chart-red.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>The Comeback: Why We Restarted the Show</b><small>Broski Talk · Working title</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../../assets/thumbs/thumbnail-03-spotlight-cone.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>We're Back: Broski Talk Is Now the AI Podcast</b><small>Broski Talk · Episode 1</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../../assets/thumbs/thumbnail-15-ai-agents.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>AI Does the Work: The Agents We Actually Use</b><small>Broski Talk · Working title</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../../assets/thumbs/thumbnail-16-automate.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>Automate Everything: Our Workflows, Step by Step</b><small>Broski Talk · Working title</small></div></div></a>
+        <a class="vid" href="#subscribe"><div class="th"><img src="../../assets/thumbs/thumbnail-14-comeback-chart-red.webp" alt="" loading="lazy"><span class="badge">SOON</span></div><div class="meta"><span class="av"></span><div><b>The Comeback: Why We Restarted the Show</b><small>Broski Talk · Working title</small></div></div></a>
       </div>
     </div>
   </section>
@@ -308,17 +309,17 @@ footer a:hover { color: #fff; }
     <div class="wrap">
       <div class="shelf-h"><h2>Shorts</h2><p>Clips between episodes</p></div>
       <div class="shorts-row">
-        <figure class="short"><video src="../assets/video/sting-vertical.mp4" muted playsinline loop autoplay preload="metadata" aria-label="Broski Talk vertical logo sting"></video><span class="live">NEW</span></figure>
-        <figure class="short"><img src="../assets/thumbs/shorts-01-mark-solo-red-text.webp" alt="Short: Mark, We're Back." loading="lazy"></figure>
-        <figure class="short"><img src="../assets/thumbs/shorts-02-simon-solo-red-box.webp" alt="Short: Simon, Automate Everything" loading="lazy"></figure>
-        <figure class="short"><img src="../assets/thumbs/shorts-03-both-red-text.webp" alt="Short: both hosts, The AI Podcast Is Back!" loading="lazy"></figure>
+        <figure class="short"><video src="../../assets/video/sting-vertical.mp4" muted playsinline loop autoplay preload="metadata" aria-label="Broski Talk vertical logo sting"></video><span class="live">NEW</span></figure>
+        <figure class="short"><img src="../../assets/thumbs/shorts-01-mark-solo-red-text.webp" alt="Short: Mark, We're Back." loading="lazy"></figure>
+        <figure class="short"><img src="../../assets/thumbs/shorts-02-simon-solo-red-box.webp" alt="Short: Simon, Automate Everything" loading="lazy"></figure>
+        <figure class="short"><img src="../../assets/thumbs/shorts-03-both-red-text.webp" alt="Short: both hosts, The AI Podcast Is Back!" loading="lazy"></figure>
       </div>
     </div>
   </section>
 
   <section class="channel surface" id="about">
     <div class="wrap">
-      <div class="banner"><img src="../assets/thumbs/banner-waveform.webp" alt="Broski Talk channel banner: both hosts either side of the logo over a waveform" loading="lazy"></div>
+      <div class="banner"><img src="../../assets/thumbs/banner-waveform.webp" alt="Broski Talk channel banner: both hosts either side of the logo over a waveform" loading="lazy"></div>
       <div class="ch-row">
         <span class="ch-av" role="img" aria-label="Broski Talk logo"></span>
         <div>
@@ -333,8 +334,8 @@ footer a:hover { color: #fff; }
         </div>
       </div>
       <div class="hosted">
-        <div><img src="../assets/hosts/mark-avatar.webp" alt=""><span><b>Mark Santos</b><small>Host · runs Mark Studios</small></span></div>
-        <div><img src="../assets/hosts/simon-avatar.webp" alt=""><span><b>Simon Dziak</b><small>Co-host · since 2020</small></span></div>
+        <div><img src="../../assets/hosts/mark-avatar.webp" alt=""><span><b>Mark Santos</b><small>Host · runs Mark Studios</small></span></div>
+        <div><img src="../../assets/hosts/simon-avatar.webp" alt=""><span><b>Simon Dziak</b><small>Co-host · since 2020</small></span></div>
         <div><span><b>First run</b><small>17 episodes, 2020–21, live Wednesdays 6 PM EST</small></span></div>
       </div>
     </div>
@@ -342,8 +343,8 @@ footer a:hover { color: #fff; }
 
   <section class="close surface" id="subscribe">
     <div class="faces">
-      <div class="face mark"><img src="../assets/hosts/mark-color.webp" alt="" loading="lazy"></div>
-      <div class="face simon"><img src="../assets/hosts/simon-color.webp" alt="" loading="lazy"></div>
+      <div class="face mark"><img src="../../assets/hosts/mark-color.webp" alt="" loading="lazy"></div>
+      <div class="face simon"><img src="../../assets/hosts/simon-color.webp" alt="" loading="lazy"></div>
     </div>
     <div class="close-in">
       <h2>Don't Miss<br><span class="box">Episode 1</span></h2>

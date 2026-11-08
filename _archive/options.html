@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broski Talk · Five Directions</title>
+<link rel="icon" href="../assets/logo/favicon.png">
+<style>
+@font-face { font-family: "Anton"; src: url("../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+:root { --red: #DC3426; }
+* { box-sizing: border-box; }
+html { background: #000; color: #fff; }
+body { margin: 0; font-family: "Inter Tight", system-ui, sans-serif; padding: clamp(28px, 5vw, 72px) clamp(16px, 4vw, 56px) 80px; }
+h1 { margin: 0; font-family: Anton, sans-serif; font-weight: 400; font-size: clamp(48px, 7vw, 110px); line-height: .9; text-transform: uppercase; }
+h1 span { color: var(--red); }
+.lead { margin: 18px 0 0; max-width: 60ch; color: rgba(255,255,255,.72); font-size: 18px; line-height: 1.5; }
+ol { list-style: none; margin: 48px 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 40px 22px; }
+ol li { grid-column: span 2; }
+ol li:nth-child(4) { grid-column: 2 / span 2; }
+.new { display: inline-block; margin-left: 8px; padding: 2px 7px 1px; border-radius: 4px; background: var(--red); color: #fff; font-size: 12px; letter-spacing: .1em; vertical-align: 2px; }
+.pick { display: inline-block; margin-left: 8px; padding: 2px 7px 1px; border-radius: 4px; background: #fff; color: #000; font-size: 12px; letter-spacing: .1em; vertical-align: 2px; }
+a { color: inherit; text-decoration: none; display: grid; gap: 14px; }
+a img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 10px; outline: 1px solid rgba(255,255,255,.14); transition: transform .5s cubic-bezier(.16,1,.3,1); }
+a:hover img { transform: translateY(-4px); }
+a:focus-visible { outline: 2px solid #fff; outline-offset: 6px; border-radius: 10px; }
+.k { font-family: Anton, sans-serif; font-size: 15px; letter-spacing: .14em; color: rgba(255,255,255,.55); }
+b { display: block; font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+p { margin: 6px 0 0; color: rgba(255,255,255,.72); font-size: 16px; line-height: 1.45; }
+@media (max-width: 900px) { ol { grid-template-columns: 1fr; } ol li, ol li:nth-child(4) { grid-column: auto; } }
+</style>
+</head>
+<body>
+<h1>Broski Talk<span>.</span> Five landing pages</h1>
+<p class="lead">Same brand kit, five directions. A is the pick (Nov 8): it is the live home page. The rest are kept here for reference.</p>
+<ol>
+  <li><a href="../"><img src="../assets/previews/a-on-air.webp" alt="Preview of direction A"><span class="k">A · ON AIR <span class="pick">PICKED</span></span><b>The banner comes alive</b><p>Pure black, a live waveform across the hosts. Press play and the intro music drives the waveform, the hosts turn to colour and the ON AIR light goes red.</p></a></li>
+  <li><a href="b-thumbnail/"><img src="../assets/previews/b-thumbnail.webp" alt="Preview of direction B"><span class="k">B · THUMBNAIL</span><b>A living YouTube thumbnail</b><p>Faces pinned to the screen edges while the red-box headline rewrites itself as you scroll, then a YouTube-style channel: episode grid, Shorts, channel header.</p></a></li>
+  <li><a href="c-comeback/"><img src="../assets/previews/c-comeback.webp" alt="Preview of direction C"><span class="k">C · THE COMEBACK</span><b>A fight-night comeback poster</b><p>White paper, giant Anton, halftone portraits. The 17-episode comeback chart, a then-vs-now tale of the tape, and the card of what's coming.</p></a></li>
+  <li><a href="d-group-chat/"><img src="../assets/previews/d-group-chat.webp" alt="Preview of direction D"><span class="k">D · GROUP CHAT</span><b>The show is your group chat</b><p>The page is Mark and Simon's thread. Messages type in as you scroll, a voice note plays the intro, episodes arrive as link previews, then you're added and sign up by replying.</p></a></li>
+  <li><a href="e-workflow/"><img src="../assets/previews/e-workflow.webp" alt="Preview of direction E"><span class="k">E · WORKFLOW</span><b>The show as an automation</b><p>A node canvas like n8n or Make: the hosts feed the show, topics fan out, episodes come out the other end and the last node is you. Drag the nodes, hit Run and watch it flow.</p></a></li>
+</ol>
+</body>
+</html>

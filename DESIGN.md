@@ -17,3 +17,8 @@ Brand kit is the authority: `~/Pictures/Branding/Broski Talk/BRAND-GUIDE.md`. Th
 - **C · Comeback** — white poster, black Anton at page scale, newsprint halftone hosts, 6 px black rules, the 2020→2026 comeback chart as the story.
 - **D · Group Chat** — black messaging app: Mark's graphite bubbles left, Simon's white right, the visitor's red; typing dots, a voice note that plays the intro, link previews, a video message; quick-reply chips and a composer that collect the email.
 - **E · Workflow** — light dot-grid automation canvas: white nodes with 1.5px black outlines and a hard 4px offset shadow, typed headers, bezier wires with ports; hosts feed the show node, nodes drag by their header, Run sends red packets through the graph to the "You" node.
+
+## 2026-11-08: A picked, site finished for handoff
+- A · On Air is `index.html`. The fake "Coming up" slate is gone. In its place: the latest episode as a lite YouTube player over an edit timeline of the real chapters. Segment widths are the chapter lengths, and the red playhead follows the player through the YouTube IFrame API (falls back to a plain nocookie iframe).
+- Freebie pages live in `free/<slug>/`, in the same world as A: giant Anton title with one red word, the email gate next to the real first page of the PDF, then one multitrack row per item. Unlocking lights the rows.
+- Every form posts through `assets/js/subscribe.js`. The contract is in BACKEND.md.

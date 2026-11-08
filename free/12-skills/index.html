@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 Agent Skills · Broski Talk</title>
+<meta name="description" content="The 12 agent skills from Broski Talk Episode 1, Builder's corner: what each one does and where to get it, in one free PDF.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Broski Talk">
+<meta property="og:title" content="12 Agent Skills · Broski Talk">
+<meta property="og:description" content="The 12 skills from Builder's corner in Episode 1, in one free PDF.">
+<meta property="og:image" content="../../assets/og/broski-talk-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/logo/favicon.png">
+<link rel="preload" href="../../assets/fonts/Anton.ttf" as="font" type="font/ttf" crossorigin>
+<!--
+FREEBIE TEMPLATE (copy this folder for the next freebie; see BACKEND.md, "Adding a freebie").
+  Change: <title>/meta, the copy, the cover image, the list, and the form's data-resource + data-download.
+THESIS: same world as the home page (direction A): black, Anton at scale, multitrack rows, one red mark.
+  The ask sits above the fold next to the real first page of the PDF; the list below proves it's worth an email.
+-->
+<style>
+@font-face { font-family: "Anton"; src: url("../../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+
+:root {
+  --black: #000;
+  --ink: #fff;
+  --ink-2: rgba(255,255,255,.72);
+  --ink-3: rgba(255,255,255,.52);
+  --line: rgba(255,255,255,.16);
+  --red: #DC3426;
+  --red-ink: #ff5a4a;
+  --gutter: clamp(16px, 4vw, 56px);
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+* { box-sizing: border-box; }
+html { background: var(--black); color: var(--ink); scroll-behavior: smooth; }
+body { margin: 0; font-family: "Inter Tight", system-ui, sans-serif; font-size: 18px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 4px; }
+.wrap { width: min(1280px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+.kicker { font-family: Anton, sans-serif; font-size: 15px; letter-spacing: .16em; color: var(--ink-3); margin: 0 0 22px; }
+.kicker span { opacity: .55; margin: 0 .5em; }
+
+.bar { display: flex; align-items: center; gap: 28px; padding: 18px var(--gutter); }
+.bar .mark { font-family: Anton, Impact, sans-serif; font-size: 22px; letter-spacing: .01em; text-decoration: none; line-height: 1; }
+.bar nav { display: flex; gap: 28px; margin-left: auto; }
+.bar nav a { text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: .02em; color: var(--ink-2); transition: color .2s; }
+.bar nav a:hover { color: var(--ink); }
+
+/* the gate */
+.gate { padding: clamp(24px, 4vw, 64px) 0 clamp(80px, 9vw, 140px); }
+.gate-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); gap: clamp(40px, 7vw, 120px); align-items: center; }
+h1 { margin: 0; font: 400 clamp(76px, 9.6vw, 156px)/.86 Anton, Impact, sans-serif; letter-spacing: .005em; text-transform: uppercase; }
+h1 em { font-style: normal; color: var(--red); }
+.sub { margin: 28px 0 0; max-width: 40ch; color: var(--ink-2); font-size: clamp(18px, 1.5vw, 21px); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 56px; padding: 0 26px; border-radius: 999px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); font: 700 16px/1 "Inter Tight", sans-serif; text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .25s, color .25s, transform .25s var(--ease); }
+.btn:hover { background: var(--ink); color: #000; }
+.btn:active { transform: scale(.97); }
+.btn.solid { background: var(--ink); color: #000; }
+.btn.solid:hover { background: #d9d9d9; }
+.btn[disabled] { opacity: .6; cursor: progress; }
+.btn svg { width: 15px; height: 15px; }
+.notify { margin-top: 40px; max-width: 560px; }
+.notify label { display: block; font-weight: 700; margin-bottom: 12px; }
+.field { display: flex; gap: 10px; }
+.field input { flex: 1; min-width: 0; height: 56px; padding: 0 22px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.3); background: #0c0c0c; color: var(--ink); font: 500 17px "Inter Tight", sans-serif; transition: border-color .2s; }
+.field input::placeholder { color: rgba(255,255,255,.55); }
+.field input:focus { outline: none; border-color: var(--ink); }
+.field input[aria-invalid="true"] { border-color: var(--red-ink); }
+.msg { min-height: 24px; margin: 10px 0 0 22px; font-size: 14px; color: var(--ink-2); }
+.msg.err { color: var(--red-ink); }
+.fine { margin: 0 0 0 22px; font-size: 13px; color: var(--ink-3); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.unlocked { margin-top: 40px; max-width: 560px; padding: 26px 26px 22px; border: 1.5px solid var(--ink); border-radius: 16px; }
+.unlocked:focus { outline: none; }
+.unlocked .k { margin: 0 0 6px; font-family: Anton, sans-serif; font-size: 15px; letter-spacing: .16em; }
+.unlocked .t { margin: 0 0 20px; color: var(--ink-2); }
+.unlocked .msg { margin-left: 0; }
+.js .unlocked { animation: pop .7s var(--ease) both; }
+@keyframes pop { from { opacity: 0; transform: translateY(14px); } }
+
+.cover { margin: 0; justify-self: end; width: min(100%, 420px); }
+.cover .sheet { position: relative; border-radius: 6px; outline: 1.5px solid rgba(255,255,255,.18); outline-offset: -1.5px; overflow: hidden; }
+.cover .sheet::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 62%, #000 100%); pointer-events: none; }
+.cover figcaption { display: flex; justify-content: space-between; margin-top: 14px; font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--ink-3); }
+
+/* what's inside: one track per skill */
+.inside { padding: clamp(80px, 9vw, 140px) 0; border-top: 1.5px solid var(--line); }
+.inside-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+.inside-head h2 { margin: 0; font-weight: 800; font-size: clamp(40px, 5.4vw, 84px); letter-spacing: -.03em; line-height: 1.02; }
+.inside-head p { margin: 0; color: var(--ink-2); max-width: 36ch; }
+.tracks { list-style: none; margin: clamp(48px, 6vw, 80px) 0 0; padding: 0; border-top: 1.5px solid var(--line); }
+.track { display: grid; grid-template-columns: 64px minmax(160px, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; gap: clamp(16px, 2.6vw, 40px); padding: 24px 0; border-bottom: 1.5px solid var(--line); }
+.track .n { font: 400 30px/1 Anton, sans-serif; color: var(--ink-3); }
+.track h3 { margin: 0; font-size: clamp(21px, 1.9vw, 27px); font-weight: 800; letter-spacing: -.015em; line-height: 1.15; }
+.track p { margin: 0; color: var(--ink-2); max-width: 44ch; }
+.track svg { width: 100%; height: 44px; display: block; }
+.track svg rect { fill: rgba(255,255,255,.2); transition: fill .5s; }
+.track:hover svg rect, .track.lit svg rect { fill: rgba(255,255,255,.7); }
+.again { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 48px; }
+.again p { margin: 0; font-size: clamp(22px, 2.2vw, 30px); font-weight: 800; letter-spacing: -.02em; }
+
+/* where it's from */
+.from { padding: clamp(70px, 8vw, 120px) 0; border-top: 1.5px solid var(--line); }
+.from-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
+.from a.thumb { display: block; position: relative; border-radius: 8px; overflow: hidden; outline: 1.5px solid rgba(255,255,255,.1); outline-offset: -1.5px; }
+.from a.thumb img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .9s var(--ease); }
+.from a.thumb:hover img { transform: scale(1.025); }
+.from a.thumb span { position: absolute; right: 14px; bottom: 14px; padding: 4px 8px; border-radius: 4px; background: rgba(0,0,0,.8); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.from h2 { margin: 0; font-weight: 800; font-size: clamp(30px, 3.4vw, 52px); letter-spacing: -.03em; line-height: 1.05; text-wrap: balance; }
+.from p { margin: 16px 0 26px; color: var(--ink-2); max-width: 42ch; }
+
+footer { border-top: 1.5px solid var(--line); padding: 36px 0 44px; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; font-size: 14px; color: var(--ink-3); }
+footer .mark { font-family: Anton, sans-serif; font-size: 28px; color: var(--ink); line-height: 1; text-decoration: none; }
+footer nav { display: flex; gap: 18px; flex-wrap: wrap; }
+footer a { text-decoration: none; color: var(--ink-2); }
+footer a:hover { color: var(--ink); }
+
+.js .rise { opacity: 0; transform: translateY(24px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.js .rise.in { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .bar nav { gap: 18px; }
+  .gate-grid { grid-template-columns: 1fr; }
+  .cover { justify-self: start; width: min(78%, 360px); }
+  .track { grid-template-columns: 44px minmax(0, 1fr); row-gap: 6px; padding: 22px 0; }
+  .track .n { font-size: 24px; grid-row: span 2; align-self: start; padding-top: 3px; }
+  .track svg { display: none; }
+  .from-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .bar nav a:first-child { display: none; }
+  .field { flex-direction: column; }
+  .field input { flex: none; }
+  .btn { height: 52px; }
+  .again .btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .rise { opacity: 1; transform: none; transition: none; }
+  .js .unlocked { animation: none; }
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<header class="bar">
+  <a class="mark" href="../../" aria-label="Broski Talk home">BROSKI TALK.</a>
+  <nav aria-label="Site">
+    <a href="../../#episodes">Episode 1</a>
+    <a href="../../#listen">Listen</a>
+  </nav>
+</header>
+
+<main>
+  <section class="gate" aria-labelledby="gate-h">
+    <div class="wrap gate-grid">
+      <div>
+        <p class="kicker">FREE<span>·</span>FROM EPISODE 1</p>
+        <h1 id="gate-h"><em>12</em> agent<br>skills.</h1>
+        <p class="sub">The 12 skills from Builder's corner, in one PDF: what each one does and where to get it. Drop your email and the download unlocks right here.</p>
+
+        <form class="notify" id="gate-form" novalidate data-resource="12-skills" data-download="../../downloads/broski-talk-12-agent-skills.pdf">
+          <label for="email">Where should we send it?</label>
+          <div class="field">
+            <input id="email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="msg fine">
+            <span class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></span>
+            <button class="btn solid" type="submit">Get the PDF</button>
+          </div>
+          <p class="msg" id="msg" aria-live="polite"></p>
+          <p class="fine" id="fine">You'll also get new episodes and the occasional freebie. Unsubscribe anytime.</p>
+        </form>
+
+        <div class="unlocked" id="unlocked" hidden tabindex="-1" role="status">
+          <p class="k">UNLOCKED</p>
+          <p class="t">All 12 skills, with links, in one PDF.</p>
+          <a class="btn solid" id="dl" href="../../downloads/broski-talk-12-agent-skills.pdf" download>
+            <svg viewBox="0 0 15 15" aria-hidden="true"><path d="M7.5 1v9M3.5 6.5l4 4 4-4M2 13.5h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download the PDF
+          </a>
+          <p class="msg" id="unlocked-msg"></p>
+        </div>
+      </div>
+
+      <figure class="cover">
+        <div class="sheet"><img src="../../assets/freebies/12-skills-cover.webp" alt="Page 1 of the PDF: the title 12 Agent Skills, then gstack, Superpowers, Taste Skill, UI/UX Pro Max and Marketing Skills, each with what it does and its GitHub link." width="816" height="1056"></div>
+        <figcaption><span>PDF · 2 PAGES</span><span>FREE</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="inside" aria-labelledby="inside-h">
+    <div class="wrap">
+      <div class="inside-head rise">
+        <div>
+          <p class="kicker">WHAT'S INSIDE</p>
+          <h2 id="inside-h">Twelve skills, one line each.</h2>
+        </div>
+        <p>The PDF has the GitHub link for every one, so you can install the ones that fit what you build.</p>
+      </div>
+      <ol class="tracks" id="tracks">
+        <li class="track rise"><span class="n">01</span><h3>gstack</h3><p>By Garry Tan: your agent as CEO, tech lead, designer and QA.</p><svg data-seed="3" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">02</span><h3>Superpowers</h3><p>Plan, test, debug and review like a senior engineer.</p><svg data-seed="7" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">03</span><h3>Taste Skill</h3><p>Better layouts, type and animation.</p><svg data-seed="11" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">04</span><h3>UI/UX Pro Max</h3><p>Palettes, font pairings and clean UI.</p><svg data-seed="14" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">05</span><h3>Marketing Skills</h3><p>Copy, SEO, pricing and launches.</p><svg data-seed="19" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">06</span><h3>Last 30 Days</h3><p>Research reports from the last month of Reddit, X and more.</p><svg data-seed="23" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">07</span><h3>Frontend Slides</h3><p>Pitch decks you share as a link or PDF.</p><svg data-seed="29" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">08</span><h3>No AI Slop</h3><p>Makes your writing sound human.</p><svg data-seed="31" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">09</span><h3>Brag</h3><p>Launch and demo videos of what you built.</p><svg data-seed="37" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">10</span><h3>Claude for Legal</h3><p>Anthropic's plugins for contracts and NDAs.</p><svg data-seed="41" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">11</span><h3>Caveman</h3><p>Shorter replies, about 65% fewer tokens.</p><svg data-seed="43" aria-hidden="true"></svg></li>
+        <li class="track rise"><span class="n">12</span><h3>Awesome Claude Skills</h3><p>A curated list of even more.</p><svg data-seed="47" aria-hidden="true"></svg></li>
+      </ol>
+      <div class="again rise">
+        <p>Get all 12 with links, free.</p>
+        <a class="btn solid" href="#gate-h" id="again">Get the PDF</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="from" aria-labelledby="from-h">
+    <div class="wrap from-row">
+      <a class="thumb rise" href="https://youtu.be/9jrxLxHoIGg?t=884" target="_blank" rel="noopener" aria-label="Watch Builder's corner in Episode 1 on YouTube, from 14:44">
+        <img src="../../assets/thumbs/ep01-youtube.webp" alt="" width="1280" height="720" loading="lazy"><span>14:44</span>
+      </a>
+      <div class="rise">
+        <p class="kicker">WHERE IT'S FROM</p>
+        <h2 id="from-h">Builder’s corner, Episode 1: The Claude you can’t use.</h2>
+        <p>We went through the list on the show. Builder's corner starts at 14:44.</p>
+        <a class="btn" href="https://youtu.be/9jrxLxHoIGg?t=884" target="_blank" rel="noopener">Watch the segment</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="mark" href="../../">BROSKI TALK.</a>
+    <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+    <nav aria-label="Broski Talk elsewhere">
+      <a href="https://www.youtube.com/@broskitalk" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://open.spotify.com/show/1G7CNdVKzEkBmwkNYfL1Sz" target="_blank" rel="noopener">Spotify</a>
+      <a href="https://podcasts.apple.com/us/podcast/broski-talk/id1520824614" target="_blank" rel="noopener">Apple Podcasts</a>
+      <a href="https://www.instagram.com/broskitalk/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.tiktok.com/@broskitalk" target="_blank" rel="noopener">TikTok</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="../../assets/js/subscribe.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rand = s => { const x = Math.sin(s * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+  /* one waveform strip per skill, same drawing as the home page tracks */
+  document.querySelectorAll('.track svg').forEach(svg => {
+    const seed = +svg.dataset.seed, n = 70, w = 1000, h = 44, step = w / n;
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.setAttribute('preserveAspectRatio', 'none');
+    let s = '';
+    for (let i = 0; i < n; i++) {
+      const e = .25 + .75 * Math.abs(Math.sin(i / n * Math.PI * (2 + seed % 3) + seed));
+      const bh = Math.max(4, h * e * (.35 + .65 * rand(i + seed * 31)));
+      s += `<rect x="${(i * step).toFixed(1)}" y="${((h - bh) / 2).toFixed(1)}" width="${(step * .45).toFixed(1)}" height="${bh.toFixed(1)}" rx="2"/>`;
+    }
+    svg.innerHTML = s;
+  });
+
+  /* the gate: on success swap the form for the download, then light up every track */
+  const form = document.getElementById('gate-form'), box = document.getElementById('unlocked');
+  const dl = document.getElementById('dl'), note = document.getElementById('unlocked-msg');
+  BroskiSubscribe.attach(form, {
+    resource: form.dataset.resource,
+    onSuccess(data) {
+      dl.href = data.download_url || form.dataset.download;
+      note.textContent = data.preview ? "Preview: your email wasn't saved, the backend isn't connected yet."
+        : data.emailed ? 'We also emailed you the link.' : '';
+      form.hidden = true; box.hidden = false; box.focus();
+      document.querySelectorAll('.track').forEach((t, i) => setTimeout(() => t.classList.add('lit'), reduce ? 0 : 120 + i * 70));
+    }
+  });
+  document.getElementById('again').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('gate-h').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    setTimeout(() => (box.hidden ? document.getElementById('email') : dl).focus({ preventScroll: true }), reduce ? 0 : 500);
+  });
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.rise').forEach((el, i) => { if (el.classList.contains('track')) el.style.transitionDelay = (i % 4) * 60 + 'ms'; io.observe(el); });
+})();
+</script>
+</body>
+</html>
