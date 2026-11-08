@@ -1,0 +1,19 @@
+# Broski Talk
+
+> Broski Talk is the AI podcast from Mark Santos and Simon Dziak. Each episode covers the AI tools, automations and business moves the two hosts actually use: what's working, what isn't, and what's next.
+
+Key facts: hosted by Mark Santos (runs Mark Studios, a video production studio) and Simon Dziak. Episode 1, "The Claude you can't use", is 18:25 long and is on YouTube. The show first ran from 2020 to 2021 (19 episodes, live every Wednesday at 6 PM EST, about YouTube, money and mindset) and is back as an AI podcast. Watch on YouTube; the audio feed is on Spotify and Apple Podcasts.
+
+## Pages
+- [Home](https://broskitalk.com/): what the show covers, the latest episode with its chapter list, the hosts, where to listen and the email signup for new episodes.
+- [12 agent skills (free PDF)](https://broskitalk.com/free/12-skills/): the 12 agent skills discussed in Episode 1's Builder's corner, with what each one does and where to get it.
+
+## Episodes
+- [Ep 1: The Claude you can't use](https://youtu.be/9jrxLxHoIGg): a better Claude you can't use yet, METR's look inside Anthropic, Claude asking for your bank account, the AI assistant wars, the backlash against AI data centers, free frontier models, and one guy who paid $681 for a 25-second AI video.
+
+## Listen and follow
+- [YouTube](https://www.youtube.com/@broskitalk)
+- [Spotify](https://open.spotify.com/show/1G7CNdVKzEkBmwkNYfL1Sz)
+- [Apple Podcasts](https://podcasts.apple.com/us/podcast/broski-talk/id1520824614)
+- [Instagram](https://www.instagram.com/broskitalk/)
+- [TikTok](https://www.tiktok.com/@broskitalk)
