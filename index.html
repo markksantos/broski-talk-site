@@ -6,6 +6,8 @@
 <title>Broski Talk · The AI Podcast</title>
 <meta name="description" content="Broski Talk is the AI podcast from Mark Santos and Simon Dziak. AI, automation and business: what we're building, what's working, and what's next.">
 <meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://broskitalk.com/">
+<meta property="og:url" content="https://broskitalk.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Broski Talk">
 <meta property="og:title" content="Broski Talk · The AI Podcast">
@@ -15,7 +17,17 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/logo/favicon.png">
-<link rel="preload" href="assets/fonts/Anton.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="apple-touch-icon" href="assets/logo/favicon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebSite","@id":"https://broskitalk.com/#website","url":"https://broskitalk.com/","name":"Broski Talk","publisher":{"@id":"https://broskitalk.com/#podcast"}},
+ {"@type":"PodcastSeries","@id":"https://broskitalk.com/#podcast","name":"Broski Talk","url":"https://broskitalk.com/","description":"The AI podcast from Mark Santos and Simon Dziak: the AI tools, automations and business moves they actually use.","inLanguage":"en","image":"https://broskitalk.com/assets/og/broski-talk-og.jpg","author":[{"@id":"https://broskitalk.com/#mark"},{"@id":"https://broskitalk.com/#simon"}],"sameAs":["https://www.youtube.com/@broskitalk","https://open.spotify.com/show/1G7CNdVKzEkBmwkNYfL1Sz","https://podcasts.apple.com/us/podcast/broski-talk/id1520824614","https://www.instagram.com/broskitalk/","https://www.tiktok.com/@broskitalk"]},
+ {"@type":"Person","@id":"https://broskitalk.com/#mark","name":"Mark Santos","sameAs":["https://www.instagram.com/markksantos/"]},
+ {"@type":"Person","@id":"https://broskitalk.com/#simon","name":"Simon Dziak","sameAs":["https://www.instagram.com/szymondziak/"]},
+ {"@type":"PodcastEpisode","@id":"https://broskitalk.com/#ep1","url":"https://broskitalk.com/#episodes","name":"The Claude you can't use","episodeNumber":1,"partOfSeries":{"@id":"https://broskitalk.com/#podcast"},"timeRequired":"PT18M25S","associatedMedia":{"@type":"VideoObject","name":"Broski Talk Ep 1: The Claude you can't use","embedUrl":"https://www.youtube.com/embed/9jrxLxHoIGg","contentUrl":"https://youtu.be/9jrxLxHoIGg","thumbnailUrl":"https://i.ytimg.com/vi/9jrxLxHoIGg/maxresdefault.jpg"}}
+]}
+</script>
+<link rel="preload" href="assets/fonts/Anton.woff2" as="font" type="font/woff2" crossorigin>
 <!--
 THESIS: The page is the show's signal. One live waveform runs edge to edge behind the two hosts,
   exactly like the picked banner, and pressing play makes it speak with the show's own intro music.
@@ -29,8 +41,8 @@ FORM: banner-come-alive broadcast page. Direction A, picked by Mark 2026-11-08 (
 LATEST EPISODE: an edit timeline of the real chapters; the red playhead follows the YouTube player.
 -->
 <style>
-@font-face { font-family: "Anton"; src: url("assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Inter Tight"; src: url("assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Anton"; src: url("assets/fonts/Anton.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("assets/fonts/InterTight.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 
 :root {
   --black: #000;
@@ -57,10 +69,9 @@ a { color: inherit; }
 .bar nav { display: flex; gap: 28px; margin-left: auto; }
 .bar nav a { text-decoration: none; font-size: 14px; font-weight: 600; letter-spacing: .02em; color: var(--ink-2); transition: color .2s; }
 .bar nav a:hover { color: var(--ink); }
-.tally { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px 7px 12px; border: 1.5px solid var(--line); border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .14em; color: var(--ink-3); transition: border-color .4s, color .4s; white-space: nowrap; }
-.tally i { width: 9px; height: 9px; border-radius: 50%; background: #3a3a3a; transition: background .4s; }
-.on-air .tally { border-color: var(--red); color: var(--ink); }
-.on-air .tally i { background: var(--red); animation: blink 1.6s steps(1) infinite; }
+.bar-cta { display: inline-flex; align-items: center; padding: 8px 16px; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: .02em; text-decoration: none; white-space: nowrap; transition: background .2s, color .2s; }
+.bar-cta:hover, .bar-cta:focus-visible { background: var(--ink); color: #000; }
+#notify { scroll-margin-top: 120px; }
 @keyframes blink { 50% { background: #6d1a13; } }
 
 /* ---------- hero ---------- */
@@ -253,7 +264,6 @@ footer a:hover { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .js .rise { opacity: 1; transform: none; transition: none; }
-  .on-air .tally i { animation: none; }
 }
 </style>
 </head>
@@ -269,19 +279,19 @@ footer a:hover { color: var(--ink); }
     <a href="#hosts">Hosts</a>
     <a href="#listen">Listen</a>
   </nav>
-  <span class="tally" role="status" aria-live="polite"><i></i><b id="tally-text">OFF AIR</b></span>
+  <a class="bar-cta" href="#notify">Get new episodes</a>
 </header>
 
 <main id="top">
   <section class="hero" aria-label="Broski Talk">
     <canvas id="wave" aria-hidden="true"></canvas>
     <div class="host mark">
-      <img src="assets/hosts/mark-bw.webp" alt="Mark Santos" fetchpriority="high">
-      <img class="col" src="assets/hosts/mark-color.webp" alt="" aria-hidden="true">
+      <img src="assets/hosts/mark-bw.webp" srcset="assets/hosts/mark-bw-700.webp 700w, assets/hosts/mark-bw.webp 1200w" sizes="(max-width: 900px) 58vw, 55vw" alt="Mark Santos" fetchpriority="high">
+      <img class="col" src="assets/hosts/mark-color.webp" srcset="assets/hosts/mark-color-700.webp 700w, assets/hosts/mark-color.webp 1200w" sizes="(max-width: 900px) 58vw, 55vw" alt="" aria-hidden="true">
     </div>
     <div class="host simon">
-      <img src="assets/hosts/simon-bw.webp" alt="Simon Dziak" fetchpriority="high">
-      <img class="col" src="assets/hosts/simon-color.webp" alt="" aria-hidden="true">
+      <img src="assets/hosts/simon-bw.webp" srcset="assets/hosts/simon-bw-700.webp 700w, assets/hosts/simon-bw.webp 1200w" sizes="(max-width: 900px) 58vw, 55vw" alt="Simon Dziak" fetchpriority="high">
+      <img class="col" src="assets/hosts/simon-color.webp" srcset="assets/hosts/simon-color-700.webp 700w, assets/hosts/simon-color.webp 1200w" sizes="(max-width: 900px) 58vw, 55vw" alt="" aria-hidden="true">
     </div>
     <div class="center">
       <p class="pill">AI<span>·</span>AUTOMATION<span>·</span>BUSINESS</p>
@@ -324,7 +334,7 @@ footer a:hover { color: var(--ink); }
         <div class="rise">
           <div class="player" id="player" data-id="9jrxLxHoIGg">
             <button class="poster" type="button" aria-label="Play episode 1, The Claude You Can't Use">
-              <img src="assets/thumbs/ep01-youtube.webp" alt="" width="1280" height="720" loading="lazy">
+              <img src="assets/thumbs/ep01-youtube.webp" srcset="assets/thumbs/ep01-youtube-640.webp 640w, assets/thumbs/ep01-youtube.webp 1280w" sizes="(max-width: 900px) 100vw, 55vw" alt="" width="1280" height="720" loading="lazy">
               <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Watch episode 1</span>
               <span class="len">18:25</span>
             </button>
@@ -371,11 +381,11 @@ footer a:hover { color: var(--ink); }
       <h2 class="rise">Two mics. Same two guys.</h2>
       <div class="duo">
         <div class="person">
-          <div class="ph"><img src="assets/hosts/mark-color.webp" alt="Mark Santos" loading="lazy"></div>
+          <div class="ph"><img src="assets/hosts/mark-color.webp" srcset="assets/hosts/mark-color-700.webp 700w, assets/hosts/mark-color.webp 1200w" sizes="(max-width: 900px) 90vw, 40vw" alt="Mark Santos" loading="lazy"></div>
           <div class="tag"><strong>Mark Santos</strong><span>Host. Runs Mark Studios, a video production studio, and puts AI to work in it every day.</span></div>
         </div>
         <div class="person">
-          <div class="ph"><img src="assets/hosts/simon-color.webp" alt="Simon Dziak" loading="lazy"></div>
+          <div class="ph"><img src="assets/hosts/simon-color.webp" srcset="assets/hosts/simon-color-700.webp 700w, assets/hosts/simon-color.webp 1200w" sizes="(max-width: 900px) 90vw, 40vw" alt="Simon Dziak" loading="lazy"></div>
           <div class="tag"><strong>Simon Dziak</strong><span>Co-host. On the other mic since the very first episode in 2020.</span></div>
         </div>
       </div>
@@ -407,7 +417,7 @@ footer a:hover { color: var(--ink); }
           <li><a href="https://www.tiktok.com/@broskitalk" target="_blank" rel="noopener"><span class="name">TikTok</span><span class="state live">@BROSKITALK →</span></a></li>
         </ul>
         <form class="notify" id="notify" novalidate>
-          <label for="email-a">New episodes and freebies, by email</label>
+          <label for="email-a">Get new episodes and podcast updates by email</label>
           <div class="field">
             <input id="email-a" type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="msg-a fine-a">
             <span class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></span>
@@ -420,6 +430,11 @@ footer a:hover { color: var(--ink); }
     </div>
   </section>
 </main>
+
+<!-- Netlify Forms reads this at deploy time; subscribe.js posts every signup to it. -->
+<form name="subscribe" data-netlify="true" netlify-honeypot="company" hidden>
+  <input type="email" name="email"><input type="text" name="resource"><input type="text" name="source"><input type="text" name="company">
+</form>
 
 <footer>
   <div class="wrap">
@@ -504,9 +519,10 @@ footer a:hover { color: var(--ink); }
   }
 
   /* ---------- play the intro: intro sting, then the show's background loop ---------- */
-  const btn = document.getElementById('play'), label = document.getElementById('play-label'), tally = document.getElementById('tally-text');
-  const intro = new Audio('assets/audio/intro.mp3');
-  const bed = new Audio('assets/audio/loop.mp3'); bed.loop = true; bed.volume = .8;
+  const btn = document.getElementById('play'), label = document.getElementById('play-label');
+  /* preload none: the 1.5 MB loop only downloads once someone presses play */
+  const intro = new Audio(); intro.preload = 'none'; intro.src = 'assets/audio/intro.mp3';
+  const bed = new Audio(); bed.preload = 'none'; bed.loop = true; bed.volume = .8; bed.src = 'assets/audio/loop.mp3';
   let ac = null, current = intro;
   function wire() {
     ac = new (window.AudioContext || window.webkitAudioContext)();
@@ -520,12 +536,11 @@ footer a:hover { color: var(--ink); }
     document.body.classList.toggle('on-air', on);
     btn.setAttribute('aria-pressed', on);
     label.textContent = on ? 'Pause' : (current === bed ? 'Keep listening' : 'Play the intro');
-    tally.textContent = on ? 'ON AIR' : 'OFF AIR';
     if (reduce) draw(performance.now());
   }
   intro.addEventListener('ended', () => { current = bed; bed.currentTime = 0; bed.play(); });
   btn.addEventListener('click', async () => {
-    if (!ac) wire();
+    if (!ac) { wire(); bed.preload = 'auto'; bed.load(); }
     if (ac.state === 'suspended') await ac.resume();
     if (playing) { current.pause(); setState(false); return; }
     try { await current.play(); setState(true); } catch { label.textContent = 'Audio blocked, tap again'; }

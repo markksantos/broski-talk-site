@@ -1,0 +1,8 @@
+# Broski Talk. Everything public is open to search engines and AI assistants.
+# Site summary for AI agents: https://broskitalk.com/llms.txt
+User-agent: *
+Allow: /
+Disallow: /_archive/
+Disallow: /_build/
+
+Sitemap: https://broskitalk.com/sitemap.xml
