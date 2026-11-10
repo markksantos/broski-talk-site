@@ -36,8 +36,5 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Link = "<https://broskitalk.com/llms.txt>; rel=\"describedby\"; type=\"text/plain\", <https://broskitalk.com/llms-full.txt>; rel=\"describedby\"; type=\"text/plain\", <https://broskitalk.com/ai.txt>; rel=\"describedby\"; type=\"text/plain\""
 
-[[headers]]
-  for = "/llms.txt"
-  [headers.values]
-    Content-Type = "text/plain; charset=utf-8"

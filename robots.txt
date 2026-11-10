@@ -1,8 +1,18 @@
 # Broski Talk. Everything public is open to search engines and AI assistants.
 # Site summary for AI agents: https://broskitalk.com/llms.txt
+# Full text: https://broskitalk.com/llms-full.txt · AI usage policy: https://broskitalk.com/ai.txt
 User-agent: *
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Googlebot
+User-agent: Bingbot
 Allow: /
 Disallow: /_archive/
 Disallow: /_build/
+Disallow: /api/watch-status
 
 Sitemap: https://broskitalk.com/sitemap.xml

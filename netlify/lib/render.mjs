@@ -26,6 +26,8 @@ function shell({ title, description, path, body, jsonld, active, scripts = "", n
 <meta name="description" content="${esc(description)}">
 <meta name="theme-color" content="#000000">
 <link rel="canonical" href="${url}">
+<link rel="alternate" type="text/markdown" href="${SITE}${path === "/" ? "/index.md" : path.replace(/\/$/, "") + ".md"}">
+<meta name="ai-summary" content="${esc(description)}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Broski Talk">
 <meta property="og:title" content="${esc(title)}">
@@ -166,6 +168,38 @@ function gate(e) {
   </section>`;
 }
 
+/** Facts table and a short FAQ for an episode, written only from its own data (title, date, length,
+ *  chapters, link names), so every new episode gets an accurate one automatically. */
+function episodeAbout(e) {
+  const links = (e.resources || []).filter((r) => !r.credit);
+  const mins = e.seconds ? Math.round(e.seconds / 60) : null;
+  const first = (e.summary || "").split(/(?<=[.!?])\s/)[0];
+  // Semicolons, because chapter titles and link names often contain commas of their own.
+  const list = (xs) => xs.join("; ");
+  const faq = [];
+  faq.push(["about", `What is Broski Talk episode ${e.num} about?`,
+    `Episode ${e.num} of Broski Talk, "${e.cleanTitle}", is hosted by Mark Santos and Simon Dziak.${first ? ` ${first}` : ""}${e.chapters.length ? ` Its ${e.chapters.length} chapters: ${list(e.chapters.map((c) => c.title))}.` : ""}`]);
+  if (mins) faq.push(["length", `How long is episode ${e.num}, and when did it come out?`,
+    `Episode ${e.num} is ${mins} minutes long (${clock(e.seconds)}). It came out on YouTube on ${niceDate(e.published)}.`]);
+  if (links.length) faq.push(["links", `What links are mentioned in episode ${e.num}?`,
+    `${links.length} link${links.length === 1 ? "" : "s"}, including: ${list(links.slice(0, 3).map((r) => r.name))}. The full list is on this page, free with an email signup.`]);
+  const rows = [["Episode", `${e.num}`], ["Published", niceDate(e.published)], ...(e.seconds ? [["Length", clock(e.seconds)]] : []),
+    ["Hosts", "Mark Santos and Simon Dziak"], ...(e.chapters.length ? [["Chapters", String(e.chapters.length)]] : []),
+    ...(links.length ? [["Links mentioned", String(links.length)]] : []), ["Watch", `<a href="https://youtu.be/${e.id}" target="_blank" rel="noopener">YouTube</a>`]];
+  const html = `<section class="block about-ep" aria-labelledby="qa-h"><div class="wrap about-grid">
+  <div>
+    <h2 id="qa-h">Questions about episode ${e.num}</h2>
+    <div class="qas">
+      ${faq.map(([id, q, a]) => `<div class="qa" id="${id}"><h3><a href="#${id}">${esc(q)}</a></h3><p>${esc(a)}</p></div>`).join("\n      ")}
+    </div>
+  </div>
+  <table class="facts"><caption>Episode ${e.num} facts</caption><tbody>
+    ${rows.map(([k, v]) => `<tr><th scope="row">${k}</th><td>${k === "Watch" ? v : esc(v)}</td></tr>`).join("\n    ")}
+  </tbody></table>
+</div></section>`;
+  return { html, faq };
+}
+
 export function episodePage(e, show) {
   const { episodes, shorts } = show;
   const idx = episodes.findIndex((x) => x.id === e.id);
@@ -173,9 +207,10 @@ export function episodePage(e, show) {
   const epShorts = shorts.filter((s) => s.fullEpisodeId === e.id);
   const chapters = e.chapters.map((c, i) => `<li data-t="${c.t}"><button type="button" data-t="${c.t}" aria-label="Play from ${c.ts}: ${esc(c.title)}"><span class="n">${pad(i + 1)}</span><span class="tc">${c.ts}</span><span>${esc(c.title)}</span></button></li>`).join("\n          ");
   const desc = e.summary.length > 155 ? e.summary.slice(0, 152).replace(/\s+\S*$/, "") + "…" : e.summary;
+  const about = episodeAbout(e);
   const body = `<section class="head">
   <div class="wrap">
-    <p class="kicker">Ep ${pad(e.num)}<span>·</span>${clock(e.seconds)}<span>·</span>${niceDate(e.published)}</p>
+    <p class="kicker">Ep ${pad(e.num)}${e.seconds ? `<span>·</span>${clock(e.seconds)}` : ""}<span>·</span>${niceDate(e.published)}</p>
     <h1>${esc(e.cleanTitle)}</h1>
     <p class="lede">${esc(e.summary)}</p>
     ${e.hook ? `<p class="hook">${esc(e.hook)}</p>` : ""}
@@ -194,6 +229,7 @@ export function episodePage(e, show) {
 </section>
 ${gate(e)}
 ${epShorts.length ? `<section class="block" aria-labelledby="sh-h"><div class="wrap"><div class="block-head"><h2 id="sh-h">Shorts from this episode</h2><a href="/shorts/">All shorts →</a></div><ul class="reel">${epShorts.map((s) => shortCard(s, episodes)).join("")}</ul></div></section>` : ""}
+${about.html}
 <section class="block" aria-label="More episodes"><div class="wrap pager">
   ${older ? `<a href="${older.path}"><small>← EP ${pad(older.num)}</small><span>${esc(older.cleanTitle)}</span></a>` : "<span></span>"}
   ${newer ? `<a class="next" href="${newer.path}"><small>EP ${pad(newer.num)} →</small><span>${esc(newer.cleanTitle)}</span></a>` : `<a class="next" href="/episodes/"><small>ALL EPISODES →</small><span>Every episode</span></a>`}
@@ -205,14 +241,15 @@ ${epShorts.length ? `<section class="block" aria-labelledby="sh-h"><div class="w
       "@graph": [
         {
           "@type": "PodcastEpisode", "@id": `${SITE}${e.path}#episode`, url: SITE + e.path, name: e.cleanTitle, episodeNumber: e.num,
-          datePublished: e.published, description: e.summary, timeRequired: `PT${Math.floor(e.seconds / 60)}M${e.seconds % 60}S`,
+          datePublished: e.published, description: e.summary || e.cleanTitle, ...(e.seconds ? { timeRequired: `PT${Math.floor(e.seconds / 60)}M${e.seconds % 60}S` } : {}),
           partOfSeries: { "@type": "PodcastSeries", "@id": `${SITE}/#podcast`, name: "Broski Talk", url: SITE + "/" },
-          associatedMedia: { "@type": "VideoObject", name: e.title, description: e.summary, uploadDate: e.published, thumbnailUrl: thumb(e.id), embedUrl: `https://www.youtube.com/embed/${e.id}`, contentUrl: `https://youtu.be/${e.id}`, duration: `PT${e.seconds}S` },
+          associatedMedia: { "@type": "VideoObject", name: e.title, description: e.summary, uploadDate: e.published, thumbnailUrl: thumb(e.id), embedUrl: `https://www.youtube.com/embed/${e.id}`, contentUrl: `https://youtu.be/${e.id}`, ...(e.seconds ? { duration: `PT${e.seconds}S` } : {}) },
         },
         { "@type": "BreadcrumbList", itemListElement: [
           { "@type": "ListItem", position: 1, name: "Broski Talk", item: SITE + "/" },
           { "@type": "ListItem", position: 2, name: "Episodes", item: SITE + "/episodes/" },
           { "@type": "ListItem", position: 3, name: `Ep ${e.num}: ${e.cleanTitle}`, item: SITE + e.path } ] },
+        ...(about.faq.length ? [{ "@type": "FAQPage", "@id": `${SITE}${e.path}#questions`, mainEntity: about.faq.map(([id, q, a]) => ({ "@type": "Question", name: q, url: `${SITE}${e.path}#${id}`, acceptedAnswer: { "@type": "Answer", text: a } })) }] : []),
       ],
     },
   };
@@ -293,7 +330,12 @@ export function newsletterPage(show) {
   <section class="block" aria-labelledby="lt-h"><div class="wrap"><div class="block-head"><h2 id="lt-h">Latest episodes</h2><a href="/episodes/">All episodes →</a></div><ul class="rows">
     ${rows}
   </ul></div></section>`;
-  return shell({ title: "Newsletter: get every new episode · Broski Talk", description: "Sign up for the Broski Talk newsletter: one email for each new episode of the AI podcast from Mark Santos and Simon Dziak, with every link and freebie from the show.", path: "/newsletter/", body, active: "/newsletter/", noBand: true });
+  const jsonld = { data: { "@context": "https://schema.org", "@graph": [
+    { "@type": "WebPage", "@id": `${SITE}/newsletter/`, url: `${SITE}/newsletter/`, name: "The Broski Talk newsletter", description: "One free email for each new episode of Broski Talk, with the chapters and every link from the show.", isPartOf: { "@id": `${SITE}/#website` }, about: { "@id": `${SITE}/#podcast` } },
+    { "@type": "BreadcrumbList", itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Broski Talk", item: `${SITE}/` },
+      { "@type": "ListItem", position: 2, name: "Newsletter", item: `${SITE}/newsletter/` } ] } ] } };
+  return shell({ jsonld, title: "Newsletter: get every new episode · Broski Talk", description: "Sign up for the Broski Talk newsletter: one email for each new episode of the AI podcast from Mark Santos and Simon Dziak, with every link and freebie from the show.", path: "/newsletter/", body, active: "/newsletter/", noBand: true });
 }
 
 /* ---------------- home page sections (filled between <!-- name:start/end --> markers) ---------------- */

@@ -3,14 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Broski Talk · The AI Podcast</title>
+<title>Broski Talk: AI, Tech and Business Podcast with Mark Santos &amp; Simon Dziak</title>
 <meta name="description" content="Broski Talk is the AI podcast from Mark Santos and Simon Dziak. AI, tech and business: what we're building, what's working, and what's next.">
 <meta name="theme-color" content="#000000">
 <link rel="canonical" href="https://broskitalk.com/">
+<link rel="alternate" type="text/markdown" href="https://broskitalk.com/index.md">
+<meta name="ai-summary" content="Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos (Mark Studios) and Simon Dziak (App369). Each episode has chapters and a free list of every link mentioned.">
 <meta property="og:url" content="https://broskitalk.com/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Broski Talk">
-<meta property="og:title" content="Broski Talk · The AI Podcast">
+<meta property="og:title" content="Broski Talk: AI, Tech and Business Podcast">
 <meta property="og:description" content="AI, tech and business with Mark Santos and Simon Dziak. Episode 3 is out now.">
 <meta property="og:image" content="https://broskitalk.com/assets/og/broski-talk-og.jpg">
 <meta property="og:image:width" content="1200">
@@ -20,8 +22,10 @@
 <link rel="apple-touch-icon" href="assets/logo/favicon.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"WebSite","@id":"https://broskitalk.com/#website","url":"https://broskitalk.com/","name":"Broski Talk","publisher":{"@id":"https://broskitalk.com/#podcast"}},
- {"@type":"PodcastSeries","@id":"https://broskitalk.com/#podcast","name":"Broski Talk","url":"https://broskitalk.com/","description":"The AI podcast from Mark Santos and Simon Dziak: the AI tools, tech and business moves they actually use.","inLanguage":"en","image":"https://broskitalk.com/assets/og/broski-talk-og.jpg","author":[{"@id":"https://broskitalk.com/#mark"},{"@id":"https://broskitalk.com/#simon"}],"sameAs":["https://www.youtube.com/@broskitalk","https://www.instagram.com/broskitalk/","https://www.tiktok.com/@broskitalkpod"]},
+ {"@type":"WebSite","@id":"https://broskitalk.com/#website","url":"https://broskitalk.com/","name":"Broski Talk","publisher":{"@id":"https://broskitalk.com/#org"}},
+ {"@type":"PodcastSeries","@id":"https://broskitalk.com/#podcast","name":"Broski Talk","url":"https://broskitalk.com/","description":"A weekly AI, tech and business podcast from Mark Santos and Simon Dziak: the AI tools, companies and business moves they actually use.","inLanguage":"en","image":"https://broskitalk.com/assets/og/broski-talk-og.jpg","author":[{"@id":"https://broskitalk.com/#mark"},{"@id":"https://broskitalk.com/#simon"}],"sameAs":["https://www.youtube.com/@broskitalk","https://www.instagram.com/broskitalk/","https://www.tiktok.com/@broskitalkpod"]},
+ {"@type": "Organization", "@id": "https://broskitalk.com/#org", "name": "Broski Talk", "url": "https://broskitalk.com/", "logo": "https://broskitalk.com/assets/logo/favicon.png", "description": "Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak.", "founder": [{"@id": "https://broskitalk.com/#mark"}, {"@id": "https://broskitalk.com/#simon"}], "sameAs": ["https://www.youtube.com/@broskitalk", "https://www.instagram.com/broskitalk/", "https://www.tiktok.com/@broskitalkpod"]},
+ {"@type": "FAQPage", "@id": "https://broskitalk.com/#faq", "mainEntity": [{"@type": "Question", "name": "What is Broski Talk?", "url": "https://broskitalk.com/#what-is-broski-talk", "acceptedAnswer": {"@type": "Answer", "text": "Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak. Each episode covers the AI tools, companies and business moves the two of them actually use and follow."}}, {"@type": "Question", "name": "Who hosts Broski Talk?", "url": "https://broskitalk.com/#who-hosts", "acceptedAnswer": {"@type": "Answer", "text": "Mark Santos, founder of the video production studio Mark Studios, and Simon Dziak, founder of the app development studio App369."}}, {"@type": "Question", "name": "How often do new episodes come out?", "url": "https://broskitalk.com/#how-often", "acceptedAnswer": {"@type": "Answer", "text": "Every week, on YouTube. Episodes run 15 to 20 minutes, and short clips from each one go out on YouTube Shorts, Instagram and TikTok (@broskitalkpod)."}}, {"@type": "Question", "name": "Where do I find the links from an episode?", "url": "https://broskitalk.com/#links", "acceptedAnswer": {"@type": "Answer", "text": "On each episode's page at broskitalk.com/episodes/, under the chapters. The full list of every tool, source and page from the episode unlocks with a free email signup."}}, {"@type": "Question", "name": "How do I get new episodes by email?", "url": "https://broskitalk.com/#newsletter", "acceptedAnswer": {"@type": "Answer", "text": "Sign up at broskitalk.com/newsletter/. You get one email when each new episode comes out, with its chapters and links, and you can unsubscribe from any email in one click."}}, {"@type": "Question", "name": "Is this the same Broski Talk from 2020?", "url": "https://broskitalk.com/#first-run", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The first run was 19 live episodes from 2020 to 2021 about YouTube, money and mindset. The show came back in November 2026 as an AI, tech and business podcast."}}]},
  {"@type":"Person","@id":"https://broskitalk.com/#mark","name":"Mark Santos","sameAs":["https://www.instagram.com/markksantos/"]},
  {"@type":"Person","@id":"https://broskitalk.com/#simon","name":"Simon Dziak","sameAs":["https://www.instagram.com/szymondziak/"]}
 ]}
@@ -295,6 +299,14 @@ footer a:hover { color: var(--ink); }
   html { scroll-behavior: auto; }
   .js .rise { opacity: 1; transform: none; transition: none; }
 }
+.faq { padding: clamp(80px, 9vw, 140px) 0; border-top: 1.5px solid var(--line); }
+.faq h2 { font-size: clamp(34px, 4vw, 64px); font-weight: 800; letter-spacing: -.03em; line-height: 1.02; margin: 0 0 clamp(28px, 4vw, 56px); }
+.qas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 0 clamp(24px, 4vw, 64px); border-top: 1.5px solid var(--line); }
+.qa { padding: 26px 0; border-bottom: 1.5px solid var(--line); scroll-margin-top: 90px; }
+.qa h3 { margin: 0 0 10px; font-size: clamp(19px, 1.6vw, 23px); font-weight: 800; letter-spacing: -.015em; line-height: 1.2; }
+.qa h3 a { color: var(--ink); text-decoration: none; }
+.qa h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.qa p { margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.55; max-width: 60ch; }
 /* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
 input, select, textarea { font-size: max(16px, 1em); }
 @media (pointer: coarse) {
@@ -512,6 +524,21 @@ input, select, textarea { font-size: max(16px, 1em); }
       <div class="history rise" id="history" role="img" aria-label="Nineteen bars for the nineteen episodes of 2020 to 2021, a dotted gap for the years off air, then one red bar for the new show."></div>
       <div class="history-labels" aria-hidden="true"><span>2020–21 · 19 EPISODES</span><span>OFF AIR</span><span class="now">NOW: THE AI PODCAST</span></div>
       <p class="note rise">The first run is still up on <a href="https://www.youtube.com/@broskitalk/streams" target="_blank" rel="noopener">YouTube</a>.</p>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <p class="kicker rise">FAQ</p>
+      <h2 id="faq-h" class="rise">Questions about the show.</h2>
+      <div class="qas">
+        <div class="qa" id="what-is-broski-talk"><h3><a href="#what-is-broski-talk">What is Broski Talk?</a></h3><p>Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak. Each episode covers the AI tools, companies and business moves the two of them actually use and follow.</p></div>
+        <div class="qa" id="who-hosts"><h3><a href="#who-hosts">Who hosts Broski Talk?</a></h3><p>Mark Santos, founder of the video production studio Mark Studios, and Simon Dziak, founder of the app development studio App369.</p></div>
+        <div class="qa" id="how-often"><h3><a href="#how-often">How often do new episodes come out?</a></h3><p>Every week, on YouTube. Episodes run 15 to 20 minutes, and short clips from each one go out on YouTube Shorts, Instagram and TikTok (@broskitalkpod).</p></div>
+        <div class="qa" id="links"><h3><a href="#links">Where do I find the links from an episode?</a></h3><p>On each episode&#x27;s page at broskitalk.com/episodes/, under the chapters. The full list of every tool, source and page from the episode unlocks with a free email signup.</p></div>
+        <div class="qa" id="newsletter"><h3><a href="#newsletter">How do I get new episodes by email?</a></h3><p>Sign up at broskitalk.com/newsletter/. You get one email when each new episode comes out, with its chapters and links, and you can unsubscribe from any email in one click.</p></div>
+        <div class="qa" id="first-run"><h3><a href="#first-run">Is this the same Broski Talk from 2020?</a></h3><p>Yes. The first run was 19 live episodes from 2020 to 2021 about YouTube, money and mindset. The show came back in November 2026 as an AI, tech and business podcast.</p></div>
+      </div>
     </div>
   </section>
 
