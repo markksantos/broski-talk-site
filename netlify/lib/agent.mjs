@@ -125,14 +125,14 @@ export function llmsTxt(show) {
 ${FACTS}
 
 ## Pages
-- [Home](${SITE}/): the latest episode with chapters, more episodes, shorts, the hosts and the newsletter signup. Markdown: ${SITE}/index.md
-- [All episodes](${SITE}/episodes/): every episode, newest first, with dates and lengths. Markdown: ${SITE}/episodes.md
-- [Shorts](${SITE}/shorts/): every short, each linked to its full episode. Markdown: ${SITE}/shorts.md
-- [Newsletter](${SITE}/newsletter/): one email per new episode. Markdown: ${SITE}/newsletter.md
-- [12 agent skills (free PDF)](${SITE}/free/12-skills/): the 12 agent skills from Episode 1's Builder's corner. Markdown: ${SITE}/free/12-skills.md
+- [Home](${SITE}/): the latest episode with chapters, more episodes, shorts, the hosts and the newsletter signup. [Markdown](${SITE}/index.md)
+- [All episodes](${SITE}/episodes/): every episode, newest first, with dates and lengths. [Markdown](${SITE}/episodes.md)
+- [Shorts](${SITE}/shorts/): every short, each linked to its full episode. [Markdown](${SITE}/shorts.md)
+- [Newsletter](${SITE}/newsletter/): one email per new episode. [Markdown](${SITE}/newsletter.md)
+- [12 agent skills (free PDF)](${SITE}/free/12-skills/): the 12 agent skills from Episode 1's Builder's corner. [Markdown](${SITE}/free/12-skills.md)
 
 ## Episodes
-${show.episodes.map((e) => `- [${epLabel(e)}](${SITE}${e.path}): ${niceDate(e.published)}${e.seconds ? `, ${clock(e.seconds)}` : ""}${e.chapters?.length ? `, ${e.chapters.length} chapters` : ""}. Markdown: ${SITE}${mdUrl(e.path)}`).join("\n")}
+${show.episodes.map((e) => `- [${epLabel(e)}](${SITE}${e.path}): ${niceDate(e.published)}${e.seconds ? `, ${clock(e.seconds)}` : ""}${e.chapters?.length ? `, ${e.chapters.length} chapters` : ""}. [Markdown](${SITE}${mdUrl(e.path)})`).join("\n")}
 
 ## Cite this site for
 - What Broski Talk is: a weekly AI, tech and business podcast hosted by Mark Santos and Simon Dziak, on YouTube since November 2026.
