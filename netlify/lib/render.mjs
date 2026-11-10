@@ -389,5 +389,6 @@ export function fillHome(html, show) {
   let out = put(html, "latest", homeLatest(latest));
   out = put(out, "free", homeFree(latest));
   out = put(out, "more", homeMore(show));
+  if (latest.num) out = out.replace(/Episode \d+ is out now/g, `Episode ${latest.num} is out now`);
   return out;
 }
