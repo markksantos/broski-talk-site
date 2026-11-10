@@ -104,10 +104,10 @@ const playIcon = `<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6
 
 function player(e) {
   return `<div class="player" data-id="${e.id}">
-        <button class="poster" type="button" aria-label="Play episode ${e.num}: ${esc(e.cleanTitle)}">
+        <button class="poster" type="button" aria-label="Watch episode ${e.num}${e.seconds ? ` ${clock(e.seconds)}` : ""}, ${esc(e.cleanTitle)}">
           <img src="${img(thumb(e.id), 1280)}" srcset="${srcset(thumb(e.id), [640, 960, 1280])}" sizes="(max-width: 900px) 100vw, 62vw" alt="" width="1280" height="720" fetchpriority="high">
           <span class="go">${playIcon}Watch episode ${e.num}</span>
-          <span class="len">${clock(e.seconds)}</span>
+          ${e.seconds ? `<span class="len">${clock(e.seconds)}</span>` : ""}
         </button>
       </div>`;
 }
@@ -117,7 +117,7 @@ function shortCard(s, episodes, headingTag = "h3") {
   const title = s.title.replace(/\s*#\w+/g, "").trim();
   return `<li id="${s.id}">
       <div class="frame" data-id="${s.id}" data-short>
-        <button class="poster" type="button" aria-label="Play short: ${esc(title)}">
+        <button class="poster" type="button" aria-label="Play${s.seconds ? ` ${clock(s.seconds)}` : ""}, short: ${esc(title)}">
           <img src="${img(thumbShort(s.id), 360)}" srcset="${srcset(thumbShort(s.id), [270, 360, 540, 720])}" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go">${playIcon}Play</span>
           ${s.seconds ? `<span class="len">${clock(s.seconds)}</span>` : ""}
@@ -205,7 +205,7 @@ export function episodePage(e, show) {
   const idx = episodes.findIndex((x) => x.id === e.id);
   const newer = episodes[idx - 1], older = episodes[idx + 1];
   const epShorts = shorts.filter((s) => s.fullEpisodeId === e.id);
-  const chapters = e.chapters.map((c, i) => `<li data-t="${c.t}"><button type="button" data-t="${c.t}" aria-label="Play from ${c.ts}: ${esc(c.title)}"><span class="n">${pad(i + 1)}</span><span class="tc">${c.ts}</span><span>${esc(c.title)}</span></button></li>`).join("\n          ");
+  const chapters = e.chapters.map((c, i) => `<li data-t="${c.t}"><button type="button" data-t="${c.t}"><span class="n">${pad(i + 1)}</span><span class="tc">${c.ts}</span><span>${esc(c.title)}</span></button></li>`).join("\n          ");
   const desc = e.summary.length > 155 ? e.summary.slice(0, 152).replace(/\s+\S*$/, "") + "…" : e.summary;
   const about = episodeAbout(e);
   const body = `<section class="head">
@@ -262,7 +262,7 @@ export function episodesPage(show) {
       <img src="${img(thumb(e.id), 600)}" srcset="${srcset(thumb(e.id), [300, 600])}" sizes="(max-width: 900px) 120px, 300px" alt="" width="600" height="338" ${i > 2 ? 'loading="lazy"' : ""}>
       <span class="no">${pad(e.num)}</span>
       <div class="txt"><h3>${esc(e.cleanTitle)}</h3><p>${esc(e.summary)}</p></div>
-      <span class="meta">${niceDate(e.published).toUpperCase()} · ${clock(e.seconds)}</span>
+      <span class="meta">${niceDate(e.published).toUpperCase()}${e.seconds ? ` · ${clock(e.seconds)}` : ""}</span>
     </a></li>`).join("\n    ");
   const body = `<section class="head"><div class="wrap">
     <p class="kicker">AI, tech and business<span>·</span>${episodes.length} episodes</p>
@@ -307,7 +307,7 @@ export function newsletterPage(show) {
       <img src="${img(thumb(e.id), 600)}" srcset="${srcset(thumb(e.id), [300, 600])}" sizes="(max-width: 900px) 120px, 300px" alt="" width="600" height="338" loading="lazy">
       <span class="no">${pad(e.num)}</span>
       <div class="txt"><h3>${esc(e.cleanTitle)}</h3><p>${esc(e.summary)}</p></div>
-      <span class="meta">${niceDate(e.published).toUpperCase()} · ${clock(e.seconds)}</span>
+      <span class="meta">${niceDate(e.published).toUpperCase()}${e.seconds ? ` · ${clock(e.seconds)}` : ""}</span>
     </a></li>`).join("\n    ");
   const body = `<section class="head"><div class="wrap gate-grid" style="align-items:end">
     <div>
@@ -341,30 +341,34 @@ export function newsletterPage(show) {
 /* ---------------- home page sections (filled between <!-- name:start/end --> markers) ---------------- */
 
 function homeLatest(e) {
-  const mins = (e.seconds / 60).toFixed(4);
+  // A new upload can arrive without its length (the RSS feed has none). Then the strip is sized from
+  // the chapter gaps, no length is printed, and the player supplies the real length once it loads.
+  const gaps = e.chapters.slice(1).map((c, i) => c.t - e.chapters[i].t);
+  const est = e.seconds || ((e.chapters.at(-1)?.t || 0) + (gaps.length ? Math.round(gaps.reduce((a, b) => a + b, 0) / gaps.length) : 600));
+  const mins = (est / 60).toFixed(4);
   const segs = e.chapters.map((c, i) => {
-    const end = e.chapters[i + 1]?.t ?? e.seconds;
+    const end = e.chapters[i + 1]?.t ?? est;
     return `<button class="seg" type="button" style="--w:${end - c.t}" data-t="${c.t}" tabindex="-1">${pad(i + 1)}</button>`;
   }).join("");
   const free = e.resources.filter((r) => !r.credit).length;
   const freeIdx = e.chapters.findIndex((c) => /builder/i.test(c.title));
-  const rows = e.chapters.map((c, i) => `<li data-t="${c.t}"><button type="button" data-t="${c.t}" aria-label="Play from ${c.ts}: ${esc(c.title)}"><span class="n">${pad(i + 1)}</span><span class="tc">${c.ts}</span><span>${esc(c.title)}</span></button>${free && i === (freeIdx >= 0 ? freeIdx : -1) ? `<a class="free-link" href="${e.path}#free">Get the links</a>` : ""}</li>`).join("\n            ");
+  const rows = e.chapters.map((c, i) => `<li data-t="${c.t}"><button type="button" data-t="${c.t}"><span class="n">${pad(i + 1)}</span><span class="tc">${c.ts}</span><span>${esc(c.title)}</span></button>${free && i === (freeIdx >= 0 ? freeIdx : -1) ? `<a class="free-link" href="${e.path}#free">Get the links</a>` : ""}</li>`).join("\n            ");
   return `<section class="latest" id="episodes" aria-labelledby="ep-h">
     <div class="wrap">
       <div class="ep-head rise">
         <div>
-          <p class="kicker">LATEST EPISODE<span>·</span>EP ${pad(e.num)}<span>·</span>${clock(e.seconds)}</p>
+          <p class="kicker">LATEST EPISODE<span>·</span>EP ${pad(e.num)}${e.seconds ? `<span>·</span>${clock(e.seconds)}` : ""}</p>
           <h2 id="ep-h"><a href="${e.path}" style="text-decoration:none">${esc(e.cleanTitle)}.</a></h2>
         </div>
         <p>${esc(e.summary)}</p>
       </div>
       <div class="ep">
         <div class="rise">
-          <div class="player" id="player" data-id="${e.id}" data-len="${e.seconds}">
-            <button class="poster" type="button" aria-label="Play episode ${e.num}, ${esc(e.cleanTitle)}">
+          <div class="player" id="player" data-id="${e.id}" data-len="${e.seconds || ""}" data-est="${est}">
+            <button class="poster" type="button" aria-label="Watch episode ${e.num}${e.seconds ? ` ${clock(e.seconds)}` : ""}, ${esc(e.cleanTitle)}">
               <img src="${img(thumb(e.id), 1280)}" srcset="${srcset(thumb(e.id), [640, 960, 1280])}" sizes="(max-width: 900px) 100vw, 55vw" alt="" width="1280" height="720" loading="lazy">
               <span class="go">${playIcon}Watch episode ${e.num}</span>
-              <span class="len">${clock(e.seconds)}</span>
+              ${e.seconds ? `<span class="len">${clock(e.seconds)}</span>` : ""}
             </button>
           </div>
           <div class="strip" id="strip" aria-hidden="true" style="--mins:${mins}">
@@ -372,7 +376,7 @@ function homeLatest(e) {
             <div class="segs">${segs}</div>
             <div class="playhead"></div>
           </div>
-          <div class="strip-tc" aria-hidden="true"><span>0:00</span><span>${clock(e.seconds)}</span></div>
+          <div class="strip-tc" aria-hidden="true"><span>0:00</span><span>${e.seconds ? clock(e.seconds) : ""}</span></div>
         </div>
         <div class="rise">
           <p class="kicker">CHAPTERS</p>
@@ -409,7 +413,7 @@ function homeMore(show) {
         <img src="${img(thumb(e.id), 600)}" srcset="${srcset(thumb(e.id), [300, 600])}" sizes="(max-width: 900px) 120px, 300px" alt="" width="600" height="338" loading="lazy">
         <span class="no">${pad(e.num)}</span>
         <div class="txt"><h3>${esc(e.cleanTitle)}</h3><p>${esc(e.summary)}</p></div>
-        <span class="meta">${niceDate(e.published).toUpperCase()} · ${clock(e.seconds)}</span>
+        <span class="meta">${niceDate(e.published).toUpperCase()}${e.seconds ? ` · ${clock(e.seconds)}` : ""}</span>
       </a></li>`).join("\n      ");
   const shorts = show.shorts.slice(0, 5).map((s) => shortCard(s, show.episodes)).join("");
   return `<section class="more" id="more" aria-label="More episodes and shorts">
@@ -427,10 +431,10 @@ function homeMore(show) {
 export function fillHome(html, show) {
   const latest = show.episodes[0];
   if (!latest) return html;
-  const put = (s, name, body) => s.replace(new RegExp(`<!-- ${name}:start -->[\\s\\S]*?<!-- ${name}:end -->`), `<!-- ${name}:start -->\n  ${body}\n  <!-- ${name}:end -->`);
+  const put = (s, name, body) => s.replace(new RegExp(`<!-- ${name}:start -->[\\s\\S]*?<!-- ${name}:end -->`), () => `<!-- ${name}:start -->\n  ${body}\n  <!-- ${name}:end -->`); // a function, so "$&" in a title stays literal
   let out = put(html, "latest", homeLatest(latest));
   out = put(out, "free", homeFree(latest));
   out = put(out, "more", homeMore(show));
-  if (latest.num) out = out.replace(/Episode \d+ is out now/g, `Episode ${latest.num} is out now`);
+  if (latest.num) out = out.replace(/Episode \d+ is out now/g, () => `Episode ${latest.num} is out now`);
   return out;
 }

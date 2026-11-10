@@ -310,6 +310,9 @@ footer a:hover { color: var(--ink); }
 .tag span a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
 .tag span a:hover { text-decoration-thickness: 2.5px; }
 footer .made a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+/* Focus inside clipped frames (.player/.frame hide overflow, which would cut an outside ring). */
+.player .poster:focus-visible, .frame .poster:focus-visible { outline: 3px solid var(--ink); outline-offset: -6px; }
+.player iframe:focus-visible, .frame iframe:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
 /* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
 input, select, textarea { font-size: max(16px, 1em); }
 @media (pointer: coarse) {
@@ -385,8 +388,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       </div>
       <div class="ep">
         <div class="rise">
-          <div class="player" id="player" data-id="sOLQ0Vl8A50" data-len="945">
-            <button class="poster" type="button" aria-label="Play episode 3, Nvidia&#39;s CEO and the Alleged Spy">
+          <div class="player" id="player" data-id="sOLQ0Vl8A50" data-len="945" data-est="945">
+            <button class="poster" type="button" aria-label="Watch episode 3 15:45, Nvidia&#39;s CEO and the Alleged Spy">
               <img src="https://i.ytimg.com/vi/sOLQ0Vl8A50/maxresdefault.jpg" srcset="https://i.ytimg.com/vi/sOLQ0Vl8A50/maxresdefault.jpg 640w, https://i.ytimg.com/vi/sOLQ0Vl8A50/maxresdefault.jpg 960w, https://i.ytimg.com/vi/sOLQ0Vl8A50/maxresdefault.jpg 1280w" sizes="(max-width: 900px) 100vw, 55vw" alt="" width="1280" height="720" loading="lazy">
               <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Watch episode 3</span>
               <span class="len">15:45</span>
@@ -402,12 +405,12 @@ input, select, textarea { font-size: max(16px, 1em); }
         <div class="rise">
           <p class="kicker">CHAPTERS</p>
           <ol class="chapters" id="chapters">
-            <li data-t="0"><button type="button" data-t="0" aria-label="Play from 0:00: Real scandal or smear?"><span class="n">01</span><span class="tc">0:00</span><span>Real scandal or smear?</span></button></li>
-            <li data-t="31"><button type="button" data-t="31" aria-label="Play from 0:31: Nvidia&#39;s CEO and the alleged Chinese spy"><span class="n">02</span><span class="tc">0:31</span><span>Nvidia&#39;s CEO and the alleged Chinese spy</span></button></li>
-            <li data-t="163"><button type="button" data-t="163" aria-label="Play from 2:43: The next Claude is hiding in someone else&#39;s app"><span class="n">03</span><span class="tc">2:43</span><span>The next Claude is hiding in someone else&#39;s app</span></button></li>
-            <li data-t="295"><button type="button" data-t="295" aria-label="Play from 4:55: The fine print on your Claude plan"><span class="n">04</span><span class="tc">4:55</span><span>The fine print on your Claude plan</span></button></li>
-            <li data-t="432"><button type="button" data-t="432" aria-label="Play from 7:12: Lightning round: Apple, Starlink, robots, SpaceX, multiplayer"><span class="n">05</span><span class="tc">7:12</span><span>Lightning round: Apple, Starlink, robots, SpaceX, multiplayer</span></button></li>
-            <li data-t="680"><button type="button" data-t="680" aria-label="Play from 11:20: Is the AI backlash right? Data centers vs golf courses"><span class="n">06</span><span class="tc">11:20</span><span>Is the AI backlash right? Data centers vs golf courses</span></button></li>
+            <li data-t="0"><button type="button" data-t="0"><span class="n">01</span><span class="tc">0:00</span><span>Real scandal or smear?</span></button></li>
+            <li data-t="31"><button type="button" data-t="31"><span class="n">02</span><span class="tc">0:31</span><span>Nvidia&#39;s CEO and the alleged Chinese spy</span></button></li>
+            <li data-t="163"><button type="button" data-t="163"><span class="n">03</span><span class="tc">2:43</span><span>The next Claude is hiding in someone else&#39;s app</span></button></li>
+            <li data-t="295"><button type="button" data-t="295"><span class="n">04</span><span class="tc">4:55</span><span>The fine print on your Claude plan</span></button></li>
+            <li data-t="432"><button type="button" data-t="432"><span class="n">05</span><span class="tc">7:12</span><span>Lightning round: Apple, Starlink, robots, SpaceX, multiplayer</span></button></li>
+            <li data-t="680"><button type="button" data-t="680"><span class="n">06</span><span class="tc">11:20</span><span>Is the AI backlash right? Data centers vs golf courses</span></button></li>
           </ol>
           <a class="on-yt" href="/episodes/3/">Episode page, chapters and links →</a>
         </div>
@@ -451,8 +454,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       <div class="block-head rise" id="shorts" style="margin-top:clamp(56px,7vw,100px)"><h2>Shorts</h2><a href="/shorts/">All shorts →</a></div>
       <ul class="reel"><li id="nMde_XOA11A">
       <div class="frame" data-id="nMde_XOA11A" data-short>
-        <button class="poster" type="button" aria-label="Play short: Same Claude video, 4 effort levels. Which one cost $681?">
-          <img src="https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg" srcset="https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 270w, https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 360w, https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 540w" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+        <button class="poster" type="button" aria-label="Play 0:42, short: Same Claude video, 4 effort levels. Which one cost $681?">
+          <img src="https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg" srcset="https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 270w, https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 360w, https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 540w, https://i.ytimg.com/vi/nMde_XOA11A/oar2.jpg 720w" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Play</span>
           <span class="len">0:42</span>
         </button>
@@ -461,8 +464,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       <a class="full" href="/episodes/1/">Full episode: Ep 1 →</a>
     </li><li id="QMF_cGoSGQ4">
       <div class="frame" data-id="QMF_cGoSGQ4" data-short>
-        <button class="poster" type="button" aria-label="Play short: I gave Claude access to all my bank accounts">
-          <img src="https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg" srcset="https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 270w, https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 360w, https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 540w" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+        <button class="poster" type="button" aria-label="Play 0:42, short: I gave Claude access to all my bank accounts">
+          <img src="https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg" srcset="https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 270w, https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 360w, https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 540w, https://i.ytimg.com/vi/QMF_cGoSGQ4/oar2.jpg 720w" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Play</span>
           <span class="len">0:42</span>
         </button>
@@ -471,8 +474,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       <a class="full" href="/episodes/1/">Full episode: Ep 1 →</a>
     </li><li id="OAr7-nMndJY">
       <div class="frame" data-id="OAr7-nMndJY" data-short>
-        <button class="poster" type="button" aria-label="Play short: He runs his AI agents inside Club Penguin">
-          <img src="https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg" srcset="https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 270w, https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 360w, https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 540w" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+        <button class="poster" type="button" aria-label="Play 0:55, short: He runs his AI agents inside Club Penguin">
+          <img src="https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg" srcset="https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 270w, https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 360w, https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 540w, https://i.ytimg.com/vi/OAr7-nMndJY/oar2.jpg 720w" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Play</span>
           <span class="len">0:55</span>
         </button>
@@ -481,8 +484,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       <a class="full" href="/episodes/2/">Full episode: Ep 2 →</a>
     </li><li id="zK7CH4UrOgI">
       <div class="frame" data-id="zK7CH4UrOgI" data-short>
-        <button class="poster" type="button" aria-label="Play short: Claude&#39;s max effort setting is F tier?">
-          <img src="https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg" srcset="https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 270w, https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 360w, https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 540w" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+        <button class="poster" type="button" aria-label="Play 0:55, short: Claude&#39;s max effort setting is F tier?">
+          <img src="https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg" srcset="https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 270w, https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 360w, https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 540w, https://i.ytimg.com/vi/zK7CH4UrOgI/oar2.jpg 720w" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Play</span>
           <span class="len">0:55</span>
         </button>
@@ -491,8 +494,8 @@ input, select, textarea { font-size: max(16px, 1em); }
       <a class="full" href="/episodes/2/">Full episode: Ep 2 →</a>
     </li><li id="flwEgkN_yh0">
       <div class="frame" data-id="flwEgkN_yh0" data-short>
-        <button class="poster" type="button" aria-label="Play short: 1.5M people watched this Elon quote. He never said it">
-          <img src="https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg" srcset="https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 270w, https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 360w, https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 540w" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+        <button class="poster" type="button" aria-label="Play 0:45, short: 1.5M people watched this Elon quote. He never said it">
+          <img src="https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg" srcset="https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 270w, https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 360w, https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 540w, https://i.ytimg.com/vi/flwEgkN_yh0/oar2.jpg 720w" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1l11 6-11 6z" fill="currentColor"/></svg>Play</span>
           <span class="len">0:45</span>
         </button>
@@ -709,19 +712,22 @@ input, select, textarea { font-size: max(16px, 1em); }
   /* ---------- shorts on the home page play in place ---------- */
   document.querySelectorAll('.more .frame').forEach(box => box.querySelector('.poster')?.addEventListener('click', () => {
     const f = document.createElement('iframe');
-    f.src = `https://www.youtube-nocookie.com/embed/${box.dataset.id}?autoplay=1&playsinline=1&rel=0&loop=1`;
+    f.src = `https://www.youtube-nocookie.com/embed/${box.dataset.id}?autoplay=1&playsinline=1&rel=0&loop=1&playlist=${box.dataset.id}`;
     f.title = 'Broski Talk short'; f.allow = 'autoplay; encrypted-media; picture-in-picture; web-share'; f.allowFullscreen = true;
-    box.querySelector('.poster').remove(); box.appendChild(f);
+    box.querySelector('.poster').remove(); box.appendChild(f); f.focus();
   }));
 
   /* ---------- latest episode: lite YouTube player, chapters, live playhead ---------- */
   const player = document.getElementById('player'), strip = document.getElementById('strip');
-  const VID = player.dataset.id, LEN = +player.dataset.len || 1105;
+  const VID = player.dataset.id;
+  // Length from the page, else from the player once it loads, else the estimate from the chapters.
+  let LEN = +player.dataset.len || 0; const EST = +player.dataset.est || 1105;
   const segEls = [...strip.querySelectorAll('.seg')], rowEls = [...document.querySelectorAll('#chapters li')];
   const starts = rowEls.map(li => +li.dataset.t);
   let yt = null, ytApi = null, poll = 0, lastIdx = -1;
   function setHead(t) {
-    strip.style.setProperty('--p', Math.min(1, Math.max(0, t / LEN)).toFixed(4));
+    if (!LEN && yt && yt.getDuration && yt.getDuration() > 0) LEN = yt.getDuration();
+    strip.style.setProperty('--p', Math.min(1, Math.max(0, t / (LEN || EST))).toFixed(4));
     let idx = 0; for (let i = 0; i < starts.length; i++) if (t >= starts[i]) idx = i;
     if (idx === lastIdx) return;
     lastIdx = idx;
@@ -754,7 +760,7 @@ input, select, textarea { font-size: max(16px, 1em); }
         videoId: VID, host: 'https://www.youtube-nocookie.com',
         playerVars: { autoplay: 1, start: Math.floor(t), rel: 0, playsinline: 1 },
         events: {
-          onReady: e => { e.target.playVideo(); clearInterval(poll); poll = setInterval(() => { if (yt.getCurrentTime) setHead(yt.getCurrentTime()); }, 250); }
+          onReady: e => { if (document.activeElement === document.body) e.target.getIframe().focus(); e.target.playVideo(); clearInterval(poll); poll = setInterval(() => { if (yt.getCurrentTime) setHead(yt.getCurrentTime()); }, 250); }
         }
       });
     } catch {

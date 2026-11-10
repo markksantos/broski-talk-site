@@ -61,7 +61,11 @@ export function parseDescription(text = "") {
     if (note) note = note.charAt(0).toUpperCase() + note.slice(1);
     resources.push({ group: heading, name: name || u[0], note, url: u[0], credit: /^(list )?via\b/i.test(name) });
   }
-  const summary = paras[0] || "";
+  // Summary: the first lines that aren't links, emails or calls to action ("📩 Get an email…",
+  // "❤️ Inquiries…"), with any leading emoji dropped. Newer descriptions open with a "💎 headline" line.
+  const plain = (l) => l && !/https?:\/\/|\S+@\S+\.\w|^(?:\d+\.\s|#)|⤵️/.test(l) && !/^(CHAPTERS|FROM THIS EPISODE)\b/.test(l) && !TS.test(l.split(/\s/)[0]);
+  const lead = (paras.find((p) => p.split("\n").some((l) => plain(l.trim()))) || "").split("\n").map((l) => l.trim()).filter(plain);
+  const summary = lead.join(" ").replace(/^[\p{Extended_Pictographic}\uFE0F\u200D\s]+/u, "").trim();
   const hook = paras[1] && !/^(CHAPTERS|#)/.test(paras[1]) && paras[1].length < 220 ? paras[1] : "";
   const full = text.match(/Full episode:\s*(https?:\/\/\S+)/);
   const fullId = full ? (full[1].match(/(?:youtu\.be\/|v=)([A-Za-z0-9_-]{11})/) || [])[1] : null;
@@ -71,13 +75,17 @@ export function parseDescription(text = "") {
 /** Episode-level fields derived from a long-form video. */
 export function toEpisode(v) {
   const d = parseDescription(v.description);
-  const num = Number((v.title.match(/Ep(?:isode)?\.?\s*#?(\d+)/i) || [])[1]) || null;
+  // Only the relaunched show (titles "… | Broski Talk Ep. N", from November 2026) gets episode numbers;
+  // the 2020-21 live streams on the channel ("Episode #17") are not episodes of this site.
+  const num = v.published >= SHOW_START ? Number((v.title.match(/Broski Talk Ep\.?\s*(\d+)/i) || v.title.match(/\bEp\.\s*(\d+)\b/) || [])[1]) || null : null;
   const title = v.title.replace(/\s*\|\s*Broski Talk.*$/i, "").trim();
   return { ...v, ...d, num, cleanTitle: title, slug: num ? String(num) : v.id, path: num ? `/episodes/${num}/` : `/episodes/${v.id}/` };
 }
 
+export const SHOW_START = "2026-11-01";
+
 export async function loadShow() {
-  const vids = await loadVideos();
+  const vids = (await loadVideos()).filter((v) => (v.published || "") >= SHOW_START);
   const episodes = vids.filter((v) => !v.short).map(toEpisode).filter((e) => e.num);
   const shorts = vids.filter((v) => v.short).map((v) => ({ ...v, ...parseDescription(v.description) }));
   return { episodes, shorts };
