@@ -147,6 +147,13 @@ footer a:hover { color: var(--ink); }
   .js .rise { opacity: 1; transform: none; transition: none; }
   .js .unlocked { animation: none; }
 }
+/* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
+input, select, textarea { font-size: max(16px, 1em); }
+@media (pointer: coarse) {
+  .bar .mark, header a.mark, footer a.mark, .bar-cta, .on-yt, .full, .block-head a, .hosts-ig a, footer .social a { display: inline-flex; align-items: center; min-height: 44px; }
+  .bar-cta { padding-block: 0; }
+  footer .social { row-gap: 0; }
+}
 </style>
 </head>
 <body>
@@ -246,7 +253,7 @@ footer a:hover { color: var(--ink); }
 <footer>
   <div class="wrap">
     <a class="mark" href="../../">BROSKI TALK.</a>
-    <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+    <span>AI, tech and business with Mark Santos &amp; Simon Dziak</span>
     <nav aria-label="Broski Talk elsewhere">
       <a href="https://www.youtube.com/@broskitalk" target="_blank" rel="noopener">YouTube</a>
       <a href="https://www.instagram.com/broskitalk/" target="_blank" rel="noopener">Instagram</a>

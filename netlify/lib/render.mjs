@@ -87,7 +87,7 @@ function footer() {
   return `<footer>
   <div class="wrap">
     <span class="mark">BROSKI TALK.</span>
-    <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+    <span>AI, tech and business with Mark Santos &amp; Simon Dziak</span>
     <nav class="social" aria-label="Broski Talk elsewhere">
       ${SOCIAL.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join("\n      ")}
       <a href="/newsletter/">Newsletter</a>
@@ -116,7 +116,7 @@ function shortCard(s, episodes, headingTag = "h3") {
   return `<li id="${s.id}">
       <div class="frame" data-id="${s.id}" data-short>
         <button class="poster" type="button" aria-label="Play short: ${esc(title)}">
-          <img src="${img(thumbShort(s.id), 360)}" srcset="${srcset(thumbShort(s.id), [270, 360, 540])}" sizes="(max-width: 520px) 44vw, 240px" alt="" width="360" height="640" loading="lazy">
+          <img src="${img(thumbShort(s.id), 360)}" srcset="${srcset(thumbShort(s.id), [270, 360, 540, 720])}" sizes="(max-width: 520px) 48vw, 240px" alt="" width="360" height="640" loading="lazy">
           <span class="go">${playIcon}Play</span>
           ${s.seconds ? `<span class="len">${clock(s.seconds)}</span>` : ""}
         </button>
@@ -228,7 +228,7 @@ export function episodesPage(show) {
       <span class="meta">${niceDate(e.published).toUpperCase()} · ${clock(e.seconds)}</span>
     </a></li>`).join("\n    ");
   const body = `<section class="head"><div class="wrap">
-    <p class="kicker">The AI podcast<span>·</span>${episodes.length} episodes</p>
+    <p class="kicker">AI, tech and business<span>·</span>${episodes.length} episodes</p>
     <h1 class="display">Episodes.</h1>
     <p class="lede">Every episode of Broski Talk, newest first. AI, tech and business: the tools we actually use, what's working, and what's next. Each one has its chapters and a free list of every link we mention.</p>
   </div></section>
