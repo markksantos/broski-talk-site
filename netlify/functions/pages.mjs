@@ -3,7 +3,7 @@
 //   /episodes/<n>/        one episode: player, chapters, email-gated links, its shorts
 //   /shorts/              every short
 //   /api/show.json        compact data the home page reads for "latest episode" and shorts
-import { loadShow, listChannel, readLatest, oembedTitle, store } from "../lib/show.mjs";
+import { loadShow, listChannel, readLatest, store } from "../lib/show.mjs";
 import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome } from "../lib/render.mjs";
 import { SITE } from "../lib/show.mjs";
 import { configured as w369Configured, allSubscriberIds } from "../lib/w369.mjs";
@@ -43,32 +43,34 @@ export default async (req) => {
   const url = new URL(req.url);
   const p = url.pathname.replace(/\/+$/, "/");
   if (p === "/api/watch-status") {
-    // Read-only health check: can Netlify read the channel, and what did the hourly watcher last do?
-    const channel = {};
-    channel.apiKeySet = !!Netlify.env.get("YOUTUBE_API_KEY");
-    try { const { source, items: f } = await readLatest(Netlify.env.get("YOUTUBE_API_KEY")); channel.latest = { ok: true, source, entries: f.length, newest: f[0] && { id: f[0].id, title: f[0].title, published: f[0].published, seconds: f[0].seconds ?? null, descriptionChars: f[0].description.length } }; }
-    catch (err) { channel.latest = { ok: false, error: err.message }; }
-    try { const c = await listChannel(); channel.pages = { ok: true, videos: c.videos.length, shorts: c.shorts.length, newest: c.videos[0] };
-      if (c.videos[0]) channel.pages.newestTitle = await oembedTitle(c.videos[0]); }
-    catch (err) { channel.pages = { ok: false, error: err.message }; }
-    // Workspace369: is the site connected? Reports only ok/error, never subscriber data.
-    // Each Workspace369 call costs Tokens and this URL is public, so the check runs at most every 15 minutes.
+    // Public read-only health check. The whole answer is cached for 5 minutes in Blobs, so hitting this URL
+    // can't run up YouTube quota or Workspace369 Tokens, and it reports ok/failed only: no error text,
+    // no approval links, no subscriber data beyond a count.
+    const hdrs = { "Content-Type": "application/json", "Cache-Control": "public, max-age=60", "X-Robots-Tag": "noindex", "Referrer-Policy": "strict-origin-when-cross-origin" };
+    const cached = await store().get("status-cache", { type: "json" }).catch(() => null);
+    if (cached && Date.now() - Date.parse(cached.at) < 5 * 60e3) return new Response(JSON.stringify(cached, null, 1), { headers: hdrs });
+    const channel = { apiKeySet: !!Netlify.env.get("YOUTUBE_API_KEY") };
+    try { const { source, items: f } = await readLatest(Netlify.env.get("YOUTUBE_API_KEY")); channel.latest = { ok: true, source, entries: f.length, newest: f[0] && { id: f[0].id, title: f[0].title, published: f[0].published, seconds: f[0].seconds ?? null } }; }
+    catch { channel.latest = { ok: false }; }
+    try { const c = await listChannel(); channel.pages = { ok: true, videos: c.videos.length, shorts: c.shorts.length }; }
+    catch { channel.pages = { ok: false }; }
     let w369 = { configured: w369Configured() };
     if (w369.configured) {
-      const cached = await store().get("w369-health", { type: "json" }).catch(() => null);
-      if (cached && Date.now() - Date.parse(cached.at) < 15 * 60e3) w369 = cached;
-      else {
-        try { w369 = { configured: true, ok: true, subscribers: (await allSubscriberIds()).length, at: new Date().toISOString() }; }
-        catch (err) { w369 = { configured: true, ok: false, error: err.message.slice(0, 160), at: new Date().toISOString() }; }
-        await store().setJSON("w369-health", w369).catch(() => {});
-      }
+      try { w369 = { configured: true, ok: true, subscribers: (await allSubscriberIds()).length }; }
+      catch { w369 = { configured: true, ok: false }; }
     }
     channel.w369 = w369;
     channel.newEpisodeEmails = Netlify.env.get("NEW_EPISODE_EMAILS") === "on" ? "on" : "off";
-    let runs = [], notified = {};
-    try { runs = ((await store().get("watch-log", { type: "json" })) || []).slice(0, 5); notified = (await store().get("notified", { type: "json" })) || {}; } catch {}
-    return new Response(JSON.stringify({ channel, lastRuns: runs, notified }, null, 1), { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
+    let lastRuns = [], notifiedEpisodes = 0;
+    try {
+      lastRuns = ((await store().get("watch-log", { type: "json" })) || []).slice(0, 5).map((r) => ({ at: r.at, source: r.source, ok: !(r.errors || []).length, added: (r.added || []).length, emailed: (r.emailed || []).length }));
+      notifiedEpisodes = Object.keys((await store().get("notified", { type: "json" })) || {}).length;
+    } catch {}
+    const out = { at: new Date().toISOString(), channel, lastRuns, notifiedEpisodes };
+    await store().setJSON("status-cache", out).catch(() => {});
+    return new Response(JSON.stringify(out, null, 1), { headers: hdrs });
   }
+
   const show = await loadShow();
 
   if (p === "/llms.txt") return textResponse(llmsTxt(show));

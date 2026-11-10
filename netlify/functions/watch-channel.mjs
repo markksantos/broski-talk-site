@@ -67,10 +67,11 @@ export default async () => {
     try {
       const res = await sendEpisodeCampaign({ key: `bt-ep-${v.id}`, ...episodeEmail(e) });
       notified[v.id] = { at: log.at, status: "campaign created", ...res };
+      // Save right away: if a later episode in this run throws, this one must not be emailed again next hour.
+      await s.setJSON("notified", notified);
       log.emailed.push({ id: v.id, ...res });
     } catch (err) { log.errors.push(`email ${v.id}: ${err.message}`); }
   }
-  await s.setJSON("notified", notified);
 
   const runs = (await s.get("watch-log", { type: "json" })) || [];
   await s.setJSON("watch-log", [log, ...runs].slice(0, 48));

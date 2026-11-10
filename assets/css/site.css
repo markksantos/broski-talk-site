@@ -153,7 +153,11 @@ footer a { text-decoration: none; color: var(--ink-2); }
 footer a:hover { color: var(--ink); }
 
 @media (max-width: 900px) {
-  .bar nav { display: none; }
+  /* Phone: the menu becomes a second, swipeable row under the logo instead of disappearing. */
+  .bar { flex-wrap: wrap; row-gap: 10px; }
+  .bar nav { display: flex; order: 3; flex-basis: 100%; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 2px; gap: 22px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .bar nav::-webkit-scrollbar { display: none; }
+  .bar nav a { flex: none; font-size: 14px; padding: 8px 0; }
   .bar { justify-content: space-between; }
   .ep, .gate-grid, .band-grid { grid-template-columns: 1fr; }
   .rows a { grid-template-columns: 120px minmax(0, 1fr); grid-template-areas: "img txt" "img meta"; gap: 6px 16px; }
