@@ -63,7 +63,7 @@ export default async (req) => {
     channel.newEpisodeEmails = Netlify.env.get("NEW_EPISODE_EMAILS") === "on" ? "on" : "off";
     let lastRuns = [], notifiedEpisodes = 0;
     try {
-      lastRuns = ((await store().get("watch-log", { type: "json" })) || []).slice(0, 5).map((r) => ({ at: r.at, source: r.source, ok: !(r.errors || []).length, added: (r.added || []).length, emailed: (r.emailed || []).length }));
+      lastRuns = ((await store().get("watch-log", { type: "json" })) || []).slice(0, 5).map((r) => ({ at: r.at, source: r.source, ok: !(r.errors || []).length, added: (r.added || []).length, emailed: (r.emailed || []).filter((x) => !String(x.status || "").startsWith("waiting")).length }));
       notifiedEpisodes = Object.keys((await store().get("notified", { type: "json" })) || {}).length;
     } catch {}
     const out = { at: new Date().toISOString(), channel, lastRuns, notifiedEpisodes };
