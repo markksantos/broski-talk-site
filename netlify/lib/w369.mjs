@@ -23,28 +23,32 @@ export async function call(name, args) {
   const dataLine = text.split("\n").find((l) => l.startsWith("data:"));
   try { body = JSON.parse(dataLine ? dataLine.slice(5) : text); } catch { body = { raw: text.slice(0, 300) }; }
   if (!r.ok || body.error) throw new Error(`W369 ${name}: HTTP ${r.status} ${JSON.stringify(body.error || body).slice(0, 300)}`);
-  const content = body.result?.content?.[0]?.text;
-  try { return content ? JSON.parse(content) : body.result; } catch { return { text: content }; }
+  // Tools return their data as `structuredContent` (plus a text copy); the first text item is only a summary line.
+  if (body.result?.structuredContent) return body.result.structuredContent;
+  for (const c of body.result?.content || []) { try { return JSON.parse(c.text); } catch {} }
+  return { text: body.result?.content?.[0]?.text };
 }
 
-/** Add (or find) a newsletter subscriber as a client. Never logs the address.
- *  The Broski Talk workspace exists only for the show, so every client in it is a subscriber. */
+/** Add (or find) a newsletter subscriber. Never logs the address.
+ *  Subscribers are filed under the "Newsletter" lead source and pipeline stage (both made by the
+ *  workspace setup script), so clients Mark adds by hand never get episode emails. */
+export const LEAD_SOURCE = "Newsletter";
 export async function upsertSubscriber({ email }) {
   if (!configured()) return { skipped: true };
   const found = await call("clients_search", { query: email, limit: 5 });
-  const list = found?.clients || found?.items || [];
-  const hit = list.find((c) => (c.email || "").toLowerCase() === email);
+  const hit = (found?.clients || []).find((c) => (c.email || "").toLowerCase() === email);
   if (hit) return { existing: true, id: hit.id };
-  return call("clients_create", { name: email, email, client_type: "individual", idempotency_key: `bt-signup-${email}` });
+  const r = await call("clients_create", { name: email, email, client_type: "individual", lead_source: LEAD_SOURCE, stage: "Newsletter", idempotency_key: `bt-signup-${email}` });
+  return { existing: !!r?.deduped, id: r?.client?.id };
 }
 
-/** Every subscriber's client id (W369 skips opted-out and suppressed addresses at send time). */
+/** Every newsletter subscriber's client id (W369 skips opted-out and suppressed addresses at send time). */
 export async function allSubscriberIds() {
   const ids = [];
   let cursor;
   for (let i = 0; i < 40; i++) {
-    const page = await call("clients_search", { limit: 100, ...(cursor ? { cursor } : {}) });
-    for (const c of page?.clients || page?.items || []) if (c.email) ids.push(c.id);
+    const page = await call("clients_search", { lead_source: LEAD_SOURCE, limit: 100, ...(cursor ? { cursor } : {}) });
+    for (const c of page?.clients || []) if (c.email && !c.archived && !c.email_opted_out) ids.push(c.id);
     cursor = page?.nextCursor || page?.next_cursor;
     if (!cursor) break;
   }
