@@ -190,6 +190,7 @@ footer a:hover { color: var(--ink); }
 .facts a { color: var(--ink); }
 @media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
 
+footer .made a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 /* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
 input, select, textarea { font-size: max(16px, 1em); }
 @media (pointer: coarse) {

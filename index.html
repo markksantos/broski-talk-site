@@ -26,8 +26,8 @@
  {"@type":"PodcastSeries","@id":"https://broskitalk.com/#podcast","name":"Broski Talk","url":"https://broskitalk.com/","description":"A weekly AI, tech and business podcast from Mark Santos and Simon Dziak: the AI tools, companies and business moves they actually use.","inLanguage":"en","image":"https://broskitalk.com/assets/og/broski-talk-og.jpg","author":[{"@id":"https://broskitalk.com/#mark"},{"@id":"https://broskitalk.com/#simon"}],"sameAs":["https://www.youtube.com/@broskitalk","https://www.instagram.com/broskitalk/","https://www.tiktok.com/@broskitalkpod"]},
  {"@type": "Organization", "@id": "https://broskitalk.com/#org", "name": "Broski Talk", "url": "https://broskitalk.com/", "logo": "https://broskitalk.com/assets/logo/favicon.png", "description": "Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak.", "founder": [{"@id": "https://broskitalk.com/#mark"}, {"@id": "https://broskitalk.com/#simon"}], "sameAs": ["https://www.youtube.com/@broskitalk", "https://www.instagram.com/broskitalk/", "https://www.tiktok.com/@broskitalkpod"]},
  {"@type": "FAQPage", "@id": "https://broskitalk.com/#faq", "mainEntity": [{"@type": "Question", "name": "What is Broski Talk?", "url": "https://broskitalk.com/#what-is-broski-talk", "acceptedAnswer": {"@type": "Answer", "text": "Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak. Each episode covers the AI tools, companies and business moves the two of them actually use and follow."}}, {"@type": "Question", "name": "Who hosts Broski Talk?", "url": "https://broskitalk.com/#who-hosts", "acceptedAnswer": {"@type": "Answer", "text": "Mark Santos, founder of the video production studio Mark Studios, and Simon Dziak, founder of the app development studio App369."}}, {"@type": "Question", "name": "How often do new episodes come out?", "url": "https://broskitalk.com/#how-often", "acceptedAnswer": {"@type": "Answer", "text": "Every week, on YouTube. Episodes run 15 to 20 minutes, and short clips from each one go out on YouTube Shorts, Instagram and TikTok (@broskitalkpod)."}}, {"@type": "Question", "name": "Where do I find the links from an episode?", "url": "https://broskitalk.com/#links", "acceptedAnswer": {"@type": "Answer", "text": "On each episode's page at broskitalk.com/episodes/, under the chapters. The full list of every tool, source and page from the episode unlocks with a free email signup."}}, {"@type": "Question", "name": "How do I get new episodes by email?", "url": "https://broskitalk.com/#newsletter", "acceptedAnswer": {"@type": "Answer", "text": "Sign up at broskitalk.com/newsletter/. You get one email when each new episode comes out, with its chapters and links, and you can unsubscribe from any email in one click."}}, {"@type": "Question", "name": "Is this the same Broski Talk from 2020?", "url": "https://broskitalk.com/#first-run", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The first run was 19 live episodes from 2020 to 2021 about YouTube, money and mindset. The show came back in November 2026 as an AI, tech and business podcast."}}]},
- {"@type":"Person","@id":"https://broskitalk.com/#mark","name":"Mark Santos","sameAs":["https://www.instagram.com/markksantos/"]},
- {"@type":"Person","@id":"https://broskitalk.com/#simon","name":"Simon Dziak","sameAs":["https://www.instagram.com/szymondziak/"]}
+ {"@type":"Person","@id":"https://broskitalk.com/#mark","name":"Mark Santos","worksFor":{"@type":"Organization","name":"Mark Studios","url":"https://markstudios.com"},"sameAs":["https://www.instagram.com/markksantos/"]},
+ {"@type":"Person","@id":"https://broskitalk.com/#simon","name":"Simon Dziak","worksFor":{"@type":"Organization","name":"App369","url":"https://app369.com"},"sameAs":["https://www.instagram.com/szymondziak/"]}
 ]}
 </script>
 <link rel="preload" href="assets/fonts/Anton.woff2" as="font" type="font/woff2" crossorigin>
@@ -307,6 +307,9 @@ footer a:hover { color: var(--ink); }
 .qa h3 a { color: var(--ink); text-decoration: none; }
 .qa h3 a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .qa p { margin: 0; color: var(--ink-2); font-size: 16px; line-height: 1.55; max-width: 60ch; }
+.tag span a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1.5px; }
+.tag span a:hover { text-decoration-thickness: 2.5px; }
+footer .made a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 /* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
 input, select, textarea { font-size: max(16px, 1em); }
 @media (pointer: coarse) {
@@ -507,11 +510,11 @@ input, select, textarea { font-size: max(16px, 1em); }
       <div class="duo">
         <div class="person">
           <div class="ph"><img src="assets/hosts/mark-color.webp" srcset="assets/hosts/mark-color-700.webp 700w, assets/hosts/mark-color.webp 1200w" sizes="(max-width: 900px) 90vw, 40vw" alt="Mark Santos" loading="lazy"></div>
-          <div class="tag"><strong>Mark Santos</strong><span>Host. Runs Mark Studios, a video production studio, and puts AI to work in it every day.</span></div>
+          <div class="tag"><strong>Mark Santos</strong><span>Host. Runs <a href="https://markstudios.com" target="_blank" rel="noopener">Mark Studios</a>, a video production studio, and puts AI to work in it every day.</span></div>
         </div>
         <div class="person">
           <div class="ph"><img src="assets/hosts/simon-color.webp" srcset="assets/hosts/simon-color-700.webp 700w, assets/hosts/simon-color.webp 1200w" sizes="(max-width: 900px) 90vw, 40vw" alt="Simon Dziak" loading="lazy"></div>
-          <div class="tag"><strong>Simon Dziak</strong><span>Co-host. On the other mic since the very first episode in 2020.</span></div>
+          <div class="tag"><strong>Simon Dziak</strong><span>Co-host. Runs <a href="https://app369.com" target="_blank" rel="noopener">App369</a>, an app development studio, and has been on the other mic since the very first episode in 2020.</span></div>
         </div>
       </div>
     </div>
@@ -577,7 +580,7 @@ input, select, textarea { font-size: max(16px, 1em); }
 <footer>
   <div class="wrap">
     <span class="mark">BROSKI TALK.</span>
-    <span>AI, tech and business with Mark Santos &amp; Simon Dziak</span>
+    <span class="made">AI, tech and business with Mark Santos (<a href="https://markstudios.com" target="_blank" rel="noopener">Mark Studios</a>) &amp; Simon Dziak (<a href="https://app369.com" target="_blank" rel="noopener">App369</a>)</span>
     <nav class="social" aria-label="Broski Talk elsewhere">
       <a href="https://www.youtube.com/@broskitalk" target="_blank" rel="noopener">YouTube</a>
       <a href="https://www.instagram.com/broskitalk/" target="_blank" rel="noopener">Instagram</a>
