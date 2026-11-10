@@ -1,0 +1,68 @@
+{
+ "videos": [
+  {
+   "id": "9jrxLxHoIGg",
+   "title": "The Claude You Can't Use | Broski Talk Ep. 1",
+   "published": "2026-11-07",
+   "seconds": 1105,
+   "short": false,
+   "description": "There's a version of Claude that's better than the one you pay for, and you can't use it. Mark Santos and Simon Dziak bring Broski Talk back as an AI podcast and break down the week: METR's look inside Anthropic, Claude asking for your bank account, the AI assistant wars, the voter backlash against AI data centers, free frontier models, and one guy who paid $681 for a 25-second AI video.\n\nWhich one cost $681: A, B, C or D? Comment your guess before the reveal.\n\nCHAPTERS\n0:00 Which one cost $681?\n0:50 Claude's secret models (METR, AI building AI)\n3:09 Claude wants your wallet\n5:21 The AI assistant wars\n8:04 The AI backlash\n12:33 Free frontier models\n14:44 Builder's corner\n16:23 Predictions\n\nTHE 12 AGENT SKILLS (from Builder's corner)\n1. gstack by Garry Tan: your agent as CEO, tech lead, designer and QA: https://github.com/garrytan/gstack\n2. Superpowers: plan, test, debug and review like a senior engineer: https://github.com/obra/superpowers\n3. Taste Skill: better layouts, type and animation: https://github.com/Leonxlnx/taste-skill\n4. UI/UX Pro Max: palettes, font pairings and clean UI: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill\n5. Marketing Skills: copy, SEO, pricing and launches: https://github.com/coreyhaines31/marketingskills\n6. Last 30 Days: research reports from the last month of Reddit, X and more: https://github.com/mvanhorn/last30days-skill\n7. Frontend Slides: pitch decks you share as a link or PDF: https://github.com/zarazhangrui/frontend-slides\n8. No AI Slop: makes your writing sound human: https://github.com/petergyang/no-ai-slop\n9. Brag: launch and demo videos of what you built: https://github.com/latent-spaces/brag\n10. Claude for Legal: Anthropic's plugins for contracts and NDAs: https://github.com/anthropics/claude-for-legal\n11. Caveman: shorter replies, about 65% fewer tokens: https://github.com/JuliusBrussee/caveman\n12. Awesome Claude Skills: a curated list of even more: https://github.com/ComposioHQ/awesome-claude-skills\nList via Launch Llama: https://x.com/launch_llama/status/2118100994726773075\n\nABOUT\nBroski Talk is the AI podcast from Mark Santos and Simon Dziak. Every week we break down the AI tools, automations and business moves we're actually using, what's working, what isn't, and what's coming next.\n\nMark Santos · Mark Studios: https://markstudios.com"
+  },
+  {
+   "id": "123eSh5vNbU",
+   "title": "Elon Never Said That | Broski Talk Ep. 2",
+   "published": "2026-11-08",
+   "seconds": 991,
+   "short": false,
+   "description": "1.5 million people watched Elon Musk explain that you're using AI wrong. He never said it. Mark Santos and Simon Dziak went through the whole 47-minute Grok 4 launch stream to find what was actually said, and why the fake advice might still be right. Then the week: a tier list that puts Claude's most expensive effort setting in F tier, why Claude Code finds new bugs every time you ask it to review the same code, \"delete your website\" vs. Mark's own numbers, and the startup whose CI bill went from $230 to $4,300 a month (and says it's the cheapest money they spend).\n\nPlay Fake or Real with us: 3 rounds. Comment your score.\n\nCHAPTERS\n0:00 Elon never said that\n1:01 The Elon quote that never happened\n5:19 Medium is S tier? Claude's effort tier list\n8:06 Why Claude finds new bugs every time\n10:04 Film yourself or stay broke: delete your website?\n13:36 Builder's corner: the $4,300 CI bill\n16:01 Fake or Real: the score\n\nFROM THIS EPISODE\nHow I made our CI 20x faster (steal this), Owen Gretzinger's 9-step guide. Give it to your coding agent and have it do the same to yours: https://x.com/owengretzinger/status/2116291924219060319\nBroski Talk Ep. 1 (the $681 Claude video we bring back in this one): https://youtu.be/9jrxLxHoIGg\n\nABOUT\nBroski Talk is the AI podcast from Mark Santos and Simon Dziak. Every week we break down the AI tools, automations and business moves we're actually using, what's working, what isn't, and what's coming next.\n\nMark Santos · Mark Studios: https://markstudios.com\nSimon Dziak · App369"
+  },
+  {
+   "id": "flwEgkN_yh0",
+   "title": "1.5M people watched this Elon quote. He never said it",
+   "published": "2026-11-08",
+   "seconds": 45,
+   "short": true,
+   "description": "The viral \"Elon on AI agents\" post. We checked the whole Grok 4 stream.\n\nFull episode: https://youtu.be/123eSh5vNbU\n\n#AI #Claude #BroskiTalk #Shorts"
+  },
+  {
+   "id": "zK7CH4UrOgI",
+   "title": "Claude's max effort setting is F tier?",
+   "published": "2026-11-08",
+   "seconds": 55,
+   "short": true,
+   "description": "Someone ranked every Claude effort level. Medium came out on top.\n\nFull episode: https://youtu.be/123eSh5vNbU\n\n#AI #Claude #BroskiTalk #Shorts"
+  },
+  {
+   "id": "OAr7-nMndJY",
+   "title": "He runs his AI agents inside Club Penguin",
+   "published": "2026-11-09",
+   "seconds": 55,
+   "short": true,
+   "description": "Every AI model is a pet puffle. 600,000 people watched it.\n\nFull episode: https://youtu.be/123eSh5vNbU\n\n#AI #Claude #BroskiTalk #Shorts"
+  },
+  {
+   "id": "QMF_cGoSGQ4",
+   "title": "I gave Claude access to all my bank accounts",
+   "published": "2026-11-09",
+   "seconds": 42,
+   "short": true,
+   "description": "Claude can now connect to your bank. Mark already did it with Claude Code.\n\nFull episode: https://youtu.be/9jrxLxHoIGg\n\n#AI #Claude #BroskiTalk #Shorts"
+  },
+  {
+   "id": "sOLQ0Vl8A50",
+   "title": "Nvidia's CEO and the Alleged Spy | Broski Talk Ep. 3",
+   "published": "2026-11-09",
+   "seconds": 945,
+   "short": false,
+   "description": "US officials believe the CEO of one of the most valuable companies on Earth had a romantic relationship with a Chinese spy. Mark Santos and Simon Dziak go through what the Financial Times reported, what Nvidia and China say back, and why a spy would go after a CEO instead of an engineer. Then the week: a new Claude codename hiding inside someone else's app (and Polymarket's odds it ships this month), a judge who says Claude's \"5x or 20x more usage\" pitch could be misleading, Apple's official Claude Code plugin, Starlink's Grok Super Bowl ad, Figure's office full of robots, Google's $69 billion SpaceX stake, and the AI backlash debate, where we look up data center water use live.\n\nReal scandal or smear? Comment SCANDAL or SMEAR. And is the AI backlash RIGHT or WRONG?\n\nCHAPTERS\n0:00 Real scandal or smear?\n0:31 Nvidia's CEO and the alleged Chinese spy\n2:43 The next Claude is hiding in someone else's app\n4:55 The fine print on your Claude plan\n7:12 Lightning round: Apple, Starlink, robots, SpaceX, multiplayer\n11:20 Is the AI backlash right? Data centers vs golf courses\n\nFROM THIS EPISODE\nClaude Duet waitlist (Anthropic's proactive agent, research preview for Pro, Max and Ultra in the US): https://claude.com/product/claude-duet\nApple's Xcode plugin for Claude Code, in Anthropic's official plugin directory: https://github.com/anthropics/claude-plugins-official\nArtificialWatch, Mark's AI launch tracker (Fable 5.5 page): https://artificialwatch.com/model/fable-5-5\nBroski Talk Ep. 1 (the METR chart and the 41 local votes we bring back in this one): https://youtu.be/9jrxLxHoIGg\n\nABOUT\nBroski Talk is the AI podcast from Mark Santos and Simon Dziak. Every week we break down the AI tools, automations and business moves we're actually using, what's working, what isn't, and what's coming next.\n\nMark Santos · Mark Studios: https://markstudios.com\nSimon Dziak · App369\n\nThumbnail photo of Jensen Huang: Maurizio Pesce, CC BY 2.0 (https://creativecommons.org/licenses/by/2.0/), cropped."
+  },
+  {
+   "id": "nMde_XOA11A",
+   "title": "Same Claude video, 4 effort levels. Which one cost $681?",
+   "published": "2026-11-10",
+   "seconds": 42,
+   "short": true,
+   "description": "Someone made the same 25-second video with Claude four times, changing only the effort setting.\n\nFull episode: https://youtu.be/9jrxLxHoIGg\n\n#AI #Claude #BroskiTalk #Shorts"
+  }
+ ]
+}

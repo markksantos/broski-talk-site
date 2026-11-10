@@ -1,7 +1,23 @@
-# Static site, no build step. Keeps working-files out of Git-based deploys.
+# Static site + Netlify Functions (no build step). Deployed with the CLI:
+#   netlify deploy --prod --dir <copy without _archive/_build/*.md> --functions netlify/functions
 [build]
   publish = "."
   command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["netlify/data/*.json"]
+
+# YouTube thumbnails, resized through Netlify's image CDN.
+[images]
+  remote_images = ["https://i\\.ytimg\\.com/.*"]
+
+# Short links for video descriptions: broskitalk.com/ep/3 (broskitalk.com/ep3 is handled in pages.mjs)
+[[redirects]]
+  from = "/ep/:n"
+  to = "/episodes/:n/"
+  status = 301
 
 [[redirects]]
   from = "/_archive/*"
