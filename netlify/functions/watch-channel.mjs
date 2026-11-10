@@ -33,6 +33,8 @@ export default async () => {
       const cur = byId.get(f.id);
       if (!known(f.id)) { byId.set(f.id, { seconds: null, ...f, found: log.at }); log.added.push({ id: f.id, short: f.short, title: f.title }); changed = true; }
       else if (cur?.incomplete) { byId.set(f.id, { ...cur, ...f, seconds: f.seconds ?? cur.seconds, short: cur.short, incomplete: false }); log.enriched.push(f.id); changed = true; }
+      // Found before the YouTube key existed: fill in the length now that the API reports it.
+      else if (cur && cur.seconds == null && f.seconds) { byId.set(f.id, { ...cur, seconds: f.seconds }); log.enriched.push(f.id); changed = true; }
     }
   } catch (err) {
     log.errors.push(`latest: ${err.message}`);
