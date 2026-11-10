@@ -6,6 +6,21 @@
 import { loadShow, listChannel, readLatest, oembedTitle, store } from "../lib/show.mjs";
 import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome } from "../lib/render.mjs";
 import { SITE } from "../lib/show.mjs";
+import { mdHome, mdEpisodes, mdEpisode, mdShorts, mdNewsletter, mdFree, llmsTxt, llmsFull, aiTxt, mdResponse, textResponse } from "../lib/agent.mjs";
+
+const DESCRIBEDBY = ["llms.txt", "llms-full.txt", "ai.txt"].map((f) => `<${SITE}/${f}>; rel="describedby"; type="text/plain"`).join(", ");
+
+// The markdown twin of an HTML page, or null if the page has none.
+function markdownFor(htmlPath, show) {
+  if (htmlPath === "/") return mdHome(show);
+  if (htmlPath === "/episodes/") return mdEpisodes(show);
+  if (htmlPath === "/shorts/") return mdShorts(show);
+  if (htmlPath === "/newsletter/") return mdNewsletter(show);
+  if (htmlPath === "/free/12-skills/") return mdFree(show);
+  const m = htmlPath.match(/^\/episodes\/([^/]+)\/$/);
+  const ep = m && show.episodes.find((e) => e.slug === m[1] || e.id === m[1]);
+  return ep ? mdEpisode(ep, show) : null;
+}
 
 const html = (body, status = 200) => new Response(body, {
   status,
@@ -15,6 +30,11 @@ const html = (body, status = 200) => new Response(body, {
     // The CDN keeps a copy for 5 minutes and serves the old one while it refreshes.
     "Netlify-CDN-Cache-Control": "public, durable, s-maxage=300, stale-while-revalidate=86400",
     "Netlify-Cache-Tag": "show",
+    // Same URL serves markdown to `Accept: text/markdown`, so caches must key on Accept.
+    "Vary": "Accept",
+    "Netlify-Vary": "header=Accept",
+    // netlify.toml headers don't reach function responses, so the agent-file links are set here too.
+    "Link": DESCRIBEDBY,
   },
 });
 
@@ -35,6 +55,20 @@ export default async (req) => {
     return new Response(JSON.stringify({ channel, lastRuns: runs, notified }, null, 1), { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });
   }
   const show = await loadShow();
+
+  if (p === "/llms.txt") return textResponse(llmsTxt(show));
+  if (p === "/llms-full.txt") return textResponse(llmsFull(show));
+  if (p === "/ai.txt") return textResponse(aiTxt());
+  if (p.endsWith(".md")) {
+    const htmlPath = p === "/index.md" ? "/" : p.slice(0, -3) + "/";
+    const md = markdownFor(htmlPath, show);
+    return md ? mdResponse(md, htmlPath) : mdResponse(`# Not found\n\nNo markdown page at ${p}. Start at ${SITE}/llms.txt\n`, "/", 404);
+  }
+  if (/text\/markdown/.test(req.headers.get("accept") || "")) {
+    const htmlPath = p.endsWith("/") ? p : p + "/";
+    const md = markdownFor(htmlPath, show);
+    if (md) { const r = mdResponse(md, htmlPath); r.headers.set("Netlify-Vary", "header=Accept"); return r; }
+  }
 
   if (p === "/api/show.json") {
     return new Response(JSON.stringify(showJson(show)), { headers: {
@@ -70,5 +104,6 @@ export default async (req) => {
 };
 
 export const config = {
-  path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/api/show.json", "/api/watch-status"],
+  path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/api/show.json", "/api/watch-status",
+    "/llms.txt", "/llms-full.txt", "/ai.txt", "/index.md", "/episodes.md", "/shorts.md", "/newsletter.md", "/free/12-skills.md", "/*.md"],
 };
