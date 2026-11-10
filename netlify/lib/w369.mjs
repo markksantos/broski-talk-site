@@ -37,7 +37,11 @@ export async function upsertSubscriber({ email }) {
   if (!configured()) return { skipped: true };
   const found = await call("clients_search", { query: email, limit: 5 });
   const hit = (found?.clients || []).find((c) => (c.email || "").toLowerCase() === email);
-  if (hit) return { existing: true, id: hit.id };
+  if (hit) {
+    // An existing contact who signs up opted in: file them under Newsletter so episode emails reach them.
+    if ((hit.lead_source || "") !== LEAD_SOURCE) await call("clients_update", { id: hit.id, lead_source: LEAD_SOURCE });
+    return { existing: true, id: hit.id };
+  }
   const r = await call("clients_create", { name: email, email, client_type: "individual", lead_source: LEAD_SOURCE, stage: "Newsletter", idempotency_key: `bt-signup-${email}` });
   return { existing: !!r?.deduped, id: r?.client?.id };
 }

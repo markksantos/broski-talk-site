@@ -72,3 +72,17 @@
 
   window.BroskiSubscribe = { attach };
 })();
+
+/* Thumbnails: some videos have no maxres image, and YouTube then serves a 120×90 grey placeholder.
+   Swap to the always-present hqdefault when that happens. (Loaded on every page, so it lives here.) */
+(() => {
+  const fix = (img) => {
+    if (!img.src.includes("/maxresdefault.jpg") || !img.complete || img.naturalWidth > 120) return;
+    const hq = img.src.replace("maxresdefault", "hqdefault");
+    img.removeAttribute("srcset");
+    img.src = hq;
+  };
+  document.addEventListener("load", (e) => { if (e.target.tagName === "IMG") fix(e.target); }, true);
+  document.addEventListener("error", (e) => { if (e.target.tagName === "IMG") fix(e.target); }, true);
+  document.querySelectorAll("img").forEach(fix);
+})();
