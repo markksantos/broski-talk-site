@@ -10,12 +10,13 @@
       return;
     }
     f = document.createElement('iframe');
-    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0&enablejsapi=1${start ? `&start=${start}` : ''}${isShort ? '&loop=1' : ''}`;
+    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&playsinline=1&rel=0&enablejsapi=1${start ? `&start=${start}` : ''}${isShort ? `&loop=1&playlist=${id}` : ''}`;
     f.title = 'Broski Talk on YouTube';
     f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     f.allowFullscreen = true;
     box.querySelector('.poster')?.remove();
     box.appendChild(f);
+    f.focus(); // the focused poster is gone; keep keyboard users on the player
   }
   document.querySelectorAll('.player, .frame').forEach(box => {
     box.querySelector('.poster')?.addEventListener('click', () => mount(box, 0, box.hasAttribute('data-short')));

@@ -10,7 +10,7 @@
 // Safety: a video known at deploy time (seed.json) never triggers an email, and neither does an
 // episode published more than 3 days ago, so a first run can't blast old episodes.
 import seed from "../data/seed.json" with { type: "json" };
-import { store, readLatest, listChannel, oembedTitle, toEpisode } from "../lib/show.mjs";
+import { store, readLatest, listChannel, oembedTitle, toEpisode, SHOW_START } from "../lib/show.mjs";
 import { configured, sendEpisodeCampaign } from "../lib/w369.mjs";
 import { episodeEmail } from "../lib/email.mjs";
 
@@ -28,7 +28,8 @@ export default async () => {
   try {
     const latest = await readLatest(env("YOUTUBE_API_KEY"));
     log.source = latest.source;
-    for (const f of latest.items) {
+    // The feed also lists the 2020-21 live streams; only the relaunched show is stored.
+    for (const f of latest.items.filter((x) => (x.published || "") >= SHOW_START)) {
       const cur = byId.get(f.id);
       if (!known(f.id)) { byId.set(f.id, { seconds: null, ...f, found: log.at }); log.added.push({ id: f.id, short: f.short, title: f.title }); changed = true; }
       else if (cur?.incomplete) { byId.set(f.id, { ...cur, ...f, seconds: f.seconds ?? cur.seconds, short: cur.short, incomplete: false }); log.enriched.push(f.id); changed = true; }
