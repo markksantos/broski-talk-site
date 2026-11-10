@@ -119,6 +119,8 @@ export default async (req) => {
 };
 
 export const config = {
+  // GET/HEAD only: a POST (a form submission) must fall through to Netlify Forms.
+  method: ["GET", "HEAD"],
   path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/api/show.json", "/api/watch-status",
     "/llms.txt", "/llms-full.txt", "/ai.txt", "/index.md", "/episodes.md", "/shorts.md", "/newsletter.md", "/free/12-skills.md", "/*.md"],
 };
