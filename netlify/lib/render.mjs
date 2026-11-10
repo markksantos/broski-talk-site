@@ -77,7 +77,7 @@ export function form({ id, label, button, resource, done, fine = "New episodes a
       <label for="${id}-email">${esc(label)}</label>
       <div class="field">
         <input id="${id}-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="${id}-msg ${id}-fine">
-        <span class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></span>
+        <span class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="bt_hp" tabindex="-1" autocomplete="new-password" data-1p-ignore data-lpignore="true"></label></span>
         <button class="btn solid" type="submit">${esc(button)}</button>
       </div>
       <p class="msg" id="${id}-msg" aria-live="polite"></p>

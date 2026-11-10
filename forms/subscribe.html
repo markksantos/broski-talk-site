@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Broski Talk signup</title></head>
+<body>
+<!-- Every email form on the site posts here (assets/js/subscribe.js). Netlify Forms takes the POST
+     because this is a static file; the pages function only answers GET and HEAD. -->
+<form name="subscribe" method="POST" data-netlify="true" netlify-honeypot="bt_hp" action="/newsletter/">
+  <input type="email" name="email"><input type="text" name="resource"><input type="text" name="source"><input type="text" name="bt_hp">
+  <button type="submit">Sign up</button>
+</form>
+</body></html>

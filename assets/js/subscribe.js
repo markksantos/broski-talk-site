@@ -1,7 +1,7 @@
 /* Broski Talk email signup: one front end for every form on the site.
  *
  * Today every signup goes to Netlify Forms (form "subscribe", declared as a hidden form in
- * index.html): a URL-encoded POST to "/" with email, resource ("newsletter" or a freebie slug),
+ * index.html): a URL-encoded POST to "/forms/subscribe.html" with email, resource ("newsletter" or a freebie slug),
  * source (page path) and the "company" honeypot, which Netlify drops as spam when filled.
  * Signups are in Netlify -> broskitalk -> Forms, exportable as CSV.
  *
@@ -18,7 +18,7 @@
 
   function attach(form, opts = {}) {
     const input = form.querySelector('input[type="email"]');
-    const hp = form.querySelector('input[name="company"]');
+    const hp = form.querySelector('input[name="bt_hp"]');
     const btn = form.querySelector('button[type="submit"]');
     const msg = form.querySelector('.msg');
     const idle = btn.textContent;
@@ -37,7 +37,7 @@
       input.setAttribute('aria-invalid', 'false');
       btn.disabled = true; form.setAttribute('aria-busy', 'true'); btn.textContent = 'Sending…'; say('');
 
-      const body = { email, resource: opts.resource || null, source: location.pathname, company: hp ? hp.value : '' };
+      const body = { email, resource: opts.resource || null, source: location.pathname, bt_hp: hp ? hp.value : '' };
       let data = null, status = 0;
       try {
         if (API) {
@@ -45,8 +45,9 @@
           status = res.status;
           data = await res.json().catch(() => null);
         } else {
-          const form = new URLSearchParams({ 'form-name': 'subscribe', email, resource: body.resource || 'newsletter', source: body.source, company: body.company });
-          const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: form.toString() });
+          const form = new URLSearchParams({ 'form-name': 'subscribe', email, resource: body.resource || 'newsletter', source: body.source, bt_hp: body.bt_hp });
+          // A static file, so Netlify Forms takes the POST (function routes would swallow it).
+          const res = await fetch('/forms/subscribe.html', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: form.toString() });
           status = res.status;
           data = res.ok ? { ok: true } : null;
         }

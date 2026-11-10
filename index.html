@@ -561,7 +561,7 @@ input, select, textarea { font-size: max(16px, 1em); }
           <label for="email-a">Get new episodes and podcast updates by email</label>
           <div class="field">
             <input id="email-a" type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="msg-a fine-a">
-            <span class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></span>
+            <span class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="bt_hp" tabindex="-1" autocomplete="new-password" data-1p-ignore data-lpignore="true"></label></span>
             <button class="btn solid" type="submit">Sign me up</button>
           </div>
           <p class="msg" id="msg-a" aria-live="polite"></p>
@@ -573,8 +573,8 @@ input, select, textarea { font-size: max(16px, 1em); }
 </main>
 
 <!-- Netlify Forms reads this at deploy time; subscribe.js posts every signup to it. -->
-<form name="subscribe" data-netlify="true" netlify-honeypot="company" hidden>
-  <input type="email" name="email"><input type="text" name="resource"><input type="text" name="source"><input type="text" name="company">
+<form name="subscribe" data-netlify="true" netlify-honeypot="bt_hp" hidden>
+  <input type="email" name="email"><input type="text" name="resource"><input type="text" name="source"><input type="text" name="bt_hp">
 </form>
 
 <footer>
