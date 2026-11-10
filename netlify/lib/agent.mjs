@@ -20,7 +20,7 @@ export function summary(show) {
   return `Broski Talk is a weekly AI, tech and business podcast on YouTube, hosted by Mark Santos and Simon Dziak. ${n} episode${n === 1 ? "" : "s"} and ${show.shorts.length} shorts so far${latest ? `; the latest is ${epLabel(latest)} (${niceDate(latest.published)})` : ""}.`;
 }
 
-const FACTS = `Key facts: Broski Talk is hosted by Mark Santos (founder of Mark Studios, a video production studio) and Simon Dziak (founder of App369, an app development studio). Episodes run 15 to 20 minutes, come out weekly on YouTube, and each has chapters and a list of every tool, source and page mentioned on the show. Short clips run on YouTube Shorts, Instagram and TikTok (@broskitalkpod). The show first ran from 2020 to 2021 (19 live episodes about YouTube, money and mindset) and came back as an AI, tech and business podcast in November 2026.`;
+const FACTS = `Key facts: Broski Talk is hosted by Mark Santos (founder of Mark Studios, a video production studio, https://markstudios.com) and Simon Dziak (founder of App369, an app development studio, https://app369.com). Episodes run 15 to 20 minutes, come out weekly on YouTube, and each has chapters and a list of every tool, source and page mentioned on the show. Short clips run on YouTube Shorts, Instagram and TikTok (@broskitalkpod). The show first ran from 2020 to 2021 (19 live episodes about YouTube, money and mindset) and came back as an AI, tech and business podcast in November 2026.`;
 
 /* ---------------- markdown pages ---------------- */
 
@@ -105,7 +105,7 @@ ${show.episodes.slice(1).map(episodeLines).join("\n")}
 ## Hosts
 
 - Mark Santos: founder of Mark Studios (https://markstudios.com). Instagram @markksantos.
-- Simon Dziak: founder of App369. Instagram @szymondziak.
+- Simon Dziak: founder of App369 (https://app369.com). Instagram @szymondziak.
 
 ## Follow
 

@@ -6,6 +6,7 @@
 import { loadShow, listChannel, readLatest, oembedTitle, store } from "../lib/show.mjs";
 import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome } from "../lib/render.mjs";
 import { SITE } from "../lib/show.mjs";
+import { configured as w369Configured, call as w369Call } from "../lib/w369.mjs";
 import { mdHome, mdEpisodes, mdEpisode, mdShorts, mdNewsletter, mdFree, llmsTxt, llmsFull, aiTxt, mdResponse, textResponse } from "../lib/agent.mjs";
 
 const DESCRIBEDBY = ["llms.txt", "llms-full.txt", "ai.txt"].map((f) => `<${SITE}/${f}>; rel="describedby"; type="text/plain"`).join(", ");
@@ -50,6 +51,11 @@ export default async (req) => {
     try { const c = await listChannel(); channel.pages = { ok: true, videos: c.videos.length, shorts: c.shorts.length, newest: c.videos[0] };
       if (c.videos[0]) channel.pages.newestTitle = await oembedTitle(c.videos[0]); }
     catch (err) { channel.pages = { ok: false, error: err.message }; }
+    // Workspace369: is the site connected? Reports only ok/error, never subscriber data.
+    let w369 = { configured: w369Configured() };
+    if (w369.configured) { try { await w369Call("clients_search", { limit: 1 }); w369.ok = true; } catch (err) { w369.ok = false; w369.error = err.message.slice(0, 160); } }
+    channel.w369 = w369;
+    channel.newEpisodeEmails = Netlify.env.get("NEW_EPISODE_EMAILS") === "on" ? "on" : "off";
     let runs = [], notified = {};
     try { runs = ((await store().get("watch-log", { type: "json" })) || []).slice(0, 5); notified = (await store().get("notified", { type: "json" })) || {}; } catch {}
     return new Response(JSON.stringify({ channel, lastRuns: runs, notified }, null, 1), { headers: { "Content-Type": "application/json", "Cache-Control": "no-store", "X-Robots-Tag": "noindex" } });

@@ -89,7 +89,7 @@ function footer() {
   return `<footer>
   <div class="wrap">
     <span class="mark">BROSKI TALK.</span>
-    <span>AI, tech and business with Mark Santos &amp; Simon Dziak</span>
+    <span class="made">AI, tech and business with Mark Santos (<a href="https://markstudios.com" target="_blank" rel="noopener">Mark Studios</a>) &amp; Simon Dziak (<a href="https://app369.com" target="_blank" rel="noopener">App369</a>)</span>
     <nav class="social" aria-label="Broski Talk elsewhere">
       ${SOCIAL.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join("\n      ")}
       <a href="/newsletter/">Newsletter</a>
