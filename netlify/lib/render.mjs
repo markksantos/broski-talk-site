@@ -128,6 +128,11 @@ function shortCard(s, episodes, headingTag = "h3") {
     </li>`;
 }
 
+// Episode number → its freebie PDF (built by _build/freebie_*.py) and the line that sells it.
+const PDFS = { 1: "/downloads/broski-talk-12-agent-skills.pdf", 4: "/downloads/broski-talk-ep4-fable-or-opus.pdf" };
+const PDF_TITLE = { 4: "Fable or Opus? The cheat sheet from Episode 4." };
+const PDF_BLURB = { 4: "Free PDF: Fable 5.2 or Opus 5.5, which Claude to use for which job, plus Fable's 12 rules for YouTubers." };
+
 function resourceSlug(e) { return e.num === 1 ? "12-skills" : `ep-${e.num}`; }
 
 function gate(e) {
@@ -143,11 +148,14 @@ function gate(e) {
   const creditHtml = credits.map((r) => `<li class="grp" style="text-transform:none;font-family:inherit;letter-spacing:0;font-size:14px"><a href="${esc(r.url)}" target="_blank" rel="noopener" style="font-weight:600">${esc(r.name)}</a></li>`).join("");
   const list = groups.map((g) => `<li class="grp">${esc(g.name)}</li>` + g.items.map((r) => `<li><span class="n">${pad(++n)}</span><div><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.name)}</a>${r.note ? `<p>${esc(r.note)}</p>` : ""}</div></li>`).join("")).join("");
   const isSkills = e.num === 1;
-  const heading = isSkills ? "The 12 agent skills from Builder's corner." : `Every link from Episode ${e.num}.`;
+  const heading = isSkills ? "The 12 agent skills from Builder's corner." : PDF_TITLE[e.num] || `Every link from Episode ${e.num}.`;
   const sub = isSkills
     ? "What each skill does and where to get it, plus the PDF. Drop your email and the list unlocks right here."
+    : PDFS[e.num]
+    ? `${PDF_BLURB[e.num]} Drop your email and the PDF and every link unlock right here.`
     : `The tools, sources and pages we talked about in this episode, in one list. Drop your email and it unlocks right here.`;
-  const pdf = isSkills ? `<p style="margin:22px 0 0"><a class="btn solid" href="/downloads/broski-talk-12-agent-skills.pdf" download>Download the PDF</a></p>` : "";
+  const pdfPath = PDFS[e.num];
+  const pdf = pdfPath ? `<p style="margin:22px 0 0"><a class="btn solid" href="${pdfPath}" download>Download the PDF</a></p>` : "";
   const placeholders = Array.from({ length: Math.min(n, 8) }, (_, i) => `<li><span class="n">${pad(i + 1)}</span><span class="bar-ph" style="--w:${[72, 54, 80, 63, 46, 75, 58, 68][i]}%"></span></li>`).join("");
   return `<section class="gate" id="free" aria-labelledby="gate-h">
     <div class="wrap gate-grid">
@@ -157,7 +165,7 @@ function gate(e) {
         <h2 id="gate-h">${heading}</h2>
         <p class="sub">${sub}</p>
         <div data-gate-form>
-        ${form({ id: "gate", label: "Where should we send new episodes?", button: "Unlock the links", resource: resourceSlug(e), done: "Unlocked.", fine: "You'll also get new episodes and the occasional freebie. Unsubscribe anytime." })}
+        ${form({ id: "gate", label: "Where should we send new episodes?", button: PDFS[e.num] && !isSkills ? "Get the free PDF" : "Unlock the links", resource: resourceSlug(e), done: "Unlocked.", fine: "You'll also get new episodes and the occasional freebie. Unsubscribe anytime." })}
         </div>
       </div>
       <div>

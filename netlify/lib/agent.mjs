@@ -130,6 +130,7 @@ ${FACTS}
 - [Shorts](${SITE}/shorts/): every short, each linked to its full episode. [Markdown](${SITE}/shorts.md)
 - [Newsletter](${SITE}/newsletter/): one email per new episode. [Markdown](${SITE}/newsletter.md)
 - [12 agent skills (free PDF)](${SITE}/free/12-skills/): the 12 agent skills from Episode 1's Builder's corner. [Markdown](${SITE}/free/12-skills.md)
+- [Fable or Opus? (free PDF)](${SITE}/episodes/4/#free): which Claude model to use for which job, plus Fable 5.2's 12 rules for YouTubers, from Episode 4.
 
 ## Episodes
 ${show.episodes.map((e) => `- [${epLabel(e)}](${SITE}${e.path}): ${niceDate(e.published)}${e.seconds ? `, ${clock(e.seconds)}` : ""}${e.chapters?.length ? `, ${e.chapters.length} chapters` : ""}. [Markdown](${SITE}${mdUrl(e.path)})`).join("\n")}
