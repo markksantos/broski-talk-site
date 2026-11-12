@@ -131,6 +131,7 @@ ${FACTS}
 - [Newsletter](${SITE}/newsletter/): one email per new episode. [Markdown](${SITE}/newsletter.md)
 - [12 agent skills (free PDF)](${SITE}/free/12-skills/): the 12 agent skills from Episode 1's Builder's corner. [Markdown](${SITE}/free/12-skills.md)
 - [Which effort? (free PDF)](${SITE}/episodes/2/#free): when higher Claude effort is worth paying for, and five ways to make AI work reliable, from Episode 2.
+- [Read the fine print (free PDF)](${SITE}/episodes/3/#free): how Claude's usage limits work, how to make yours last, and the numbers behind the AI backlash, from Episode 3.
 - [Fable or Opus? (free PDF)](${SITE}/episodes/4/#free): which Claude model to use for which job, plus Fable 5.2's 12 rules for YouTubers, from Episode 4.
 
 ## Episodes

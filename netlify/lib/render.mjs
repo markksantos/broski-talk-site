@@ -129,9 +129,9 @@ function shortCard(s, episodes, headingTag = "h3") {
 }
 
 // Episode number → its freebie PDF (built by _build/freebie_*.py) and the line that sells it.
-const PDFS = { 1: "/downloads/broski-talk-12-agent-skills.pdf", 2: "/downloads/broski-talk-ep2-which-effort.pdf", 4: "/downloads/broski-talk-ep4-fable-or-opus.pdf" };
-const PDF_TITLE = { 2: "Which effort? The cheat sheet from Episode 2.", 4: "Fable or Opus? The cheat sheet from Episode 4." };
-const PDF_BLURB = { 2: "Free PDF: when higher Claude effort is worth paying for, the viral tier list, and five ways to make AI work reliable.", 4: "Free PDF: Fable 5.2 or Opus 5.5, which Claude to use for which job, plus Fable's 12 rules for YouTubers." };
+const PDFS = { 1: "/downloads/broski-talk-12-agent-skills.pdf", 2: "/downloads/broski-talk-ep2-which-effort.pdf", 3: "/downloads/broski-talk-ep3-fine-print.pdf", 4: "/downloads/broski-talk-ep4-fable-or-opus.pdf" };
+const PDF_TITLE = { 2: "Which effort? The cheat sheet from Episode 2.", 3: "Read the fine print. The cheat sheet from Episode 3.", 4: "Fable or Opus? The cheat sheet from Episode 4." };
+const PDF_BLURB = { 3: "Free PDF: how Claude's usage limits really work, how to make yours last, and the numbers behind the AI backlash.", 2: "Free PDF: when higher Claude effort is worth paying for, the viral tier list, and five ways to make AI work reliable.", 4: "Free PDF: Fable 5.2 or Opus 5.5, which Claude to use for which job, plus Fable's 12 rules for YouTubers." };
 
 function resourceSlug(e) { return e.num === 1 ? "12-skills" : `ep-${e.num}`; }
 
