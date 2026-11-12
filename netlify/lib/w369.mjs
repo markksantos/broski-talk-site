@@ -69,9 +69,18 @@ export async function sendEpisodeCampaign({ key, name, subject, body }) {
     const created = await call("campaigns_create", { channel: "email", name: ids.length > 500 ? `${name} (${part})` : name, subject, body, client_ids: ids.slice(i, i + 500), idempotency_key: `${key}-${part}` });
     const id = created?.campaign?.id;
     const at = new Date(Date.now() + 5 * 60 * 1000).toISOString();
-    // Held by Workspace369 until Szymon approves it in the app (sends by a token always are);
-    // the reply carries the approval link.
-    const res = await call("campaigns_update", { id, status: "scheduled", scheduled_at: at });
+    // Workspace369 only lets an email campaign be scheduled after someone confirms, in the app,
+    // that they have permission to email these contacts (rule A12; a token can't confirm it).
+    // So when that confirmation is missing, the campaign stays a ready draft: open it in the app
+    // (Marketing → Campaigns) and press Send. That counts as done here, so it isn't retried hourly.
+    let res;
+    try {
+      res = await call("campaigns_update", { id, status: "scheduled", scheduled_at: at });
+    } catch (err) {
+      if (!/permission confirmation/i.test(err.message)) throw err;
+      out.push({ id, status: "draft: send it in the Workspace369 app (Marketing → Campaigns)" });
+      continue;
+    }
     out.push({ id, approval_url: res?.approval_url || res?.approval?.url || null, status: res?.status || res?.campaign?.status || null });
   }
   return { recipients: ids.length, campaigns: out };
