@@ -80,4 +80,4 @@ export default async () => {
   console.log(JSON.stringify({ source: log.source, added: log.added.length, enriched: log.enriched.length, emailed: log.emailed.length, errors: log.errors }));
 };
 
-export const config = { schedule: "@hourly" };
+// Hourly schedule paused 2026-11-13 (Szymon refocus: Broski Talk lane closed). To resume: export const config = { schedule: "@hourly" };
