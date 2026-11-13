@@ -59,7 +59,7 @@ export async function allSubscriberIds() {
   return ids;
 }
 
-/** Create the new-episode email campaign(s) and schedule them to send in 5 minutes. */
+/** Create the new-episode email campaign(s) and schedule them to send in 10 minutes. */
 export async function sendEpisodeCampaign({ key, name, subject, body }) {
   if (!configured()) return { skipped: true };
   const ids = await allSubscriberIds();
@@ -68,7 +68,7 @@ export async function sendEpisodeCampaign({ key, name, subject, body }) {
     const part = Math.floor(i / 500) + 1;
     const created = await call("campaigns_create", { channel: "email", name: ids.length > 500 ? `${name} (${part})` : name, subject, body, client_ids: ids.slice(i, i + 500), idempotency_key: `${key}-${part}` });
     const id = created?.campaign?.id;
-    const at = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+    const at = new Date(Date.now() + 10 * 60 * 1000).toISOString(); // scheduled sends get 600 s; "Send now" only 60 s
     // Workspace369 only lets an email campaign be scheduled after someone confirms, in the app,
     // that they have permission to email these contacts (rule A12; a token can't confirm it).
     // So when that confirmation is missing, the campaign stays a ready draft: open it in the app
