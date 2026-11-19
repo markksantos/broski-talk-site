@@ -123,15 +123,26 @@ export async function readFeed() {
 
 const iso8601 = (d = "") => { const m = d.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/) || []; return (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0); };
 
-/** Latest 25 uploads from the YouTube Data API: same shape as readFeed, plus seconds. */
+/** Every upload since SHOW_START from the YouTube Data API (pages of 50, up to 400): same shape as readFeed, plus seconds.
+ *  2026-11-19: reading only the newest 25 missed Ep 6-8 once ~10 Shorts a day went up between episodes. */
 export async function readApi(key) {
   const api = (path) => fetch(`https://www.googleapis.com/youtube/v3/${path}&key=${encodeURIComponent(key)}`).then(async (r) => {
     if (!r.ok) throw new Error(`youtube api ${r.status}`); return r.json(); });
-  const list = await api(`playlistItems?part=snippet&maxResults=25&playlistId=${CHANNEL_ID.replace(/^UC/, "UU")}`);
-  const items = (list.items || []).map((i) => i.snippet).filter((sn) => sn?.resourceId?.videoId);
+  const items = [];
+  let token = "";
+  for (let page = 0; page < 8; page++) {
+    const list = await api(`playlistItems?part=snippet&maxResults=50&playlistId=${CHANNEL_ID.replace(/^UC/, "UU")}${token ? `&pageToken=${token}` : ""}`);
+    const got = (list.items || []).map((i) => i.snippet).filter((sn) => sn?.resourceId?.videoId);
+    items.push(...got);
+    token = list.nextPageToken || "";
+    if (!token || got.some((sn) => (sn.publishedAt || "").slice(0, 10) < SHOW_START)) break;
+  }
   if (!items.length) return [];
-  const details = await api(`videos?part=contentDetails&id=${items.map((sn) => sn.resourceId.videoId).join(",")}`);
-  const secs = new Map((details.items || []).map((d) => [d.id, iso8601(d.contentDetails?.duration)]));
+  const secs = new Map();
+  for (let i = 0; i < items.length; i += 50) {
+    const details = await api(`videos?part=contentDetails&id=${items.slice(i, i + 50).map((sn) => sn.resourceId.videoId).join(",")}`);
+    for (const d of details.items || []) secs.set(d.id, iso8601(d.contentDetails?.duration));
+  }
   return items.map((sn) => {
     const id = sn.resourceId.videoId, seconds = secs.get(id) ?? null;
     return { id, title: sn.title, published: (sn.publishedAt || "").slice(0, 10), description: sn.description || "", seconds, short: seconds != null && seconds <= 180 };
