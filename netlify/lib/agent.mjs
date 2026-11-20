@@ -105,7 +105,7 @@ ${show.episodes.slice(1).map(episodeLines).join("\n")}
 ## Hosts
 
 - Mark Santos: founder of Mark Studios (https://markstudios.com). Instagram @markksantos.
-- Simon Dziak: founder of App369 (https://app369.com). Instagram @szymondziak.
+- Simon Dziak: founder of App369 (https://app369.com). Personal site https://simondziak.com. Instagram @szymondziak.
 
 ## Follow
 
