@@ -4,7 +4,8 @@
 //   /shorts/              every short
 //   /api/show.json        compact data the home page reads for "latest episode" and shorts
 import { loadShow, listChannel, readLatest, store } from "../lib/show.mjs";
-import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome } from "../lib/render.mjs";
+import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome, shell } from "../lib/render.mjs";
+import { HOSTS, aboutPage, hostPage, mdAbout, mdHost } from "../lib/hosts.mjs";
 import { SITE } from "../lib/show.mjs";
 import { configured as w369Configured, allSubscriberIds } from "../lib/w369.mjs";
 import { mdHome, mdEpisodes, mdEpisode, mdShorts, mdNewsletter, mdFree, llmsTxt, llmsFull, aiTxt, mdResponse, textResponse } from "../lib/agent.mjs";
@@ -18,6 +19,9 @@ function markdownFor(htmlPath, show) {
   if (htmlPath === "/shorts/") return mdShorts(show);
   if (htmlPath === "/newsletter/") return mdNewsletter(show);
   if (htmlPath === "/free/12-skills/") return mdFree(show);
+  if (htmlPath === "/about/") return mdAbout();
+  const hm = htmlPath.match(/^\/about\/(mark|simon)\/$/);
+  if (hm) return mdHost(HOSTS[hm[1]]);
   const m = htmlPath.match(/^\/episodes\/([^/]+)\/$/);
   const ep = m && show.episodes.find((e) => e.slug === m[1] || e.id === m[1]);
   return ep ? mdEpisode(ep, show) : null;
@@ -99,7 +103,7 @@ export default async (req) => {
     return html(fillHome(base, show));
   }
   if (p === "/sitemap.xml") {
-    const urls = ["/", "/episodes/", "/shorts/", "/newsletter/", "/free/12-skills/", ...show.episodes.map((e) => e.path)];
+    const urls = ["/", "/episodes/", "/shorts/", "/newsletter/", "/free/12-skills/", "/about/", "/about/mark/", "/about/simon/", ...show.episodes.map((e) => e.path)];
     const last = (path) => (show.episodes.find((e) => e.path === path)?.published) || show.episodes[0]?.published;
     const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url><loc>${SITE}${u}</loc><lastmod>${last(u)}</lastmod></url>`).join("\n")}\n</urlset>\n`;
     return new Response(xml, { headers: { "Content-Type": "application/xml", "Netlify-CDN-Cache-Control": "public, durable, s-maxage=3600", "Netlify-Cache-Tag": "show" } });
@@ -107,6 +111,9 @@ export default async (req) => {
   if (p === "/episodes" || p === "/episodes/") return html(episodesPage(show));
   if (p === "/shorts" || p === "/shorts/") return html(shortsPage(show));
   if (p === "/newsletter" || p === "/newsletter/") return html(newsletterPage(show));
+  if (p === "/about" || p === "/about/") return p.endsWith("/") ? html(aboutPage(show, shell)) : Response.redirect(new URL("/about/", url), 301);
+  const ab = p.match(/^\/about\/(mark|simon)\/?$/);
+  if (ab) return p.endsWith("/") ? html(hostPage(HOSTS[ab[1]], show, shell)) : Response.redirect(new URL(`/about/${ab[1]}/`, url), 301);
 
   const m = p.match(/^\/episodes\/([^/]+)\/?$/);
   if (m) {
@@ -123,6 +130,6 @@ export default async (req) => {
 export const config = {
   // GET/HEAD only: a POST (a form submission) must fall through to Netlify Forms.
   method: ["GET", "HEAD"],
-  path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/api/show.json", "/api/watch-status",
+  path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/about", "/about/", "/about/*", "/api/show.json", "/api/watch-status",
     "/llms.txt", "/llms-full.txt", "/ai.txt", "/index.md", "/episodes.md", "/shorts.md", "/newsletter.md", "/free/12-skills.md", "/*.md"],
 };

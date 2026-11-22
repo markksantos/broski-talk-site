@@ -13,9 +13,9 @@ export const SOCIAL = [
 const img = (url, w) => `/.netlify/images?url=${encodeURIComponent(url)}&w=${w}&q=72`;
 const srcset = (url, widths) => widths.map((w) => `${img(url, w)} ${w}w`).join(", ");
 
-function shell({ title, description, path, body, jsonld, active, scripts = "", noBand = false }) {
+export function shell({ title, description, path, body, jsonld, active, scripts = "", noBand = false }) {
   const url = SITE + path;
-  const nav = [["Episodes", "/episodes/"], ["Shorts", "/shorts/"], ["Free stuff", "/free/12-skills/"], ["Hosts", "/#hosts"]]
+  const nav = [["Episodes", "/episodes/"], ["Shorts", "/shorts/"], ["Free stuff", "/free/12-skills/"], ["About", "/about/"]]
     .map(([t, h]) => `<a href="${h}"${active === h ? ' aria-current="page"' : ""}>${t}</a>`).join("\n    ");
   return `<!doctype html>
 <html lang="en">
@@ -94,7 +94,7 @@ function footer() {
       ${SOCIAL.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join("\n      ")}
       <a href="/newsletter/">Newsletter</a>
     </nav>
-    <span class="hosts-ig">Hosts: <a href="https://www.instagram.com/markksantos/" target="_blank" rel="noopener">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/" target="_blank" rel="noopener">@szymondziak</a></span>
+    <span class="hosts-ig"><a href="/about/">About the hosts</a> · <a href="https://www.instagram.com/markksantos/" target="_blank" rel="noopener">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/" target="_blank" rel="noopener">@szymondziak</a></span>
   </div>
 </footer>`;
 }

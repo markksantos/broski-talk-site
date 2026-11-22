@@ -205,3 +205,42 @@ input, select, textarea { font-size: max(16px, 1em); }
   .bar-cta { padding-block: 0; }
   footer .social { row-gap: 0; }
 }
+
+/* about pages (/about/, /about/mark/, /about/simon/) */
+.kicker a { color: inherit; text-decoration: none; }
+.kicker a:hover { color: var(--ink); }
+.host-cards { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 4vw, 64px); }
+.host-card { display: grid; text-decoration: none; color: var(--ink); }
+.host-card .ph { display: block; aspect-ratio: 700 / 817; overflow: hidden; -webkit-mask-image: linear-gradient(#000 72%, transparent 100%); mask-image: linear-gradient(#000 72%, transparent 100%); }
+.host-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.host-card:hover .ph img { transform: scale(1.03); }
+.host-card .who { margin-top: -12%; position: relative; text-align: center; }
+.host-card strong { display: block; font: 400 clamp(36px, 4.4vw, 72px)/1 Anton, sans-serif; letter-spacing: .01em; text-transform: uppercase; }
+.host-card .who > span { display: block; margin: 10px auto 0; max-width: 34ch; color: var(--ink-2); }
+.host-card .who .more { margin-top: 14px; color: var(--red-ink); font-weight: 700; }
+.host-card:hover .more { text-decoration: underline; text-underline-offset: 4px; }
+.site-cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); }
+.col-h { margin: 0 0 16px; font: 400 13px/1 Anton, sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+.col-h a { color: inherit; text-decoration: none; }
+.col-h a:hover { color: var(--ink); }
+.sites { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--line); }
+.sites li { border-bottom: 1.5px solid var(--line); }
+.sites a { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name url" "note url"; column-gap: 20px; row-gap: 6px; align-items: center; padding: 20px 0; min-height: 44px; text-decoration: none; color: var(--ink); }
+.sites strong { grid-area: name; font: 400 clamp(26px, 2.6vw, 40px)/1 Anton, sans-serif; letter-spacing: .01em; text-transform: uppercase; }
+.sites .note { grid-area: note; color: var(--ink-2); font-size: 16px; }
+.sites .url { grid-area: url; display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+.sites .url svg { width: 12px; height: 12px; transition: transform .3s var(--ease); }
+.sites a:hover strong { color: var(--red-ink); }
+.sites a:hover .url { color: var(--ink); }
+.sites a:hover .url svg { transform: translate(2px, -2px); }
+.host-head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(240px, 1fr); gap: clamp(28px, 5vw, 80px); align-items: end; }
+.host-head .ph { aspect-ratio: 700 / 817; -webkit-mask-image: linear-gradient(#000 75%, transparent 100%); mask-image: linear-gradient(#000 75%, transparent 100%); }
+.host-head .ph img { width: 100%; height: 100%; object-fit: cover; }
+.bio p { margin: 0 0 20px; color: var(--ink-2); font-size: clamp(17px, 1.3vw, 19px); line-height: 1.6; max-width: 62ch; }
+.bio p:first-of-type { color: var(--ink); }
+@media (max-width: 700px) {
+  .host-cards, .site-cols { grid-template-columns: 1fr; }
+  .host-head { grid-template-columns: 1fr; }
+  .host-head .ph { width: min(78%, 360px); justify-self: center; order: -1; }
+  .sites a { grid-template-columns: 1fr; grid-template-areas: "name" "note" "url"; }
+}
