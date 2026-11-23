@@ -7,6 +7,7 @@ import { loadShow, listChannel, readLatest, store } from "../lib/show.mjs";
 import { episodePage, episodesPage, shortsPage, newsletterPage, showJson, fillHome, shell } from "../lib/render.mjs";
 import { HOSTS, aboutPage, hostPage, mdAbout, mdHost } from "../lib/hosts.mjs";
 import { SITE } from "../lib/show.mjs";
+import { rssFeed } from "../lib/feed.mjs";
 import { configured as w369Configured, allSubscriberIds } from "../lib/w369.mjs";
 import { mdHome, mdEpisodes, mdEpisode, mdShorts, mdNewsletter, mdFree, llmsTxt, llmsFull, aiTxt, mdResponse, textResponse } from "../lib/agent.mjs";
 
@@ -102,6 +103,12 @@ export default async (req) => {
     const base = await fetch(new URL("/index.html", url)).then((r) => r.text());
     return html(fillHome(base, show));
   }
+  if (p === "/rss.xml" || p === "/feed" || p === "/feed/" || p === "/rss" || p === "/rss/") return Response.redirect(new URL("/feed.xml", url), 301);
+  if (p === "/feed.xml") {
+    return new Response(rssFeed(show), { headers: {
+      "Content-Type": "application/rss+xml; charset=utf-8", "Cache-Control": "public, max-age=300",
+      "Netlify-CDN-Cache-Control": "public, durable, s-maxage=300, stale-while-revalidate=86400", "Netlify-Cache-Tag": "show" } });
+  }
   if (p === "/sitemap.xml") {
     const urls = ["/", "/episodes/", "/shorts/", "/newsletter/", "/free/12-skills/", "/about/", "/about/mark/", "/about/simon/", ...show.episodes.map((e) => e.path)];
     const last = (path) => (show.episodes.find((e) => e.path === path)?.published) || show.episodes[0]?.published;
@@ -130,6 +137,6 @@ export default async (req) => {
 export const config = {
   // GET/HEAD only: a POST (a form submission) must fall through to Netlify Forms.
   method: ["GET", "HEAD"],
-  path: ["/", "/sitemap.xml", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/about", "/about/", "/about/*", "/api/show.json", "/api/watch-status",
+  path: ["/", "/sitemap.xml", "/feed.xml", "/rss.xml", "/feed", "/feed/", "/rss", "/rss/", "/ep*", "/episodes", "/episodes/", "/episodes/*", "/shorts", "/shorts/", "/newsletter", "/newsletter/", "/about", "/about/", "/about/*", "/api/show.json", "/api/watch-status",
     "/llms.txt", "/llms-full.txt", "/ai.txt", "/index.md", "/episodes.md", "/shorts.md", "/newsletter.md", "/free/12-skills.md", "/*.md"],
 };

@@ -26,6 +26,7 @@ export function shell({ title, description, path, body, jsonld, active, scripts 
 <meta name="description" content="${esc(description)}">
 <meta name="theme-color" content="#000000">
 <link rel="canonical" href="${url}">
+<link rel="alternate" type="application/rss+xml" title="Broski Talk Podcast episodes" href="${SITE}/feed.xml">
 <link rel="alternate" type="text/markdown" href="${SITE}${path === "/" ? "/index.md" : path.replace(/\/$/, "") + ".md"}">
 <meta name="ai-summary" content="${esc(description)}">
 <meta property="og:type" content="website">
@@ -93,6 +94,7 @@ function footer() {
     <nav class="social" aria-label="Broski Talk elsewhere">
       ${SOCIAL.map((s) => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join("\n      ")}
       <a href="/newsletter/">Newsletter</a>
+      <a href="/feed.xml">RSS</a>
     </nav>
     <span class="hosts-ig"><a href="/about/">About the hosts</a> · <a href="https://www.instagram.com/markksantos/" target="_blank" rel="noopener">@markksantos</a> · <a href="https://www.instagram.com/szymondziak/" target="_blank" rel="noopener">@szymondziak</a></span>
   </div>
