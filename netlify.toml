@@ -1,0 +1,45 @@
+# Static site + Netlify Functions (no build step). Deployed with the CLI:
+#   netlify deploy --prod --dir <copy without _archive/_build/*.md> --functions netlify/functions
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["netlify/data/*.json"]
+
+# YouTube thumbnails, resized through Netlify's image CDN.
+[images]
+  remote_images = ["https://i\\.ytimg\\.com/.*"]
+
+# Short links for video descriptions: broskitalk.com/ep/3 (broskitalk.com/ep3 is handled in pages.mjs)
+[[redirects]]
+  from = "/ep/:n"
+  to = "/episodes/:n/"
+  status = 301
+
+[[redirects]]
+  from = "/_archive/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/_build/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Link = "<https://broskitalk.com/llms.txt>; rel=\"describedby\"; type=\"text/plain\", <https://broskitalk.com/llms-full.txt>; rel=\"describedby\"; type=\"text/plain\", <https://broskitalk.com/ai.txt>; rel=\"describedby\"; type=\"text/plain\""
+
+
+[[headers]]
+  for = "/forms/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

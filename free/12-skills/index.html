@@ -10,10 +10,14 @@
 <meta property="og:site_name" content="Broski Talk">
 <meta property="og:title" content="12 Agent Skills · Broski Talk">
 <meta property="og:description" content="The 12 skills from Builder's corner in Episode 1, in one free PDF.">
-<meta property="og:image" content="../../assets/og/broski-talk-og.jpg">
+<meta property="og:image" content="https://broskitalk.com/assets/og/broski-talk-og.jpg">
+<link rel="canonical" href="https://broskitalk.com/free/12-skills/">
+<link rel="alternate" type="text/markdown" href="https://broskitalk.com/free/12-skills.md">
+<meta name="ai-summary" content="A free PDF of the 12 agent skills from Broski Talk Episode 1's Builder's corner: what each skill does and where to get it.">
+<meta property="og:url" content="https://broskitalk.com/free/12-skills/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../assets/logo/favicon.png">
-<link rel="preload" href="../../assets/fonts/Anton.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="../../assets/fonts/Anton.woff2" as="font" type="font/woff2" crossorigin>
 <!--
 FREEBIE TEMPLATE (copy this folder for the next freebie; see BACKEND.md, "Adding a freebie").
   Change: <title>/meta, the copy, the cover image, the list, and the form's data-resource + data-download.
@@ -21,8 +25,8 @@ THESIS: same world as the home page (direction A): black, Anton at scale, multit
   The ask sits above the fold next to the real first page of the PDF; the list below proves it's worth an email.
 -->
 <style>
-@font-face { font-family: "Anton"; src: url("../../assets/fonts/Anton.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Inter Tight"; src: url("../../assets/fonts/InterTight.ttf") format("truetype"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Anton"; src: url("../../assets/fonts/Anton.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Inter Tight"; src: url("../../assets/fonts/InterTight.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
 
 :root {
   --black: #000;
@@ -145,7 +149,16 @@ footer a:hover { color: var(--ink); }
   .js .rise { opacity: 1; transform: none; transition: none; }
   .js .unlocked { animation: none; }
 }
+footer .made a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+/* Touch: every tap target at least 44px tall; inputs at 16px so iOS never zooms. */
+input, select, textarea { font-size: max(16px, 1em); }
+@media (pointer: coarse) {
+  .bar .mark, header a.mark, footer a.mark, .bar-cta, .on-yt, .full, .block-head a, .hosts-ig a, footer .social a { display: inline-flex; align-items: center; min-height: 44px; }
+  .bar-cta { padding-block: 0; }
+  footer .social { row-gap: 0; }
+}
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ItemList","@id":"https://broskitalk.com/free/12-skills/#list","name":"The 12 agent skills from Broski Talk Episode 1","numberOfItems":12,"itemListOrder":"https://schema.org/ItemListOrderAscending","itemListElement":[{"@type":"ListItem","position":1,"name":"gstack by Garry Tan","description":"Your agent as CEO, tech lead, designer and QA"},{"@type":"ListItem","position":2,"name":"Superpowers","description":"Plan, test, debug and review like a senior engineer"},{"@type":"ListItem","position":3,"name":"Taste Skill","description":"Better layouts, type and animation"},{"@type":"ListItem","position":4,"name":"UI/UX Pro Max","description":"Palettes, font pairings and clean UI"},{"@type":"ListItem","position":5,"name":"Marketing Skills","description":"Copy, SEO, pricing and launches"},{"@type":"ListItem","position":6,"name":"Last 30 Days","description":"Research reports from the last month of Reddit, X and more"},{"@type":"ListItem","position":7,"name":"Frontend Slides","description":"Pitch decks you share as a link or PDF"},{"@type":"ListItem","position":8,"name":"No AI Slop","description":"Makes your writing sound human"},{"@type":"ListItem","position":9,"name":"Brag","description":"Launch and demo videos of what you built"},{"@type":"ListItem","position":10,"name":"Claude for Legal","description":"Anthropic's plugins for contracts and NDAs"},{"@type":"ListItem","position":11,"name":"Caveman","description":"Shorter replies, about 65% fewer tokens"},{"@type":"ListItem","position":12,"name":"Awesome Claude Skills","description":"A curated list of even more"}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Broski Talk","item":"https://broskitalk.com/"},{"@type":"ListItem","position":2,"name":"Episode 1","item":"https://broskitalk.com/episodes/1/"},{"@type":"ListItem","position":3,"name":"12 agent skills","item":"https://broskitalk.com/free/12-skills/"}]}]}</script>
 </head>
 <body>
 <script>document.documentElement.classList.add('js')</script>
@@ -153,8 +166,9 @@ footer a:hover { color: var(--ink); }
 <header class="bar">
   <a class="mark" href="../../" aria-label="Broski Talk home">BROSKI TALK.</a>
   <nav aria-label="Site">
-    <a href="../../#episodes">Episode 1</a>
-    <a href="../../#listen">Listen</a>
+    <a href="/episodes/1/">Episode 1</a>
+    <a href="/episodes/">All episodes</a>
+    <a href="/newsletter/">Get new episodes</a>
   </nav>
 </header>
 
@@ -170,7 +184,7 @@ footer a:hover { color: var(--ink); }
           <label for="email">Where should we send it?</label>
           <div class="field">
             <input id="email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required aria-describedby="msg fine">
-            <span class="hp" aria-hidden="true"><label>Company <input type="text" name="company" tabindex="-1" autocomplete="off"></label></span>
+            <span class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="bt_hp" tabindex="-1" autocomplete="new-password" data-1p-ignore data-lpignore="true"></label></span>
             <button class="btn solid" type="submit">Get the PDF</button>
           </div>
           <p class="msg" id="msg" aria-live="polite"></p>
@@ -228,7 +242,7 @@ footer a:hover { color: var(--ink); }
   <section class="from" aria-labelledby="from-h">
     <div class="wrap from-row">
       <a class="thumb rise" href="https://youtu.be/9jrxLxHoIGg?t=884" target="_blank" rel="noopener" aria-label="Watch Builder's corner in Episode 1 on YouTube, from 14:44">
-        <img src="../../assets/thumbs/ep01-youtube.webp" alt="" width="1280" height="720" loading="lazy"><span>14:44</span>
+        <img src="../../assets/thumbs/ep01-youtube.webp" srcset="../../assets/thumbs/ep01-youtube-640.webp 640w, ../../assets/thumbs/ep01-youtube.webp 1280w" sizes="(max-width: 900px) 100vw, 50vw" alt="" width="1280" height="720" loading="lazy"><span>14:44</span>
       </a>
       <div class="rise">
         <p class="kicker">WHERE IT'S FROM</p>
@@ -243,13 +257,11 @@ footer a:hover { color: var(--ink); }
 <footer>
   <div class="wrap">
     <a class="mark" href="../../">BROSKI TALK.</a>
-    <span>The AI podcast with Mark Santos &amp; Simon Dziak</span>
+    <span class="made">AI, tech and business with Mark Santos (<a href="https://markstudios.com" target="_blank" rel="noopener">Mark Studios</a>) &amp; Simon Dziak (<a href="https://app369.com" target="_blank" rel="noopener">App369</a>)</span>
     <nav aria-label="Broski Talk elsewhere">
       <a href="https://www.youtube.com/@broskitalk" target="_blank" rel="noopener">YouTube</a>
-      <a href="https://open.spotify.com/show/1G7CNdVKzEkBmwkNYfL1Sz" target="_blank" rel="noopener">Spotify</a>
-      <a href="https://podcasts.apple.com/us/podcast/broski-talk/id1520824614" target="_blank" rel="noopener">Apple Podcasts</a>
       <a href="https://www.instagram.com/broskitalk/" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.tiktok.com/@broskitalk" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.tiktok.com/@broskitalkpod" target="_blank" rel="noopener">TikTok</a>
     </nav>
   </div>
 </footer>
